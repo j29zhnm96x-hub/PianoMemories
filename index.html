@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>PianoMemories</title>
+  <meta name="theme-color" content="#0f172a">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PianoMemories">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-apple.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <div id="orientation-message" class="orientation-message hidden">Rotate your device to landscape to play.</div>
+
+    <section id="portrait-screen" class="screen portrait">
+      <div class="header">
+        <h1>PianoMemories</h1>
+        <p class="subtitle">Simon-style memory game on a piano keyboard.</p>
+      </div>
+
+      <div class="card">
+        <label for="scale-select">Scale</label>
+        <select id="scale-select" name="scale-select">
+          <option value="random">Random Major</option>
+          <option value="C">C Major</option>
+          <option value="Db">Db Major</option>
+          <option value="D">D Major</option>
+          <option value="Eb">Eb Major</option>
+          <option value="E">E Major</option>
+          <option value="F">F Major</option>
+          <option value="Gb">Gb Major</option>
+          <option value="G">G Major</option>
+          <option value="Ab">Ab Major</option>
+          <option value="A">A Major</option>
+          <option value="Bb">Bb Major</option>
+          <option value="B">B Major</option>
+        </select>
+      </div>
+
+      <div class="card">
+        <label>Mode</label>
+        <div class="mode-toggle">
+          <label class="chip">
+            <input type="radio" name="mode" value="normal" checked>
+            <span>Normal (1 octave)</span>
+          </label>
+          <label class="chip">
+            <input type="radio" name="mode" value="hard">
+            <span>Hard (2 octaves)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <label>Settings</label>
+        <div class="settings">
+          <label class="toggle">
+            <input type="checkbox" id="assist-toggle" checked>
+            <span>Show assist text</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="sound-toggle" checked>
+            <span>Sound on</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="start-btn" class="primary">Start</button>
+      </div>
+
+      <p class="footnote">Add your .mp3 piano samples under <code>/audio/</code> (three octaves around middle C).</p>
+    </section>
+
+    <section id="landscape-screen" class="screen landscape hidden">
+      <header class="top-bar">
+        <div class="brand">PianoMemories</div>
+        <div class="level">Level <span id="level-display">1</span></div>
+        <button id="restart-btn" class="ghost">Restart</button>
+      </header>
+
+      <div class="status-row">
+        <div id="status-text" class="status">Listen…</div>
+        <div id="selected-scale" class="pill">Scale: —</div>
+        <div id="selected-mode" class="pill">Mode: —</div>
+      </div>
+
+      <div class="keyboard-wrapper">
+        <div id="keyboard" class="keyboard" aria-label="Piano keyboard"></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
