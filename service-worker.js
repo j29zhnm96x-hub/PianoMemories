@@ -7,12 +7,28 @@ const CORE_ASSETS = [
   '/manifest.json'
 ];
 // also cache app icons (place your provided PNG as icon-192.png and icon-512.png in /icons)
-CORE_ASSETS.push('/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-apple.png');
+// also accept a single favicon.png as a fallback (user-provided)
+CORE_ASSETS.push('/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-apple.png', '/icons/favicon.png');
 
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS)).then(() => self.skipWaiting())
-  );
+  // Install: attempt to cache core assets but tolerate missing resources (e.g. icons)
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    for (const url of CORE_ASSETS) {
+      try {
+        const resp = await fetch(url, {cache: 'no-store'});
+        if (resp && resp.ok) {
+          await cache.put(url, resp.clone());
+        } else {
+          // skip non-ok responses to avoid aborting install
+          console.warn('SW: skipping cache for', url, 'status=', resp && resp.status);
+        }
+      } catch (e) {
+        console.warn('SW: failed to fetch', url, e && e.message);
+      }
+    }
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', event => {

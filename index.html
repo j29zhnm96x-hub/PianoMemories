@@ -7,13 +7,17 @@
   <meta name="theme-color" content="#0f172a">
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="PianoMemories">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-apple.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-192.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-apple.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+  <!-- Fallbacks: if you only placed a single favicon.png, iOS/Safari may use it -->
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/favicon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/favicon.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -82,9 +86,14 @@
 
     <section id="landscape-screen" class="screen landscape hidden">
       <header class="top-bar">
-        <div class="brand">PianoMemories</div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <button id="home-btn" class="ghost">Home</button>
+          <div class="brand">PianoMemories</div>
+        </div>
         <div class="level">Level <span id="level-display">1</span></div>
-        <button id="restart-btn" class="ghost">Restart</button>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button id="restart-btn" class="ghost">Restart</button>
+        </div>
       </header>
 
       <div class="status-row">

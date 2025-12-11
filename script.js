@@ -7,6 +7,7 @@
   const modeInputs = Array.from(document.querySelectorAll('input[name="mode"]'));
   const startBtn = document.getElementById('start-btn');
   const restartBtn = document.getElementById('restart-btn');
+  const homeBtn = document.getElementById('home-btn');
   const assistToggle = document.getElementById('assist-toggle');
   const soundToggle = document.getElementById('sound-toggle');
   const orientationMsg = document.getElementById('orientation-message');
@@ -314,6 +315,17 @@
     nextRound();
   }
 
+  function goHome() {
+    // stop current game and return to portrait home screen
+    state.sequence = [];
+    state.userIndex = 0;
+    state.canInput = false;
+    state.playing = false;
+    state.started = false;
+    statusText.textContent = '';
+    showPortrait();
+  }
+
   const SCALE_DISPLAY = {
     C: 'C Major', Db: 'Db Major', D: 'D Major', Eb: 'Eb Major', E: 'E Major',
     F: 'F Major', Gb: 'Gb Major', G: 'G Major', Ab: 'Ab Major', A: 'A Major', Bb: 'Bb Major', B: 'B Major'
@@ -351,6 +363,7 @@
   function bindUI() {
     startBtn.addEventListener('click', startGame);
     restartBtn.addEventListener('click', restartGame);
+    if (homeBtn) homeBtn.addEventListener('click', goHome);
     window.addEventListener('orientationchange', ensureOrientation);
     window.addEventListener('resize', ensureOrientation);
     window.addEventListener('visibilitychange', () => {
