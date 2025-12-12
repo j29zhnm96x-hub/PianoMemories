@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>PianoMemories</title>
   <meta name="theme-color" content="#0f172a">
   <link rel="manifest" href="manifest.json">
@@ -27,24 +27,23 @@
     <section id="portrait-screen" class="screen portrait">
       <div class="header">
         <h1>PianoMemories</h1>
-        <p class="subtitle">Simon-style memory game on a piano keyboard.</p>
       </div>
 
       <div class="card">
         <label for="scale-select">Scale</label>
-        <select id="scale-select" name="scale-select">
-          <option value="random">Random Major</option>
+        <select id="scale-select" name="scale-select" size="13">
+          <option value="random">Random key</option>
           <option value="C">C Major</option>
-          <option value="Db">Db Major</option>
+          <option value="C#">C# Major</option>
           <option value="D">D Major</option>
-          <option value="Eb">Eb Major</option>
+          <option value="D#">D# Major</option>
           <option value="E">E Major</option>
           <option value="F">F Major</option>
-          <option value="Gb">Gb Major</option>
+          <option value="F#">F# Major</option>
           <option value="G">G Major</option>
-          <option value="Ab">Ab Major</option>
+          <option value="G#">G# Major</option>
           <option value="A">A Major</option>
-          <option value="Bb">Bb Major</option>
+          <option value="A#">A# Major</option>
           <option value="B">B Major</option>
         </select>
       </div>
@@ -77,8 +76,9 @@
         </div>
       </div>
 
-      <div class="actions">
-        <button id="start-btn" class="primary">Start</button>
+      <div class="notice" id="flip-hint">FLIP THE PHONE TO PLAY</div>
+      <div class="actions desktop-only">
+        <button id="desktop-play-btn" class="primary">Play</button>
       </div>
 
       <p class="footnote">Add your .mp3 piano samples under <code>/audio/</code> (three octaves around middle C).</p>
@@ -86,23 +86,18 @@
 
     <section id="landscape-screen" class="screen landscape hidden">
       <header class="top-bar">
-        <div style="display:flex;gap:10px;align-items:center;">
-          <button id="home-btn" class="ghost">Home</button>
-          <div class="brand">PianoMemories</div>
+        <button id="home-btn" class="ghost">Home</button>
+        <div class="top-info">
+          <span id="status-text" class="status-text">Ready</span>
+          <span id="selected-scale" class="info-text info-scale">Scale: —</span>
+          <span id="selected-mode" class="info-text info-mode">Mode: —</span>
+          <span class="info-text info-level">Level <span id="level-display">1</span></span>
         </div>
-        <div class="level">Level <span id="level-display">1</span></div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <button id="restart-btn" class="ghost">Restart</button>
-        </div>
+        <button id="play-btn" class="primary">Play</button>
       </header>
 
-      <div class="status-row">
-        <div id="status-text" class="status">Listen…</div>
-        <div id="selected-scale" class="pill">Scale: —</div>
-        <div id="selected-mode" class="pill">Mode: —</div>
-      </div>
-
       <div class="keyboard-wrapper">
+        <div id="inline-error" class="inline-error hidden">Wrong note! Try again</div>
         <div id="keyboard" class="keyboard" aria-label="Piano keyboard"></div>
       </div>
     </section>
