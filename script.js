@@ -20,6 +20,9 @@
   const selectedScaleEl = document.getElementById('selected-scale');
   const selectedModeEl = document.getElementById('selected-mode');
   const inlineError = document.getElementById('inline-error');
+  const bestNormalEl = document.getElementById('best-normal');
+  const bestHardEl = document.getElementById('best-hard');
+  const maxDisplayEl = document.getElementById('max-display');
 
   const NOTE_ORDER = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   const FLAT_TO_SHARP = { Db: 'C#', Eb: 'D#', Gb: 'F#', Ab: 'G#', Bb: 'A#' };
@@ -43,6 +46,49 @@
 
   const audioCache = new Map();
   let audioCtx = null;
+
+  const BEST_KEYS = {
+    normal: 'pianomem_best_normal',
+    hard: 'pianomem_best_hard',
+  };
+
+  function loadBest(mode) {
+    const key = BEST_KEYS[mode];
+    if (!key) return 0;
+    try {
+      const v = parseInt(localStorage.getItem(key) || '0', 10);
+      return Number.isFinite(v) && v > 0 ? v : 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function saveBest(mode, value) {
+    const key = BEST_KEYS[mode];
+    if (!key) return;
+    try {
+      localStorage.setItem(key, String(Math.max(0, value | 0)));
+    } catch (e) {}
+  }
+
+  function updateAchievementsUI() {
+    const bestNormal = loadBest('normal');
+    const bestHard = loadBest('hard');
+    if (bestNormalEl) bestNormalEl.textContent = String(bestNormal);
+    if (bestHardEl) bestHardEl.textContent = String(bestHard);
+
+    const mode = state.mode || 'normal';
+    if (maxDisplayEl) maxDisplayEl.textContent = String(loadBest(mode));
+  }
+
+  function maybeUpdateBest(currentLevel) {
+    const mode = state.mode || 'normal';
+    const best = loadBest(mode);
+    if (currentLevel > best) {
+      saveBest(mode, currentLevel);
+    }
+    updateAchievementsUI();
+  }
 
   function initAudioContext() {
     if (!audioCtx) {
@@ -364,6 +410,7 @@
     const nextNote = pickRandom(state.notePool);
     state.sequence.push(nextNote);
     levelDisplay.textContent = state.sequence.length;
+    maybeUpdateBest(state.sequence.length);
     playSequence();
   }
 
@@ -447,6 +494,7 @@
     landscapeScreen.classList.add('hidden');
     orientationMsg.classList.add('hidden');
     state.started = false;
+    updateAchievementsUI();
   }
 
   function registerServiceWorker() {
@@ -501,6 +549,16 @@
     // prevent double-tap zoom on iOS
     document.addEventListener('dblclick', (e) => e.preventDefault(), { passive: false });
     document.addEventListener('gesturestart', (e) => e.preventDefault());
+
+    // Tap anywhere to dismiss the "Wrong note" banner
+    const dismissInlineError = () => {
+      if (isInlineErrorVisible()) hideInlineError();
+    };
+    // Use capture so a key press doesn't immediately dismiss a banner that was just shown
+    document.addEventListener('pointerdown', dismissInlineError, { passive: true, capture: true });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') dismissInlineError();
+    });
   }
 
   function hydrateSettings() {
@@ -523,6 +581,7 @@
       Array.from(keyboardEl.querySelectorAll('.key[data-note]')).map(el => el.dataset.note)
     );
     updateInfoTexts();
+    updateAchievementsUI();
     // keep flip hint visible; it should always instruct the user to flip the phone
   }
 
@@ -547,6 +606,10 @@
   function hideInlineError() {
     if (!inlineError) return;
     inlineError.classList.add('hidden');
+  }
+
+  function isInlineErrorVisible() {
+    return inlineError && !inlineError.classList.contains('hidden');
   }
 
   function isTouchDevice() {

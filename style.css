@@ -125,6 +125,28 @@ select {
   gap: 8px;
 }
 
+.achievements {
+  display: grid;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.achievement-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.achievement-label {
+  color: var(--muted);
+}
+
+.achievement-value {
+  font-weight: 800;
+  color: var(--text);
+}
+
 .toggle {
   display: flex;
   align-items: center;
@@ -223,6 +245,7 @@ button.primary { background: linear-gradient(120deg, var(--accent), var(--accent
 .info-scale { color: #fbbf24; }
 .info-mode { color: #38bdf8; }
 .info-level { color: #fca5a5; }
+.info-max { color: #86efac; }
 
 .keyboard-wrapper {
   position: relative;

@@ -76,12 +76,25 @@
         </div>
       </div>
 
+      <div class="card" id="achievements-card">
+        <label>Achievements</label>
+        <div class="achievements">
+          <div class="achievement-row">
+            <span class="achievement-label">Normal best</span>
+            <span id="best-normal" class="achievement-value">0</span>
+          </div>
+          <div class="achievement-row">
+            <span class="achievement-label">Hard best</span>
+            <span id="best-hard" class="achievement-value">0</span>
+          </div>
+        </div>
+      </div>
+
       <div class="notice" id="flip-hint">FLIP THE PHONE TO PLAY</div>
       <div class="actions desktop-only">
         <button id="desktop-play-btn" class="primary">Play</button>
       </div>
 
-      <p class="footnote">Add your .mp3 piano samples under <code>/audio/</code> (three octaves around middle C).</p>
     </section>
 
     <section id="landscape-screen" class="screen landscape hidden">
@@ -92,6 +105,7 @@
           <span id="selected-scale" class="info-text info-scale">Scale: —</span>
           <span id="selected-mode" class="info-text info-mode">Mode: —</span>
           <span class="info-text info-level">Level <span id="level-display">1</span></span>
+          <span class="info-text info-max">Max <span id="max-display">0</span></span>
         </div>
         <button id="play-btn" class="primary">Play</button>
       </header>
