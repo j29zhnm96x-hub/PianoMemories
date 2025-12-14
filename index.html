@@ -22,104 +22,218 @@
 </head>
 <body>
   <div id="app" class="app-shell">
-    <div id="orientation-message" class="orientation-message hidden">Rotate your device to landscape to play.</div>
+    <div id="orientation-message" class="orientation-message hidden" data-i18n="orientation.rotate">Rotate your device to landscape to play.</div>
 
     <section id="portrait-screen" class="screen portrait">
-      <div class="header">
-        <h1>PianoMemories</h1>
+      <div class="header header-row">
+        <h1 data-i18n="app.title">PianoMemories</h1>
+        <button id="help-btn" class="ghost help-btn" type="button" data-i18n="home.help">Help</button>
       </div>
 
       <div class="card">
-        <label for="scale-select">Scale</label>
+        <label for="scale-select" data-i18n="home.scale">Scale</label>
         <select id="scale-select" name="scale-select" size="13">
-          <option value="random">Random key</option>
-          <option value="C">C Major</option>
-          <option value="C#">C# Major</option>
-          <option value="D">D Major</option>
-          <option value="D#">D# Major</option>
-          <option value="E">E Major</option>
-          <option value="F">F Major</option>
-          <option value="F#">F# Major</option>
-          <option value="G">G Major</option>
-          <option value="G#">G# Major</option>
-          <option value="A">A Major</option>
-          <option value="A#">A# Major</option>
-          <option value="B">B Major</option>
+          <option value="random" data-i18n="scale.random">Random key</option>
+          <option value="C" data-i18n="scale.C">C Major</option>
+          <option value="C#" data-i18n="scale.C#">C# Major</option>
+          <option value="D" data-i18n="scale.D">D Major</option>
+          <option value="D#" data-i18n="scale.D#">D# Major</option>
+          <option value="E" data-i18n="scale.E">E Major</option>
+          <option value="F" data-i18n="scale.F">F Major</option>
+          <option value="F#" data-i18n="scale.F#">F# Major</option>
+          <option value="G" data-i18n="scale.G">G Major</option>
+          <option value="G#" data-i18n="scale.G#">G# Major</option>
+          <option value="A" data-i18n="scale.A">A Major</option>
+          <option value="A#" data-i18n="scale.A#">A# Major</option>
+          <option value="B" data-i18n="scale.B">B Major</option>
         </select>
       </div>
 
       <div class="card">
-        <label>Mode</label>
+        <label data-i18n="home.mode">Mode</label>
         <div class="mode-toggle">
           <label class="chip">
             <input type="radio" name="mode" value="easy">
-            <span>Easy (fifth)</span>
+            <span data-i18n="mode.easy">Easy (fifth)</span>
           </label>
           <label class="chip">
             <input type="radio" name="mode" value="normal" checked>
-            <span>Normal (1 octave)</span>
+            <span data-i18n="mode.normal">Normal (1 octave)</span>
           </label>
           <label class="chip">
             <input type="radio" name="mode" value="hard">
-            <span>Hard (2 octaves)</span>
+            <span data-i18n="mode.hard">Hard (2 octaves)</span>
           </label>
         </div>
       </div>
 
       <div class="card">
-        <label>Settings</label>
+        <label data-i18n="home.settings">Settings</label>
         <div class="settings">
-          <label class="toggle">
-            <input type="checkbox" id="assist-toggle" checked>
-            <span>Show assist text</span>
-          </label>
+          <div class="toggle-row">
+            <label class="toggle">
+              <input type="checkbox" id="assist-toggle" checked>
+              <span data-i18n="settings.showNoteNames">Show note names</span>
+            </label>
+            <label class="toggle" id="selected-scale-only-wrap">
+              <input type="checkbox" id="selected-scale-only">
+              <span data-i18n="settings.scaleOnly">Selected Major scale only</span>
+            </label>
+          </div>
           <label class="toggle">
             <input type="checkbox" id="sound-toggle" checked>
-            <span>Sound on</span>
+            <span data-i18n="settings.soundOn">Sound on</span>
           </label>
         </div>
       </div>
 
       <div class="card" id="achievements-card">
-        <label>Achievements</label>
+        <label data-i18n="home.achievements">Achievements</label>
         <div class="achievements">
           <div class="achievement-row">
-            <span class="achievement-label">Easy best</span>
+            <span class="achievement-label" data-i18n="ach.easy">Easy best</span>
             <span id="best-easy" class="achievement-value">0</span>
           </div>
           <div class="achievement-row">
-            <span class="achievement-label">Normal best</span>
+            <span class="achievement-label" data-i18n="ach.normal">Normal best</span>
             <span id="best-normal" class="achievement-value">0</span>
           </div>
           <div class="achievement-row">
-            <span class="achievement-label">Hard best</span>
+            <span class="achievement-label" data-i18n="ach.hard">Hard best</span>
             <span id="best-hard" class="achievement-value">0</span>
           </div>
         </div>
       </div>
 
-      <div class="notice" id="flip-hint">FLIP THE PHONE TO PLAY</div>
+      <div class="notice" id="flip-hint" data-i18n="home.flip">FLIP THE PHONE TO PLAY</div>
+
+      <div class="lang-row">
+        <button id="lang-btn" class="lang-chip" type="button" aria-label="Language">EN</button>
+      </div>
       <div class="actions desktop-only">
-        <button id="desktop-play-btn" class="primary">Play</button>
+        <button id="desktop-play-btn" class="primary" data-i18n="home.play">Play</button>
       </div>
 
     </section>
 
+    <div id="lang-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Language">
+      <div class="modal-backdrop" data-close="1"></div>
+      <div class="modal-card" role="document">
+        <div class="modal-title" id="lang-modal-title" data-i18n="lang.title">Language</div>
+        <div class="modal-list">
+          <button type="button" class="modal-item" data-lang="en">English (EN)</button>
+          <button type="button" class="modal-item" data-lang="hr">Hrvatski (HR)</button>
+          <button type="button" class="modal-item" data-lang="pl">Polski (PL)</button>
+          <button type="button" class="modal-item" data-lang="it">Italiano (IT)</button>
+          <button type="button" class="modal-item" data-lang="es">Español (ES)</button>
+        </div>
+        <button type="button" class="ghost modal-close" data-close="1" data-i18n="lang.close">Close</button>
+      </div>
+    </div>
+
+    <section id="help-screen" class="screen portrait hidden" aria-label="Help">
+      <div class="header header-row">
+        <h1 data-i18n="help.title">Help</h1>
+        <button id="help-back-btn" class="ghost help-btn" type="button" data-i18n="help.back">Back</button>
+      </div>
+
+      <div class="card help-card">
+        <div class="help-scroll">
+          <div class="help-index" aria-label="Help index">
+            <div class="help-index-title" data-i18n="help.index">Index</div>
+            <a class="help-link" href="#help-what" data-i18n="help.idx.what">What is PianoMemories?</a>
+            <a class="help-link" href="#help-benefits" data-i18n="help.idx.benefits">How it helps you</a>
+            <a class="help-link" href="#help-how" data-i18n="help.idx.how">How to play</a>
+            <a class="help-link" href="#help-scale" data-i18n="help.idx.scale">Scale & Random key</a>
+            <a class="help-link" href="#help-modes" data-i18n="help.idx.modes">Modes (Easy / Normal / Hard)</a>
+            <a class="help-link" href="#help-play" data-i18n="help.idx.play">Play screen</a>
+            <a class="help-link" href="#help-settings" data-i18n="help.idx.settings">Settings</a>
+            <a class="help-link" href="#help-achievements" data-i18n="help.idx.ach">Achievements & Max</a>
+            <a class="help-link" href="#help-mistakes" data-i18n="help.idx.mistakes">Mistakes & restart</a>
+            <a class="help-link" href="#help-tips" data-i18n="help.idx.tips">Tips</a>
+          </div>
+
+          <h2 id="help-what" class="help-h2" data-i18n="help.what.title">What is PianoMemories?</h2>
+          <p class="help-p" data-i18n="help.what.body">PianoMemories is a Simon-style memory game on a piano keyboard. The app plays a growing sequence of notes and you repeat it by tapping the keys.</p>
+
+          <h2 id="help-benefits" class="help-h2" data-i18n="help.benefits.title">How it helps you</h2>
+          <p class="help-p" data-i18n="help.benefits.body">It trains musical memory, pitch recognition, and finger-to-note mapping. By staying inside a chosen major key, it also reinforces scale awareness and common note patterns.</p>
+
+          <h2 id="help-how" class="help-h2" data-i18n="help.how.title">How to play</h2>
+          <ol class="help-ol">
+            <li data-i18n="help.how.li1">Choose a major key (or Random key).</li>
+            <li data-i18n="help.how.li2">Select a mode (Easy / Normal / Hard).</li>
+            <li data-i18n="help.how.li3">Flip your phone to landscape and tap Play.</li>
+            <li data-i18n="help.how.li4">Listen to the sequence (blue highlights), then repeat it (your taps highlight in red).</li>
+            <li data-i18n="help.how.li5">Each round adds one new note to the end of the sequence.</li>
+          </ol>
+
+          <h2 id="help-scale" class="help-h2" data-i18n="help.scale.title">Scale & Random key</h2>
+          <ul class="help-ul">
+            <li data-i18n="help.scale.li1"><strong>Major scale notes only</strong>: the game picks notes only from the selected major key, so you practice inside that key.</li>
+            <li data-i18n="help.scale.li2"><strong>Random key</strong>: chooses one major key for the session and keeps it until you change the Scale setting.</li>
+            <li data-i18n="help.scale.li3"><strong>Keyboard window</strong>: the visible keyboard always starts at the selected root note and expands based on the selected mode.</li>
+          </ul>
+
+          <h2 id="help-modes" class="help-h2" data-i18n="help.modes.title">Modes (Easy / Normal / Hard)</h2>
+          <ul class="help-ul">
+            <li data-i18n="help.modes.li1"><strong>Easy (fifth)</strong>: a smaller keyboard window from the root up to the fifth.</li>
+            <li data-i18n="help.modes.li2"><strong>Normal (1 octave)</strong>: notes span one octave from the root.</li>
+            <li data-i18n="help.modes.li3"><strong>Hard (2 octaves)</strong>: notes span two octaves from the root.</li>
+          </ul>
+
+          <h2 id="help-play" class="help-h2" data-i18n="help.play.title">Play screen</h2>
+          <ul class="help-ul">
+            <li data-i18n="help.play.li1"><strong>Top bar</strong>: shows status, selected scale, mode, current level, and <strong>Max</strong> (your best level for the current mode).</li>
+            <li data-i18n="help.play.li2"><strong>Blue highlight</strong>: shows notes played by the app during the sequence.</li>
+            <li data-i18n="help.play.li3"><strong>Red highlight</strong>: shows your taps while repeating the sequence.</li>
+          </ul>
+
+          <h2 id="help-settings" class="help-h2" data-i18n="help.settings.title">Settings</h2>
+          <ul class="help-ul">
+            <li data-i18n="help.settings.li1"><strong>Show note names</strong>: shows labels on the keys.</li>
+            <li data-i18n="help.settings.li2"><strong>Selected Major scale only</strong>: when enabled, only notes that belong to the selected major key show labels (useful for learning the scale).</li>
+            <li data-i18n="help.settings.li3"><strong>Sound on</strong>: enables piano samples (or a fallback tone if missing).</li>
+          </ul>
+
+          <h2 id="help-achievements" class="help-h2" data-i18n="help.ach.title">Achievements & Max</h2>
+          <ul class="help-ul">
+            <li data-i18n="help.ach.li1"><strong>Achievements</strong> on the home screen show your best result for Easy, Normal, and Hard.</li>
+            <li data-i18n="help.ach.li2"><strong>Max</strong> (green) on the play screen shows the best result for the currently selected mode.</li>
+          </ul>
+
+          <h2 id="help-mistakes" class="help-h2" data-i18n="help.mistakes.title">Mistakes & restart</h2>
+          <ul class="help-ul">
+            <li data-i18n="help.mistakes.li1">If you tap a wrong note, you’ll see a message and input stops for that run.</li>
+            <li data-i18n="help.mistakes.li2">Tap anywhere to dismiss the message.</li>
+            <li data-i18n="help.mistakes.li3">Press <strong>Restart</strong> to start over and try again.</li>
+          </ul>
+
+          <h2 id="help-tips" class="help-h2" data-i18n="help.tips.title">Tips</h2>
+          <ul class="help-ul">
+            <li data-i18n="help.tips.li1">Start with Easy mode and one key (C Major), then add more keys.</li>
+            <li data-i18n="help.tips.li2">Use “Selected Major scale only” to focus on scale tones while still seeing the full keyboard window.</li>
+            <li data-i18n="help.tips.li3">Try Random key to build fast recognition across all major keys.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section id="landscape-screen" class="screen landscape hidden">
       <header class="top-bar">
-        <button id="home-btn" class="ghost">Home</button>
+        <button id="home-btn" class="ghost" data-i18n="play.home">Home</button>
         <div class="top-info">
-          <span id="status-text" class="status-text">Ready</span>
+          <span id="status-text" class="status-text" data-i18n="play.ready">Ready</span>
           <span id="selected-scale" class="info-text info-scale">Scale: —</span>
           <span id="selected-mode" class="info-text info-mode">Mode: —</span>
-          <span class="info-text info-level">Level <span id="level-display">1</span></span>
-          <span class="info-text info-max">Max <span id="max-display">0</span></span>
+          <span class="info-text info-level"><span data-i18n="play.level">Level</span> <span id="level-display">1</span></span>
+          <span class="info-text info-max"><span data-i18n="play.max">Max</span> <span id="max-display">0</span></span>
         </div>
-        <button id="play-btn" class="primary">Play</button>
+        <button id="play-btn" class="primary" data-i18n="play.play">Play</button>
       </header>
 
       <div class="keyboard-wrapper">
-        <div id="inline-error" class="inline-error hidden">Wrong note! Try again</div>
+        <div id="inline-error" class="inline-error hidden" data-i18n="play.wrong">Wrong note! Try again</div>
         <div id="keyboard" class="keyboard" aria-label="Piano keyboard"></div>
       </div>
     </section>
