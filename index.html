@@ -25,14 +25,15 @@
     <div id="orientation-message" class="orientation-message hidden" data-i18n="orientation.rotate">Rotate your device to landscape to play.</div>
 
     <section id="portrait-screen" class="screen portrait">
-      <div class="header header-row">
-        <h1 data-i18n="app.title">PianoMemories</h1>
-        <button id="help-btn" class="ghost help-btn" type="button" data-i18n="home.help">Help</button>
-      </div>
+      <div class="portrait-scroll">
+        <div class="header header-row">
+          <h1 data-i18n="app.title">PianoMemories</h1>
+          <button id="help-btn" class="ghost help-btn" type="button" data-i18n="home.help">Help</button>
+        </div>
 
-      <div class="card">
+        <div class="card">
         <label for="scale-select" data-i18n="home.scale">Scale</label>
-        <select id="scale-select" name="scale-select" size="13">
+        <select id="scale-select" name="scale-select">
           <option value="random" data-i18n="scale.random">Random key</option>
           <option value="C" data-i18n="scale.C">C Major</option>
           <option value="C#" data-i18n="scale.C#">C# Major</option>
@@ -47,9 +48,9 @@
           <option value="A#" data-i18n="scale.A#">A# Major</option>
           <option value="B" data-i18n="scale.B">B Major</option>
         </select>
-      </div>
+        </div>
 
-      <div class="card">
+        <div class="card">
         <label data-i18n="home.mode">Mode</label>
         <div class="mode-toggle">
           <label class="chip">
@@ -65,9 +66,9 @@
             <span data-i18n="mode.hard">Hard (2 octaves)</span>
           </label>
         </div>
-      </div>
+        </div>
 
-      <div class="card">
+        <div class="card">
         <label data-i18n="home.settings">Settings</label>
         <div class="settings">
           <div class="toggle-row">
@@ -85,9 +86,9 @@
             <span data-i18n="settings.soundOn">Sound on</span>
           </label>
         </div>
-      </div>
+        </div>
 
-      <div class="card" id="achievements-card">
+        <div class="card" id="achievements-card">
         <label data-i18n="home.achievements">Achievements</label>
         <div class="achievements">
           <div class="achievement-row">
@@ -103,15 +104,18 @@
             <span id="best-hard" class="achievement-value">0</span>
           </div>
         </div>
+        </div>
       </div>
 
-      <div class="notice" id="flip-hint" data-i18n="home.flip">FLIP THE PHONE TO PLAY</div>
+      <div class="portrait-bottom">
+        <div class="notice" id="flip-hint" data-i18n="home.flip">FLIP THE PHONE TO PLAY</div>
 
-      <div class="lang-row">
-        <button id="lang-btn" class="lang-chip" type="button" aria-label="Language">EN</button>
-      </div>
-      <div class="actions desktop-only">
-        <button id="desktop-play-btn" class="primary" data-i18n="home.play">Play</button>
+        <div class="lang-row">
+          <button id="lang-btn" class="lang-chip" type="button" aria-label="Language">EN</button>
+        </div>
+        <div class="actions desktop-only">
+          <button id="desktop-play-btn" class="primary" data-i18n="home.play">Play</button>
+        </div>
       </div>
 
     </section>
