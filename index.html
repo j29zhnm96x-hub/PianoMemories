@@ -52,6 +52,10 @@
         <label>Mode</label>
         <div class="mode-toggle">
           <label class="chip">
+            <input type="radio" name="mode" value="easy">
+            <span>Easy (fifth)</span>
+          </label>
+          <label class="chip">
             <input type="radio" name="mode" value="normal" checked>
             <span>Normal (1 octave)</span>
           </label>
@@ -79,6 +83,10 @@
       <div class="card" id="achievements-card">
         <label>Achievements</label>
         <div class="achievements">
+          <div class="achievement-row">
+            <span class="achievement-label">Easy best</span>
+            <span id="best-easy" class="achievement-value">0</span>
+          </div>
           <div class="achievement-row">
             <span class="achievement-label">Normal best</span>
             <span id="best-normal" class="achievement-value">0</span>

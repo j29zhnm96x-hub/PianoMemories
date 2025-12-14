@@ -1,6 +1,6 @@
 // PianoMemories - Simon-style piano memory game
 // Assumptions: audio samples named like C4.mp3, Csharp4.mp3, Dflat4.mp3, etc. placed in /audio/
-// Uses middle C octave (C4) as the base; normal mode = 1 octave (C4-B4), hard = 2 octaves (C4-B5).
+// Uses middle C octave (C4) as the base; easy mode = a fifth window; normal = 1 octave; hard = 2 octaves.
 
 (() => {
   const scaleSelect = document.getElementById('scale-select');
@@ -20,6 +20,7 @@
   const selectedScaleEl = document.getElementById('selected-scale');
   const selectedModeEl = document.getElementById('selected-mode');
   const inlineError = document.getElementById('inline-error');
+  const bestEasyEl = document.getElementById('best-easy');
   const bestNormalEl = document.getElementById('best-normal');
   const bestHardEl = document.getElementById('best-hard');
   const maxDisplayEl = document.getElementById('max-display');
@@ -38,7 +39,6 @@
     randomPinnedRoot: null,
     mode: 'normal',
     baseOctave: 4,
-    octaveSpan: 1,
     notePool: [],
     visibleNotesSet: new Set(),
     started: false,
@@ -48,9 +48,22 @@
   let audioCtx = null;
 
   const BEST_KEYS = {
+    easy: 'pianomem_best_easy',
     normal: 'pianomem_best_normal',
     hard: 'pianomem_best_hard',
   };
+
+  function rangeSemitoneOffsetForMode(mode) {
+    if (mode === 'easy') return 7; // perfect fifth
+    if (mode === 'hard') return 24; // two octaves
+    return 12; // normal: one octave
+  }
+
+  function modeLabel(mode) {
+    if (mode === 'easy') return 'Easy (fifth)';
+    if (mode === 'hard') return 'Hard (2 octaves)';
+    return 'Normal (1 octave)';
+  }
 
   function loadBest(mode) {
     const key = BEST_KEYS[mode];
@@ -72,8 +85,10 @@
   }
 
   function updateAchievementsUI() {
+    const bestEasy = loadBest('easy');
     const bestNormal = loadBest('normal');
     const bestHard = loadBest('hard');
+    if (bestEasyEl) bestEasyEl.textContent = String(bestEasy);
     if (bestNormalEl) bestNormalEl.textContent = String(bestNormal);
     if (bestHardEl) bestHardEl.textContent = String(bestHard);
 
@@ -169,34 +184,7 @@
     return MAJOR_STEPS.map(step => NOTE_ORDER[(rootIdx + step) % 12]);
   }
 
-  function buildNotePool(scaleRoot, octaveSpan) {
-    const scale = buildScale(scaleRoot);
-    const notes = [];
-    for (let o = state.baseOctave; o < state.baseOctave + octaveSpan; o++) {
-      for (const pc of scale) {
-        notes.push(`${pc}${o}`);
-      }
-    }
-    // include the top root so the full octave is playable/visible
-    const topRoot = canonicalPitch(scale[0]);
-    notes.push(`${topRoot}${state.baseOctave + octaveSpan}`);
-    return notes;
-  }
-
-  function isNatural(pc) {
-    return ['C', 'D', 'E', 'F', 'G', 'A', 'B'].includes(pc);
-  }
-
-  function buildKeyboard(root, octaves) {
-    keyboardEl.innerHTML = '';
-    const whiteContainer = document.createElement('div');
-    whiteContainer.className = 'white-keys';
-    const blackContainer = document.createElement('div');
-    blackContainer.className = 'black-keys';
-
-    const rootPc = canonicalPitch(root);
-    if (!NOTE_ORDER.includes(rootPc)) return;
-
+  function buildTapeNotes() {
     // Fixed tape: 4 octaves from (baseOctave-1) to (baseOctave+2) to accommodate hard mode
     const tapeStartOct = state.baseOctave - 1;
     const tapeOctaves = 4;
@@ -206,24 +194,62 @@
         tapeNotes.push({ note: `${pc}${o}`, pc, natural: isNatural(pc) });
       }
     }
+    return tapeNotes;
+  }
 
-    // Window: from semitone before root to semitone after top root
+  function getWindowRange(tapeNotes, rootPc, mode) {
     const rootNote = `${rootPc}${state.baseOctave}`;
-    const topRoot = `${rootPc}${state.baseOctave + octaves}`;
     const rootIdxTape = tapeNotes.findIndex(n => n.note === rootNote);
-    const topIdxTape = tapeNotes.findIndex(n => n.note === topRoot);
-    if (rootIdxTape === -1 || topIdxTape === -1) return;
+    if (rootIdxTape === -1) return null;
+
+    const endOffset = rangeSemitoneOffsetForMode(mode);
+    const endIdxTape = rootIdxTape + endOffset;
+    if (endIdxTape < 0 || endIdxTape >= tapeNotes.length) return null;
+
+    // Window: from semitone before root to semitone after end
     let startIdx = Math.max(0, rootIdxTape - 1);
-    let endIdx = Math.min(tapeNotes.length - 1, topIdxTape + 1);
-    
+    let endIdx = Math.min(tapeNotes.length - 1, endIdxTape + 1);
+
     // Expand to include any black keys just outside the boundary
-    while (startIdx > 0 && !tapeNotes[startIdx - 1].natural) {
-      startIdx -= 1;
+    while (startIdx > 0 && !tapeNotes[startIdx - 1].natural) startIdx -= 1;
+    while (endIdx < tapeNotes.length - 1 && !tapeNotes[endIdx + 1].natural) endIdx += 1;
+
+    return { rootIdxTape, endIdxTape, startIdx, endIdx };
+  }
+
+  function buildNotePool(scaleRoot, mode) {
+    const rootPc = canonicalPitch(scaleRoot);
+    const tapeNotes = buildTapeNotes();
+    const range = getWindowRange(tapeNotes, rootPc, mode);
+    if (!range) return [];
+
+    const scale = new Set(buildScale(rootPc));
+    const notes = [];
+    for (let i = range.rootIdxTape; i <= range.endIdxTape; i++) {
+      const item = tapeNotes[i];
+      if (scale.has(item.pc)) notes.push(item.note);
     }
-    while (endIdx < tapeNotes.length - 1 && !tapeNotes[endIdx + 1].natural) {
-      endIdx += 1;
-    }
-    const notes = tapeNotes.slice(startIdx, endIdx + 1);
+    return notes;
+  }
+
+  function isNatural(pc) {
+    return ['C', 'D', 'E', 'F', 'G', 'A', 'B'].includes(pc);
+  }
+
+  function buildKeyboard(root, mode) {
+    keyboardEl.innerHTML = '';
+    const whiteContainer = document.createElement('div');
+    whiteContainer.className = 'white-keys';
+    const blackContainer = document.createElement('div');
+    blackContainer.className = 'black-keys';
+
+    const rootPc = canonicalPitch(root);
+    if (!NOTE_ORDER.includes(rootPc)) return;
+
+    const tapeNotes = buildTapeNotes();
+    const range = getWindowRange(tapeNotes, rootPc, mode);
+    if (!range) return;
+    const notes = tapeNotes.slice(range.startIdx, range.endIdx + 1);
 
     let whiteCount = notes.reduce((acc, n) => acc + (n.natural ? 1 : 0), 0);
 
@@ -353,17 +379,37 @@
     unhighlightKey(note, 'active-user');
   }
 
+  const highlightTimers = new Map();
+
   function highlightKey(note, cls = 'active-sequence') {
     const el = keyboardEl.querySelector(`[data-note="${note}"]`);
     if (el) {
+      const durationMs = cls === 'active-sequence' ? 440 : 220;
       el.classList.add(cls);
-      setTimeout(() => el.classList.remove(cls), 220);
+
+      const timerKey = `${note}|${cls}`;
+      const prev = highlightTimers.get(timerKey);
+      if (prev) clearTimeout(prev);
+      highlightTimers.set(
+        timerKey,
+        setTimeout(() => {
+          el.classList.remove(cls);
+          highlightTimers.delete(timerKey);
+        }, durationMs)
+      );
     }
   }
 
   function unhighlightKey(note, cls) {
     const el = keyboardEl.querySelector(`[data-note="${note}"]`);
     if (el) el.classList.remove(cls);
+
+    const timerKey = `${note}|${cls}`;
+    const prev = highlightTimers.get(timerKey);
+    if (prev) {
+      clearTimeout(prev);
+      highlightTimers.delete(timerKey);
+    }
   }
 
   async function playSequence() {
@@ -430,7 +476,7 @@
     }
     ensureAudioUnlocked();
     hydrateSettings();
-    state.notePool = buildNotePool(state.scaleRoot, state.octaveSpan)
+    state.notePool = buildNotePool(state.scaleRoot, state.mode)
       .filter(n => state.visibleNotesSet.has(n));
     state.sequence = [];
     state.started = true;
@@ -563,7 +609,6 @@
 
   function hydrateSettings() {
     state.mode = modeInputs.find(r => r.checked)?.value || 'normal';
-    state.octaveSpan = state.mode === 'hard' ? 2 : 1;
     state.scaleChoice = scaleSelect.value;
 
     if (state.scaleChoice === 'random') {
@@ -576,7 +621,7 @@
       state.scaleRoot = canonicalPitch(state.scaleChoice);
     }
 
-    buildKeyboard(state.scaleRoot, state.octaveSpan);
+    buildKeyboard(state.scaleRoot, state.mode);
     state.visibleNotesSet = new Set(
       Array.from(keyboardEl.querySelectorAll('.key[data-note]')).map(el => el.dataset.note)
     );
@@ -594,7 +639,7 @@
 
   function updateInfoTexts() {
     selectedScaleEl.textContent = `Scale: ${SCALE_DISPLAY[state.scaleRoot] || state.scaleRoot}`;
-    selectedModeEl.textContent = `Mode: ${state.mode === 'hard' ? 'Hard (2 octaves)' : 'Normal (1 octave)'}`;
+    selectedModeEl.textContent = `Mode: ${modeLabel(state.mode)}`;
   }
 
   function showInlineError(msg) {
