@@ -112,6 +112,7 @@
 
         <div class="lang-row">
           <button id="lang-btn" class="lang-chip" type="button" aria-label="Language">EN</button>
+          <div id="paused-badge-portrait" class="paused-badge hidden" data-i18n="status.paused">Paused</div>
         </div>
         <div class="actions desktop-only">
           <button id="desktop-play-btn" class="primary" data-i18n="home.play">Play</button>
@@ -228,6 +229,7 @@
         <button id="home-btn" class="ghost" data-i18n="play.home">Home</button>
         <div class="top-info">
           <span id="status-text" class="status-text" data-i18n="play.ready">Ready</span>
+          <span id="paused-badge" class="paused-badge hidden" data-i18n="status.paused">Paused</span>
           <span id="selected-scale" class="info-text info-scale">Scale: —</span>
           <span id="selected-mode" class="info-text info-mode">Mode: —</span>
           <span class="info-text info-level"><span data-i18n="play.level">Level</span> <span id="level-display">1</span></span>
@@ -237,7 +239,7 @@
       </header>
 
       <div class="keyboard-wrapper">
-        <div id="inline-error" class="inline-error hidden" data-i18n="play.wrong">Wrong note! Try again</div>
+        <div id="inline-error" class="inline-error hidden" data-i18n="play.wrong" role="alert" aria-live="assertive">Wrong note! Try again</div>
         <div id="keyboard" class="keyboard" aria-label="Piano keyboard"></div>
       </div>
     </section>

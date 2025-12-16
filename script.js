@@ -20,6 +20,8 @@
   const keyboardEl = document.getElementById('keyboard');
   const levelDisplay = document.getElementById('level-display');
   const statusText = document.getElementById('status-text');
+  const pausedBadge = document.getElementById('paused-badge');
+  const pausedBadgePortrait = document.getElementById('paused-badge-portrait');
   const selectedScaleEl = document.getElementById('selected-scale');
   const selectedModeEl = document.getElementById('selected-mode');
   const inlineError = document.getElementById('inline-error');
@@ -149,7 +151,11 @@
       'status.listenCount': 'Listen… ({i}/{n})',
       'status.yourTurn': 'Your turn',
       'status.won': 'Nice! Listen to the next round',
+      'status.paused': 'Paused',
       'status.tryAgain': 'Try again',
+      'status.gameOver': 'Game Over',
+
+      'gameOver.body': '<div class="gameover-banner"><div class="go-line1">Wrong note</div><div class="go-line2">Game Over</div><div class="go-line3">Tap <strong>Restart</strong> to retry</div></div>',
 
       'error.noPlayable': 'No playable notes in range',
       'scale.prefix': 'Scale: {name}',
@@ -261,7 +267,11 @@
       'status.listenCount': 'Slušaj… ({i}/{n})',
       'status.yourTurn': 'Tvoj red',
       'status.won': 'Bravo! Slušaj sljedeću rundu',
+      'status.paused': 'Pauza',
       'status.tryAgain': 'Pokušaj ponovno',
+      'status.gameOver': 'Kraj igre',
+
+      'gameOver.body': '<div class="gameover-banner"><div class="go-line1">Pogrešna nota</div><div class="go-line2">Kraj igre</div><div class="go-line3">Dodirni <strong>Ponovno</strong> za novi pokušaj</div></div>',
 
       'error.noPlayable': 'Nema nota u rasponu',
       'scale.prefix': 'Ljestvica: {name}',
@@ -373,7 +383,11 @@
       'status.listenCount': 'Słuchaj… ({i}/{n})',
       'status.yourTurn': 'Twoja kolej',
       'status.won': 'Super! Posłuchaj następnej rundy',
+      'status.paused': 'Pauza',
       'status.tryAgain': 'Spróbuj ponownie',
+      'status.gameOver': 'Koniec gry',
+
+      'gameOver.body': '<div class="gameover-banner"><div class="go-line1">Zła nuta</div><div class="go-line2">Koniec gry</div><div class="go-line3">Stuknij <strong>Restart</strong>, aby spróbować ponownie</div></div>',
 
       'error.noPlayable': 'Brak nut w zakresie',
       'scale.prefix': 'Skala: {name}',
@@ -485,7 +499,11 @@
       'status.listenCount': 'Ascolta… ({i}/{n})',
       'status.yourTurn': 'Tocca a te',
       'status.won': 'Bravo! Ascolta il prossimo round',
+      'status.paused': 'In pausa',
       'status.tryAgain': 'Riprova',
+      'status.gameOver': 'Game Over',
+
+      'gameOver.body': '<div class="gameover-banner"><div class="go-line1">Nota sbagliata</div><div class="go-line2">Game Over</div><div class="go-line3">Tocca <strong>Restart</strong> per riprovare</div></div>',
 
       'error.noPlayable': 'Nessuna nota disponibile nell’intervallo',
       'scale.prefix': 'Scala: {name}',
@@ -597,7 +615,11 @@
       'status.listenCount': 'Escucha… ({i}/{n})',
       'status.yourTurn': 'Tu turno',
       'status.won': '¡Bien! Escucha la siguiente ronda',
+      'status.paused': 'En pausa',
       'status.tryAgain': 'Inténtalo de nuevo',
+      'status.gameOver': 'Fin de la partida',
+
+      'gameOver.body': '<div class="gameover-banner"><div class="go-line1">Nota incorrecta</div><div class="go-line2">Fin de la partida</div><div class="go-line3">Toca <strong>Reiniciar</strong> para reintentar</div></div>',
 
       'error.noPlayable': 'No hay notas disponibles en el rango',
       'scale.prefix': 'Escala: {name}',
@@ -700,6 +722,12 @@
     userIndex: 0,
     canInput: false,
     playing: false,
+    gameOver: false,
+    paused: false,
+    pausedPhase: 'input',
+    seqToken: 0,
+    nextRoundTimer: null,
+    pendingNextRound: false,
     scaleRoot: 'C',
     scaleChoice: 'random',
     randomPinnedRoot: null,
@@ -1041,6 +1069,7 @@
   }
 
   function onKeyPress(e) {
+    if (state.gameOver) return;
     const note = e.currentTarget.dataset.note;
     highlightKey(note, 'active-user');
     playSample(note);
@@ -1088,14 +1117,25 @@
   }
 
   async function playSequence() {
+    const myToken = ++state.seqToken;
     state.playing = true;
     state.canInput = false;
     for (let i = 0; i < state.sequence.length; i++) {
+      if (state.gameOver || state.paused || myToken !== state.seqToken) {
+        state.playing = false;
+        state.canInput = false;
+        return;
+      }
       const note = state.sequence[i];
       statusText.textContent = translate('status.listenCount', { i: i + 1, n: state.sequence.length });
       highlightKey(note, 'active-sequence');
       await playSample(note);
       await wait(450);
+    }
+    if (state.gameOver || state.paused || myToken !== state.seqToken) {
+      state.playing = false;
+      state.canInput = false;
+      return;
     }
     statusText.textContent = translate('status.yourTurn');
     state.playing = false;
@@ -1112,13 +1152,97 @@
         statusText.textContent = translate('status.won');
         hideInlineError();
         state.canInput = false;
-        setTimeout(nextRound, 650);
+        state.pendingNextRound = true;
+        if (state.nextRoundTimer) clearTimeout(state.nextRoundTimer);
+        state.nextRoundTimer = setTimeout(() => {
+          state.nextRoundTimer = null;
+          if (state.paused || state.gameOver) return;
+          state.pendingNextRound = false;
+          nextRound();
+        }, 650);
       }
     } else {
-      statusText.textContent = translate('status.tryAgain');
-      showInlineError(translate('play.wrong'));
-      state.canInput = false;
+      endGameOverWrongNote();
     }
+  }
+
+  function endGameOverWrongNote() {
+    state.canInput = false;
+    state.playing = false;
+    state.gameOver = true;
+    state.paused = false;
+    state.pendingNextRound = false;
+    if (state.nextRoundTimer) {
+      clearTimeout(state.nextRoundTimer);
+      state.nextRoundTimer = null;
+    }
+
+    document.body.classList.add('game-over');
+
+    statusText.textContent = translate('status.gameOver');
+    if (pausedBadge) pausedBadge.classList.add('hidden');
+    if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
+    showInlineError(translate('gameOver.body'));
+    if (playBtn) playBtn.textContent = translate('play.restart');
+  }
+
+  function pauseGameForPortrait() {
+    if (!state.started || state.gameOver) return;
+
+    state.paused = true;
+    state.pausedPhase = state.pendingNextRound ? 'between' : (state.playing ? 'sequence' : 'input');
+    state.canInput = false;
+    state.playing = false;
+
+    // Cancel any in-flight sequence playback and pending timers
+    state.seqToken++;
+    if (state.nextRoundTimer) {
+      clearTimeout(state.nextRoundTimer);
+      state.nextRoundTimer = null;
+    }
+    // Show explicit paused status
+    if (statusText) statusText.textContent = translate('status.paused');
+    if (pausedBadge) pausedBadge.classList.remove('hidden');
+    if (pausedBadgePortrait) {
+      positionPausedPortraitBadge();
+      pausedBadgePortrait.classList.remove('hidden');
+    }
+  }
+
+  function resumeGameFromPause() {
+    if (!state.started || state.gameOver || !state.paused) return;
+
+    state.paused = false;
+    if (pausedBadge) pausedBadge.classList.add('hidden');
+    if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
+    if (state.pausedPhase === 'between') {
+      state.pendingNextRound = false;
+      nextRound();
+      return;
+    }
+    if (state.pausedPhase === 'sequence') {
+      state.userIndex = 0;
+      statusText.textContent = translate('status.listen');
+      playSequence();
+      return;
+    }
+    // input phase
+    statusText.textContent = translate('status.yourTurn');
+    state.playing = false;
+    state.canInput = true;
+  }
+
+  function positionPausedPortraitBadge() {
+    if (!pausedBadgePortrait || !langBtn) return;
+    // Use fixed positioning computed from the language button so iOS won't clip it
+    const btnRect = langBtn.getBoundingClientRect();
+    const left = btnRect.left + btnRect.width / 2;
+    const top = btnRect.bottom + 8; // 8px below the button
+    pausedBadgePortrait.style.position = 'fixed';
+    pausedBadgePortrait.style.left = `${left}px`;
+    pausedBadgePortrait.style.top = `${top}px`;
+    pausedBadgePortrait.style.transform = 'translateX(-50%)';
+    pausedBadgePortrait.style.zIndex = '9999';
   }
 
   function nextRound() {
@@ -1154,18 +1278,63 @@
       .filter(n => state.visibleNotesSet.has(n));
     state.sequence = [];
     state.started = true;
+    state.gameOver = false;
+    state.paused = false;
+    state.pendingNextRound = false;
+    if (state.nextRoundTimer) {
+      clearTimeout(state.nextRoundTimer);
+      state.nextRoundTimer = null;
+    }
+    state.seqToken++;
+    document.body.classList.remove('game-over');
     playBtn.textContent = translate('play.restart');
     levelDisplay.textContent = '1';
     statusText.textContent = translate('status.listen');
+    if (pausedBadge) pausedBadge.classList.add('hidden');
+    if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
     hideInlineError();
     nextRound();
   }
 
   function restartGame() {
+    // On phones, portrait is the home/settings screen. Restarting here should
+    // reset the run but keep it paused until the user returns to landscape.
+    if (isTouchDevice() && !isLandscape()) {
+      state.sequence = [];
+      state.userIndex = 0;
+      state.started = true;
+      state.gameOver = false;
+      state.paused = true;
+      state.pausedPhase = 'between';
+      state.pendingNextRound = true;
+      state.canInput = false;
+      state.playing = false;
+      if (state.nextRoundTimer) {
+        clearTimeout(state.nextRoundTimer);
+        state.nextRoundTimer = null;
+      }
+      state.seqToken++;
+      document.body.classList.remove('game-over');
+      levelDisplay.textContent = '1';
+      statusText.textContent = '';
+      hideInlineError();
+      return;
+    }
+
     state.sequence = [];
     state.userIndex = 0;
+    state.gameOver = false;
+    state.paused = false;
+    state.pendingNextRound = false;
+    if (state.nextRoundTimer) {
+      clearTimeout(state.nextRoundTimer);
+      state.nextRoundTimer = null;
+    }
+    state.seqToken++;
+    document.body.classList.remove('game-over');
     levelDisplay.textContent = '1';
     statusText.textContent = translate('status.listen');
+    if (pausedBadge) pausedBadge.classList.add('hidden');
     state.canInput = false;
     hideInlineError();
     nextRound();
@@ -1178,7 +1347,18 @@
     state.canInput = false;
     state.playing = false;
     state.started = false;
-    statusText.textContent = '';
+    state.gameOver = false;
+    state.paused = false;
+    state.pendingNextRound = false;
+    if (state.nextRoundTimer) {
+      clearTimeout(state.nextRoundTimer);
+      state.nextRoundTimer = null;
+    }
+    state.seqToken++;
+    document.body.classList.remove('game-over');
+      statusText.textContent = '';
+      if (pausedBadge) pausedBadge.classList.add('hidden');
+      if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
     playBtn.textContent = translate('play.play');
     showPortrait();
   }
@@ -1193,13 +1373,23 @@
       orientationMsg.classList.add('hidden');
       showLandscape();
       hydrateSettings();
-      statusText.textContent = state.started ? (statusText.textContent || translate('status.listen')) : translate('play.tapToBegin');
-    } else {
-      if (state.started) {
-        goHome();
+      if (state.started && state.paused) {
+        resumeGameFromPause();
       } else {
-        showPortrait();
+        statusText.textContent = state.started ? (statusText.textContent || translate('status.listen')) : translate('play.tapToBegin');
       }
+    } else {
+      if (state.gameOver) {
+        // Dismiss game over if user returns to portrait
+        goHome();
+        return;
+      }
+      if (state.started) {
+        pauseGameForPortrait();
+        showPortrait();
+        return;
+      }
+      showPortrait();
     }
   }
 
@@ -1214,7 +1404,6 @@
     if (helpScreen) helpScreen.classList.add('hidden');
     landscapeScreen.classList.add('hidden');
     orientationMsg.classList.add('hidden');
-    state.started = false;
     updateAchievementsUI();
   }
 
@@ -1303,6 +1492,9 @@
     modeInputs.forEach(r => r.addEventListener('change', hydrateSettings));
     window.addEventListener('orientationchange', ensureOrientation);
     window.addEventListener('resize', ensureOrientation);
+    window.addEventListener('resize', () => {
+      try { positionPausedPortraitBadge(); } catch (e) {}
+    });
     window.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
         state.canInput = false;
@@ -1315,6 +1507,7 @@
 
     // Tap anywhere to dismiss the "Wrong note" banner
     const dismissInlineError = () => {
+      if (state.gameOver) return;
       if (isInlineErrorVisible()) hideInlineError();
     };
     // Use capture so a key press doesn't immediately dismiss a banner that was just shown
@@ -1345,6 +1538,11 @@
     updateInfoTexts();
     updateAchievementsUI();
     // keep flip hint visible; it should always instruct the user to flip the phone
+
+    // If the user changes game-related settings while paused in portrait, end the paused run.
+    if (!isLandscape() && state.started && state.paused) {
+      goHome();
+    }
   }
 
   // Assist toggle handling: show/hide key labels and small hints
@@ -1378,7 +1576,8 @@
 
   function showInlineError(msg) {
     if (!inlineError) return;
-    inlineError.textContent = msg;
+    if (typeof msg === 'string' && msg.includes('<')) inlineError.innerHTML = msg;
+    else inlineError.textContent = msg;
     inlineError.classList.remove('hidden');
   }
 

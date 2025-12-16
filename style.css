@@ -362,6 +362,13 @@ button.ghost {
 
 button.primary { background: linear-gradient(120deg, var(--accent), var(--accent-strong)); color: #0b1021; }
 
+body.game-over #play-btn.primary {
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.22),
+    0 16px 46px rgba(56, 189, 248, 0.38);
+  transform: translateY(-1px);
+}
+
 .footnote {
   color: var(--muted);
   font-size: 12px;
@@ -410,6 +417,48 @@ button.primary { background: linear-gradient(120deg, var(--accent), var(--accent
 .info-level { color: #fca5a5; }
 .info-max { color: #86efac; }
 
+.paused-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 4px 8px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+  vertical-align: middle;
+  opacity: 0.95;
+}
+
+/* Positioning and pulse for portrait paused badge under language selector */
+.lang-row { position: relative; }
+.lang-row .paused-badge {
+  /* Default (CSS) positioning: will be overridden to fixed by JS for iOS */
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  transform: translateX(-50%);
+  margin-left: 0; /* ensure no extra gap */
+  padding: 6px 10px;
+  font-size: 13px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #bff0ff;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  box-shadow: 0 8px 18px rgba(2,6,23,0.28);
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.25;
+  transition: opacity 120ms linear;
+  animation: paused-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes paused-pulse {
+  0% { opacity: 0.25; }
+  50% { opacity: 1; }
+  100% { opacity: 0.25; }
+}
+
 .keyboard-wrapper {
   position: relative;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
@@ -439,6 +488,33 @@ button.primary { background: linear-gradient(120deg, var(--accent), var(--accent
     -1px  1px 0 #7f1d1d,
      1px  1px 0 #7f1d1d;
   z-index: 3;
+}
+
+.inline-error .gameover-banner {
+  display: grid;
+  gap: 4px;
+  text-align: center;
+}
+
+.inline-error .go-line1 {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  opacity: 0.9;
+}
+
+.inline-error .go-line2 {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  line-height: 1.05;
+}
+
+.inline-error .go-line3 {
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.2px;
+  opacity: 0.98;
 }
 
 .keyboard {
