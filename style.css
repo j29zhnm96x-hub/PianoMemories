@@ -101,11 +101,13 @@ body {
 }
 
 .help-card {
-  padding: 12px;
+  padding: 12px 12px 27px; /* add 15px extra at bottom so last lines are visible */
+  border-radius: 16px; /* match other card corners */
+  overflow: hidden; /* ensure inner scroll is clipped to rounded corners */
 }
 
 .help-scroll {
-  max-height: calc(100vh - (16px + var(--safe-top)) - (16px + var(--safe-bottom)) - 72px);
+  max-height: calc(100vh - (16px + var(--safe-top)) - (16px + var(--safe-bottom)) - 57px); /* extend 15px lower */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 6px 4px;
@@ -400,11 +402,20 @@ body.game-over #play-btn.primary {
   gap: 10px;
   flex: 1;
   margin: 0 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .status-text {
   font-weight: 700;
+}
+
+/* Reserve space for dynamic status so the top bar doesn't reflow */
+.status-text {
+  min-width: 160px;
+  flex: 0 0 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .info-text {
@@ -420,15 +431,16 @@ body.game-over #play-btn.primary {
 .paused-badge {
   display: inline-block;
   margin-left: 8px;
-  padding: 4px 8px;
-  background: rgba(255,255,255,0.06);
-  color: var(--text);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 12px;
+  padding: 0;
+  background: transparent;
+  color: #e6ffff;
+  border: none;
+  border-radius: 0;
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1;
   vertical-align: middle;
-  opacity: 0.95;
+  opacity: 1;
 }
 
 /* Positioning and pulse for portrait paused badge under language selector */
@@ -440,13 +452,13 @@ body.game-over #play-btn.primary {
   top: calc(100% + 8px);
   transform: translateX(-50%);
   margin-left: 0; /* ensure no extra gap */
-  padding: 6px 10px;
-  font-size: 13px;
-  background: rgba(56, 189, 248, 0.12);
-  color: #bff0ff;
-  border: 1px solid rgba(56, 189, 248, 0.22);
-  box-shadow: 0 8px 18px rgba(2,6,23,0.28);
-  z-index: 40;
+  padding: 0;
+  font-size: 26px;
+  background: transparent;
+  color: #e6ffff;
+  border: none;
+  box-shadow: none;
+  z-index: 9999;
   pointer-events: none;
   opacity: 0.25;
   transition: opacity 120ms linear;
