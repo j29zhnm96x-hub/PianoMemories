@@ -51,21 +51,43 @@
         </div>
 
         <div class="card">
-        <label data-i18n="home.mode">Mode</label>
-        <div class="mode-toggle">
-          <label class="chip">
-            <input type="radio" name="mode" value="easy">
-            <span data-i18n="mode.easy">Easy (fifth)</span>
-          </label>
-          <label class="chip">
-            <input type="radio" name="mode" value="normal" checked>
-            <span data-i18n="mode.normal">Normal (1 octave)</span>
-          </label>
-          <label class="chip">
-            <input type="radio" name="mode" value="hard">
-            <span data-i18n="mode.hard">Hard (2 octaves)</span>
-          </label>
-        </div>
+          <div class="game-mode-split">
+            <div class="game-mode-half">
+              <label data-i18n="home.games">Games</label>
+              <div class="mode-toggle game-toggle" id="game-toggle">
+                <label class="chip">
+                  <input type="radio" name="game" value="memory" checked>
+                  <span data-i18n="game.memory">Memory</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="game" value="knowKey">
+                  <span data-i18n="game.knowKey">Know the key</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="game" value="knowScale">
+                  <span data-i18n="game.knowScale">Know the scale</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="game-mode-half" id="memory-mode-half">
+              <label data-i18n="home.mode">Mode</label>
+              <div class="mode-toggle mode-toggle-small" id="mode-toggle">
+                <label class="chip chip-small">
+                  <input type="radio" name="mode" value="easy">
+                  <span data-i18n="mode.easy">Easy (fifth)</span>
+                </label>
+                <label class="chip chip-small">
+                  <input type="radio" name="mode" value="normal" checked>
+                  <span data-i18n="mode.normal">Normal (1 octave)</span>
+                </label>
+                <label class="chip chip-small">
+                  <input type="radio" name="mode" value="hard">
+                  <span data-i18n="mode.hard">Hard (2 octaves)</span>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="card">
@@ -102,6 +124,14 @@
           <div class="achievement-row">
             <span class="achievement-label" data-i18n="ach.hard">Hard best</span>
             <span id="best-hard" class="achievement-value">0</span>
+          </div>
+          <div class="achievement-row">
+            <span class="achievement-label" data-i18n="ach.knowKey">Know the key best</span>
+            <span id="best-know-key" class="achievement-value">0.00s</span>
+          </div>
+          <div class="achievement-row">
+            <span class="achievement-label" data-i18n="ach.knowScale">Know the scale best</span>
+            <span id="best-know-scale" class="achievement-value">0.00s</span>
           </div>
         </div>
         </div>
@@ -230,6 +260,7 @@
         <div class="top-info">
           <span id="status-text" class="status-text" data-i18n="play.ready">Ready</span>
           <span id="paused-badge" class="paused-badge hidden" data-i18n="status.paused">Paused</span>
+          <span id="center-box" class="center-box hidden" aria-live="polite">—</span>
           <span id="selected-scale" class="info-text info-scale">Scale: —</span>
           <span id="selected-mode" class="info-text info-mode">Mode: —</span>
           <span class="info-text info-level"><span data-i18n="play.level">Level</span> <span id="level-display">1</span></span>

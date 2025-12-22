@@ -5,6 +5,7 @@
 (() => {
   const scaleSelect = document.getElementById('scale-select');
   const modeInputs = Array.from(document.querySelectorAll('input[name="mode"]'));
+  const gameInputs = Array.from(document.querySelectorAll('input[name="game"]'));
   const playBtn = document.getElementById('play-btn');
   const desktopPlayBtn = document.getElementById('desktop-play-btn');
   const homeBtn = document.getElementById('home-btn');
@@ -22,13 +23,17 @@
   const statusText = document.getElementById('status-text');
   const pausedBadge = document.getElementById('paused-badge');
   const pausedBadgePortrait = document.getElementById('paused-badge-portrait');
+  const centerBox = document.getElementById('center-box');
   const selectedScaleEl = document.getElementById('selected-scale');
   const selectedModeEl = document.getElementById('selected-mode');
   const inlineError = document.getElementById('inline-error');
   const bestEasyEl = document.getElementById('best-easy');
   const bestNormalEl = document.getElementById('best-normal');
   const bestHardEl = document.getElementById('best-hard');
+  const bestKnowKeyEl = document.getElementById('best-know-key');
+  const bestKnowScaleEl = document.getElementById('best-know-scale');
   const maxDisplayEl = document.getElementById('max-display');
+  const memoryModeHalf = document.getElementById('memory-mode-half');
   const helpBtn = document.getElementById('help-btn');
   const helpBackBtn = document.getElementById('help-back-btn');
   const langBtn = document.getElementById('lang-btn');
@@ -51,6 +56,11 @@
       'app.title': 'PianoMemories',
       'home.help': 'Help',
       'home.scale': 'Scale',
+
+      'home.games': 'Games',
+      'game.memory': 'Memory',
+      'game.knowKey': 'Know the key',
+      'game.knowScale': 'Know the scale',
       'scale.random': 'Random key',
       'scale.C': 'C Major',
       'scale.C#': 'C# Major',
@@ -79,6 +89,8 @@
       'ach.easy': 'Easy best',
       'ach.normal': 'Normal best',
       'ach.hard': 'Hard best',
+      'ach.knowKey': 'Know the key best',
+      'ach.knowScale': 'Know the scale best',
 
       'home.flip': 'FLIP THE PHONE TO PLAY',
       'home.play': 'Play',
@@ -148,6 +160,11 @@
       'play.tapToBegin': 'Tap Play to begin',
       'play.wrong': 'Wrong note! Try again',
 
+      'kk.total': 'Total: {t} ({i}/{n})',
+      'kk.final': 'Total: {t}',
+      'ks.time': 'Time: {t} ({i}/7)',
+      'ks.final': 'Time: {t}',
+
       'status.listen': 'Listen…',
       'status.listenCount': 'Listen… ({i}/{n})',
       'status.yourTurn': 'Your turn',
@@ -168,6 +185,11 @@
       'app.title': 'PianoMemories',
       'home.help': 'Pomoć',
       'home.scale': 'Ljestvica',
+
+      'home.games': 'Igre',
+      'game.memory': 'Memory',
+      'game.knowKey': 'Know the key',
+      'game.knowScale': 'Know the scale',
       'scale.random': 'Nasumični tonalitet',
       'scale.C': 'C-dur',
       'scale.C#': 'C#-dur',
@@ -196,6 +218,8 @@
       'ach.easy': 'Najbolje (Lako)',
       'ach.normal': 'Najbolje (Normalno)',
       'ach.hard': 'Najbolje (Teško)',
+      'ach.knowKey': 'Know the key (najbolje)',
+      'ach.knowScale': 'Know the scale (najbolje)',
 
       'home.flip': 'OKRENI TELEFON ZA IGRU',
       'home.play': 'Igraj',
@@ -265,6 +289,11 @@
       'play.tapToBegin': 'Dodirnite Igraj za početak',
       'play.wrong': 'Pogrešna nota! Pokušaj ponovno',
 
+      'kk.total': 'Ukupno: {t} ({i}/{n})',
+      'kk.final': 'Ukupno: {t}',
+      'ks.time': 'Vrijeme: {t} ({i}/7)',
+      'ks.final': 'Vrijeme: {t}',
+
       'status.listen': 'Slušaj…',
       'status.listenCount': 'Slušaj… ({i}/{n})',
       'status.yourTurn': 'Tvoj red',
@@ -285,6 +314,11 @@
       'app.title': 'PianoMemories',
       'home.help': 'Pomoc',
       'home.scale': 'Skala',
+
+      'home.games': 'Gry',
+      'game.memory': 'Memory',
+      'game.knowKey': 'Know the key',
+      'game.knowScale': 'Know the scale',
       'scale.random': 'Losowa tonacja',
       'scale.C': 'C-dur',
       'scale.C#': 'C#-dur',
@@ -313,6 +347,8 @@
       'ach.easy': 'Najlepszy (Łatwy)',
       'ach.normal': 'Najlepszy (Normalny)',
       'ach.hard': 'Najlepszy (Trudny)',
+      'ach.knowKey': 'Know the key (najlepszy)',
+      'ach.knowScale': 'Know the scale (najlepszy)',
 
       'home.flip': 'OBRÓĆ TELEFON, ABY GRAĆ',
       'home.play': 'Graj',
@@ -382,6 +418,11 @@
       'play.tapToBegin': 'Stuknij Graj, aby zacząć',
       'play.wrong': 'Zła nuta! Spróbuj ponownie',
 
+      'kk.total': 'Suma: {t} ({i}/{n})',
+      'kk.final': 'Suma: {t}',
+      'ks.time': 'Czas: {t} ({i}/7)',
+      'ks.final': 'Czas: {t}',
+
       'status.listen': 'Słuchaj…',
       'status.listenCount': 'Słuchaj… ({i}/{n})',
       'status.yourTurn': 'Twoja kolej',
@@ -402,6 +443,11 @@
       'app.title': 'PianoMemories',
       'home.help': 'Aiuto',
       'home.scale': 'Scala',
+
+      'home.games': 'Giochi',
+      'game.memory': 'Memory',
+      'game.knowKey': 'Know the key',
+      'game.knowScale': 'Know the scale',
       'scale.random': 'Tonalità casuale',
       'scale.C': 'Do maggiore',
       'scale.C#': 'Do# maggiore',
@@ -430,6 +476,8 @@
       'ach.easy': 'Migliore (Facile)',
       'ach.normal': 'Migliore (Normale)',
       'ach.hard': 'Migliore (Difficile)',
+      'ach.knowKey': 'Know the key (migliore)',
+      'ach.knowScale': 'Know the scale (migliore)',
 
       'home.flip': 'GIRA IL TELEFONO PER GIOCARE',
       'home.play': 'Gioca',
@@ -499,6 +547,11 @@
       'play.tapToBegin': 'Tocca Gioca per iniziare',
       'play.wrong': 'Nota sbagliata! Riprova',
 
+      'kk.total': 'Totale: {t} ({i}/{n})',
+      'kk.final': 'Totale: {t}',
+      'ks.time': 'Tempo: {t} ({i}/7)',
+      'ks.final': 'Tempo: {t}',
+
       'status.listen': 'Ascolta…',
       'status.listenCount': 'Ascolta… ({i}/{n})',
       'status.yourTurn': 'Tocca a te',
@@ -519,6 +572,11 @@
       'app.title': 'PianoMemories',
       'home.help': 'Ayuda',
       'home.scale': 'Escala',
+
+      'home.games': 'Juegos',
+      'game.memory': 'Memory',
+      'game.knowKey': 'Know the key',
+      'game.knowScale': 'Know the scale',
       'scale.random': 'Tonalidad aleatoria',
       'scale.C': 'Do mayor',
       'scale.C#': 'Do# mayor',
@@ -547,6 +605,8 @@
       'ach.easy': 'Mejor (Fácil)',
       'ach.normal': 'Mejor (Normal)',
       'ach.hard': 'Mejor (Difícil)',
+      'ach.knowKey': 'Know the key (mejor)',
+      'ach.knowScale': 'Know the scale (mejor)',
 
       'home.flip': 'GIRA EL TELÉFONO PARA JUGAR',
       'home.play': 'Jugar',
@@ -616,6 +676,11 @@
       'play.tapToBegin': 'Toca Jugar para empezar',
       'play.wrong': '¡Nota incorrecta! Inténtalo de nuevo',
 
+      'kk.total': 'Total: {t} ({i}/{n})',
+      'kk.final': 'Total: {t}',
+      'ks.time': 'Tiempo: {t} ({i}/7)',
+      'ks.final': 'Tiempo: {t}',
+
       'status.listen': 'Escucha…',
       'status.listenCount': 'Escucha… ({i}/{n})',
       'status.yourTurn': 'Tu turno',
@@ -630,6 +695,13 @@
       'scale.prefix': 'Escala: {name}',
       'mode.prefix': 'Modo: {name}',
     },
+  };
+
+  const GAME_STORAGE_KEY = 'pianomem_game';
+  const GAMES = {
+    memory: 'memory',
+    knowKey: 'knowKey',
+    knowScale: 'knowScale',
   };
 
   let currentLang = null;
@@ -723,6 +795,7 @@
   }
 
   const state = {
+    game: GAMES.memory,
     sequence: [],
     userIndex: 0,
     canInput: false,
@@ -738,11 +811,32 @@
     randomPinnedRoot: null,
     mode: 'normal',
     baseOctave: 4,
+    showNoteNamesPref: true,
     showNoteNames: true,
     selectedScaleOnly: false,
     notePool: [],
     visibleNotesSet: new Set(),
     started: false,
+
+    knowKey: {
+      phase: 'idle',
+      remainingNotes: [],
+      currentNote: null,
+      roundIndex: 0,
+      totalMs: 0,
+      noteStartTs: 0,
+      pauseAt: 0,
+      countdownRemaining: 0,
+    },
+
+    knowScale: {
+      phase: 'idle',
+      rootPc: 'C',
+      scaleNotes: [],
+      expectedIndex: 0,
+      startTs: 0,
+      pauseAt: 0,
+    },
   };
 
   const audioCache = new Map();
@@ -753,6 +847,23 @@
     normal: 'pianomem_best_normal',
     hard: 'pianomem_best_hard',
   };
+
+  const BEST_TIME_KEYS = {
+    knowKey: 'pianomem_best_know_key_ms',
+    knowScale: 'pianomem_best_know_scale_ms',
+  };
+
+  function setElHidden(el, hidden) {
+    if (!el) return;
+    if (hidden) el.classList.add('hidden');
+    else el.classList.remove('hidden');
+  }
+
+  function formatTimeMs(ms) {
+    const v = Number(ms);
+    const safe = Number.isFinite(v) && v > 0 ? v : 0;
+    return `${(safe / 1000).toFixed(2)}s`;
+  }
 
   function rangeSemitoneOffsetForMode(mode) {
     if (mode === 'easy') return 7; // perfect fifth
@@ -777,6 +888,28 @@
     }
   }
 
+  function loadBestTimeMs(kind) {
+    const key = BEST_TIME_KEYS[kind];
+    if (!key) return 0;
+    try {
+      const v = parseInt(localStorage.getItem(key) || '0', 10);
+      return Number.isFinite(v) && v > 0 ? v : 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function saveBestTimeMs(kind, ms) {
+    const key = BEST_TIME_KEYS[kind];
+    if (!key) return;
+    const n = Math.max(0, Math.floor(Number(ms) || 0));
+    if (!Number.isFinite(n) || n <= 0) return;
+    try {
+      const prev = loadBestTimeMs(kind);
+      if (!prev || n < prev) localStorage.setItem(key, String(n));
+    } catch (e) {}
+  }
+
   function saveBest(mode, value) {
     const key = BEST_KEYS[mode];
     if (!key) return;
@@ -793,8 +926,21 @@
     if (bestNormalEl) bestNormalEl.textContent = String(bestNormal);
     if (bestHardEl) bestHardEl.textContent = String(bestHard);
 
-    const mode = state.mode || 'normal';
-    if (maxDisplayEl) maxDisplayEl.textContent = String(loadBest(mode));
+    const bestKnowKey = loadBestTimeMs('knowKey');
+    const bestKnowScale = loadBestTimeMs('knowScale');
+    if (bestKnowKeyEl) bestKnowKeyEl.textContent = formatTimeMs(bestKnowKey);
+    if (bestKnowScaleEl) bestKnowScaleEl.textContent = formatTimeMs(bestKnowScale);
+
+    if (maxDisplayEl) {
+      if (state.game === GAMES.memory) {
+        const mode = state.mode || 'normal';
+        maxDisplayEl.textContent = String(loadBest(mode));
+      } else if (state.game === GAMES.knowKey) {
+        maxDisplayEl.textContent = formatTimeMs(bestKnowKey);
+      } else if (state.game === GAMES.knowScale) {
+        maxDisplayEl.textContent = formatTimeMs(bestKnowScale);
+      }
+    }
   }
 
   function maybeUpdateBest(currentLevel) {
@@ -804,6 +950,17 @@
       saveBest(mode, currentLevel);
     }
     updateAchievementsUI();
+  }
+
+  function setCenterBox(text) {
+    if (!centerBox) return;
+    if (text === null || text === undefined || text === '') {
+      centerBox.textContent = '—';
+      setElHidden(centerBox, true);
+      return;
+    }
+    centerBox.textContent = String(text);
+    setElHidden(centerBox, false);
   }
 
   function initAudioContext() {
@@ -885,6 +1042,123 @@
     return MAJOR_STEPS.map(step => NOTE_ORDER[(rootIdx + step) % 12]);
   }
 
+  function buildFixedOctaveNotesC4toB4() {
+    return NOTE_ORDER.map(pc => ({ note: `${pc}${state.baseOctave}`, pc, natural: isNatural(pc) }));
+  }
+
+  function renderKeyboardFromTapeItems(items, rootPcForScaleColors) {
+    keyboardEl.innerHTML = '';
+    const whiteContainer = document.createElement('div');
+    whiteContainer.className = 'white-keys';
+    const blackContainer = document.createElement('div');
+    blackContainer.className = 'black-keys';
+
+    const scaleSet = rootPcForScaleColors ? new Set(buildScale(rootPcForScaleColors)) : new Set();
+
+    const notes = items;
+    let whiteCount = notes.reduce((acc, n) => acc + (n.natural ? 1 : 0), 0);
+    const firstIsNatural = notes.length > 0 ? notes[0].natural : true;
+    const lastIsNatural = notes.length > 0 ? notes[notes.length - 1].natural : true;
+    const leftPlaceholder = firstIsNatural ? 0 : 0.5;
+    const rightPlaceholder = lastIsNatural ? 0 : 0.5;
+    const totalSlots = whiteCount + leftPlaceholder + rightPlaceholder;
+    const slotPercent = 100 / totalSlots;
+
+    const whiteSlots = [];
+    const naturalSlotIndices = [];
+    let slotCursor = 0;
+    let slotIndex = 0;
+
+    if (leftPlaceholder > 0) {
+      const w = leftPlaceholder;
+      const center = (slotCursor + w / 2) * slotPercent;
+      whiteSlots.push({ center, widthSlots: w, placeholder: true });
+      slotCursor += w;
+      slotIndex += 1;
+    }
+
+    for (const item of notes) {
+      if (!item.natural) continue;
+      const center = (slotCursor + 0.5) * slotPercent;
+      whiteSlots.push({ center, widthSlots: 1, placeholder: false, note: item.note, pc: item.pc });
+      naturalSlotIndices.push(slotIndex);
+      slotCursor += 1;
+      slotIndex += 1;
+    }
+
+    if (rightPlaceholder > 0) {
+      const w = rightPlaceholder;
+      const center = (slotCursor + w / 2) * slotPercent;
+      whiteSlots.push({ center, widthSlots: w, placeholder: true });
+      slotCursor += w;
+      slotIndex += 1;
+    }
+
+    for (const slot of whiteSlots) {
+      const el = document.createElement('div');
+      el.className = 'key white-key' + (slot.placeholder ? ' placeholder' : '');
+      el.style.width = `${slot.widthSlots * slotPercent}%`;
+      if (!slot.placeholder) {
+        el.dataset.note = slot.note;
+        el.dataset.pc = slot.pc;
+        if (scaleSet.has(slot.pc)) el.classList.add('in-scale');
+        const label = document.createElement('span');
+        label.className = 'key-label';
+        label.textContent = slot.note;
+        el.appendChild(label);
+      }
+      whiteContainer.appendChild(el);
+    }
+
+    const blackKeys = [];
+    let naturalsSeen = 0;
+    for (const item of notes) {
+      if (item.natural) {
+        naturalsSeen += 1;
+        continue;
+      }
+      const prevSlotIdx = naturalsSeen === 0 ? 0 : naturalSlotIndices[naturalsSeen - 1];
+      const nextSlotIdx = naturalsSeen < naturalSlotIndices.length ? naturalSlotIndices[naturalsSeen] : whiteSlots.length - 1;
+      const prevCenter = whiteSlots[prevSlotIdx].center;
+      const nextCenter = whiteSlots[nextSlotIdx].center;
+      const center = (prevCenter + nextCenter) / 2;
+      const blackWidthPercent = slotPercent * 0.58;
+      const left = Math.max(0, center - blackWidthPercent / 2);
+
+      const blackKey = document.createElement('div');
+      blackKey.className = 'key black-key';
+      blackKey.dataset.note = item.note;
+      blackKey.dataset.pc = item.pc;
+      if (scaleSet.has(item.pc)) blackKey.classList.add('in-scale');
+      const labelB = document.createElement('span');
+      labelB.className = 'key-label';
+      labelB.textContent = item.note;
+      blackKey.appendChild(labelB);
+      blackKey.style.width = `${blackWidthPercent}%`;
+      blackKey.style.left = `${left}%`;
+
+      blackContainer.appendChild(blackKey);
+      blackKeys.push({ el: blackKey, left });
+    }
+
+    if (blackKeys.length > 0) {
+      let minIdx = 0;
+      let maxIdx = 0;
+      for (let i = 1; i < blackKeys.length; i++) {
+        if (blackKeys[i].left < blackKeys[minIdx].left) minIdx = i;
+        if (blackKeys[i].left > blackKeys[maxIdx].left) maxIdx = i;
+      }
+      blackKeys[minIdx].el.style.transform = 'translateX(-6px)';
+      if (maxIdx !== minIdx) {
+        blackKeys[maxIdx].el.style.transform = 'translateX(12px)';
+      }
+    }
+
+    keyboardEl.appendChild(whiteContainer);
+    keyboardEl.appendChild(blackContainer);
+    attachKeyListeners();
+  }
+
   function buildTapeNotes() {
     // Fixed tape: 4 octaves from (baseOctave-1) to (baseOctave+2) to accommodate hard mode
     const tapeStartOct = state.baseOctave - 1;
@@ -938,12 +1212,6 @@
   }
 
   function buildKeyboard(root, mode) {
-    keyboardEl.innerHTML = '';
-    const whiteContainer = document.createElement('div');
-    whiteContainer.className = 'white-keys';
-    const blackContainer = document.createElement('div');
-    blackContainer.className = 'black-keys';
-
     const rootPc = canonicalPitch(root);
     if (!NOTE_ORDER.includes(rootPc)) return;
 
@@ -952,117 +1220,24 @@
     if (!range) return;
     const notes = tapeNotes.slice(range.startIdx, range.endIdx + 1);
 
-    // determine which pitch-classes belong to the selected major scale
-    const scaleSet = new Set(buildScale(rootPc));
+    renderKeyboardFromTapeItems(notes, rootPc);
+  }
 
-    let whiteCount = notes.reduce((acc, n) => acc + (n.natural ? 1 : 0), 0);
+  function buildKeyboardForKnowKey() {
+    const items = buildFixedOctaveNotesC4toB4();
+    renderKeyboardFromTapeItems(items, null);
+  }
 
-    const firstIsNatural = notes.length > 0 ? notes[0].natural : true;
-    const lastIsNatural = notes.length > 0 ? notes[notes.length - 1].natural : true;
-
-    const leftPlaceholder = firstIsNatural ? 0 : 0.5;
-    const rightPlaceholder = lastIsNatural ? 0 : 0.5;
-
-    const totalSlots = whiteCount + leftPlaceholder + rightPlaceholder;
-    const slotPercent = 100 / totalSlots;
-
-    // Build slots (including placeholders) so we know exact centers
-    const whiteSlots = [];
-    const naturalSlotIndices = [];
-    let slotCursor = 0;
-    let slotIndex = 0;
-
-    if (leftPlaceholder > 0) {
-      const w = leftPlaceholder;
-      const center = (slotCursor + w / 2) * slotPercent;
-      whiteSlots.push({ center, widthSlots: w, placeholder: true });
-      slotCursor += w;
-      slotIndex += 1;
-    }
-
-    for (const item of notes) {
-      if (!item.natural) continue;
-      const center = (slotCursor + 0.5) * slotPercent;
-      whiteSlots.push({ center, widthSlots: 1, placeholder: false, note: item.note, pc: item.pc });
-      naturalSlotIndices.push(slotIndex);
-      slotCursor += 1;
-      slotIndex += 1;
-    }
-
-    if (rightPlaceholder > 0) {
-      const w = rightPlaceholder;
-      const center = (slotCursor + w / 2) * slotPercent;
-      whiteSlots.push({ center, widthSlots: w, placeholder: true });
-      slotCursor += w;
-      slotIndex += 1;
-    }
-
-    // render white keys
-    for (const slot of whiteSlots) {
-      const el = document.createElement('div');
-      el.className = 'key white-key' + (slot.placeholder ? ' placeholder' : '');
-      el.style.width = `${slot.widthSlots * slotPercent}%`;
-      if (!slot.placeholder) {
-        el.dataset.note = slot.note;
-        el.dataset.pc = slot.pc;
-        if (scaleSet.has(slot.pc)) el.classList.add('in-scale');
-        const label = document.createElement('span');
-        label.className = 'key-label';
-        label.textContent = slot.note;
-        el.appendChild(label);
-      }
-      whiteContainer.appendChild(el);
-    }
-
-    // render black keys using centers between adjacent white slots (placeholders included)
-    const blackKeys = [];
-    let naturalsSeen = 0;
-    for (const item of notes) {
-      if (item.natural) {
-        naturalsSeen += 1;
-        continue;
-      }
-      const prevSlotIdx = naturalsSeen === 0 ? 0 : naturalSlotIndices[naturalsSeen - 1];
-      const nextSlotIdx = naturalsSeen < naturalSlotIndices.length ? naturalSlotIndices[naturalsSeen] : whiteSlots.length - 1;
-      const prevCenter = whiteSlots[prevSlotIdx].center;
-      const nextCenter = whiteSlots[nextSlotIdx].center;
-      const center = (prevCenter + nextCenter) / 2;
-      const blackWidthPercent = slotPercent * 0.58;
-      const left = Math.max(0, center - blackWidthPercent / 2);
-
-      const blackKey = document.createElement('div');
-      blackKey.className = 'key black-key';
-      blackKey.dataset.note = item.note;
-      blackKey.dataset.pc = item.pc;
-      if (scaleSet.has(item.pc)) blackKey.classList.add('in-scale');
-      const labelB = document.createElement('span');
-      labelB.className = 'key-label';
-      labelB.textContent = item.note;
-      blackKey.appendChild(labelB);
-      blackKey.style.width = `${blackWidthPercent}%`;
-      blackKey.style.left = `${left}%`;
-
-      blackContainer.appendChild(blackKey);
-      blackKeys.push({ el: blackKey, left });
-    }
-
-    // Shift far-left black key 6px left, far-right black key 12px right (works for 1- and 2-octave)
-    if (blackKeys.length > 0) {
-      let minIdx = 0;
-      let maxIdx = 0;
-      for (let i = 1; i < blackKeys.length; i++) {
-        if (blackKeys[i].left < blackKeys[minIdx].left) minIdx = i;
-        if (blackKeys[i].left > blackKeys[maxIdx].left) maxIdx = i;
-      }
-      blackKeys[minIdx].el.style.transform = 'translateX(-6px)';
-      if (maxIdx !== minIdx) {
-        blackKeys[maxIdx].el.style.transform = 'translateX(12px)';
-      }
-    }
-
-    keyboardEl.appendChild(whiteContainer);
-    keyboardEl.appendChild(blackContainer);
-    attachKeyListeners();
+  function buildKeyboardForKnowScale(rootPc) {
+    const tapeNotes = buildTapeNotes();
+    const rootName = canonicalPitch(rootPc);
+    const rootNote = `${rootName}${state.baseOctave}`;
+    const rootIdxTape = tapeNotes.findIndex(n => n.note === rootNote);
+    if (rootIdxTape === -1) return;
+    const endIdxTape = rootIdxTape + 11;
+    if (endIdxTape >= tapeNotes.length) return;
+    const slice = tapeNotes.slice(rootIdxTape, endIdxTape + 1);
+    renderKeyboardFromTapeItems(slice, rootName);
   }
 
   function attachKeyListeners() {
@@ -1079,7 +1254,7 @@
     highlightKey(note, 'active-user');
     playSample(note);
     if (state.canInput && !state.playing) {
-      handleUserInput(note);
+      handleUserInputForCurrentGame(note);
     }
   }
 
@@ -1148,7 +1323,22 @@
     state.userIndex = 0;
   }
 
-  function handleUserInput(note) {
+  function handleUserInputForCurrentGame(note) {
+    if (state.game === GAMES.memory) {
+      handleUserInputMemory(note);
+      return;
+    }
+    if (state.game === GAMES.knowKey) {
+      handleUserInputKnowKey(note);
+      return;
+    }
+    if (state.game === GAMES.knowScale) {
+      handleUserInputKnowScale(note);
+      return;
+    }
+  }
+
+  function handleUserInputMemory(note) {
     const expected = state.sequence[state.userIndex];
     if (note === expected) {
       state.userIndex += 1;
@@ -1171,7 +1361,230 @@
     }
   }
 
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function handleUserInputKnowKey(note) {
+    const target = state.knowKey.currentNote;
+    if (!target) return;
+    if (note !== target) {
+      endGameOverWrongNote();
+      return;
+    }
+
+    const now = performance.now();
+    const reaction = Math.max(0, now - (state.knowKey.noteStartTs || now));
+    state.knowKey.totalMs += reaction;
+    state.knowKey.roundIndex += 1;
+    state.canInput = false;
+
+    if (state.knowKey.roundIndex >= 12) {
+      const totalMs = Math.floor(state.knowKey.totalMs);
+      statusText.textContent = translate('kk.final', { t: formatTimeMs(totalMs) });
+      saveBestTimeMs('knowKey', totalMs);
+      updateAchievementsUI();
+      setCenterBox('—');
+      if (playBtn) playBtn.textContent = translate('play.restart');
+      return;
+    }
+
+    statusText.textContent = translate('kk.total', {
+      t: formatTimeMs(state.knowKey.totalMs),
+      i: state.knowKey.roundIndex,
+      n: 12,
+    });
+    scheduleNextKnowKeyPrompt();
+  }
+
+  function scheduleNextKnowKeyPrompt() {
+    const myToken = state.seqToken;
+    setTimeout(() => {
+      if (state.gameOver || state.paused || myToken !== state.seqToken) return;
+      nextKnowKeyPrompt();
+    }, 220);
+  }
+
+  async function runCountdown3(myToken, targetStateObj) {
+    targetStateObj.countdownRemaining = 3;
+    while (targetStateObj.countdownRemaining > 0) {
+      if (state.gameOver || state.paused || myToken !== state.seqToken) return false;
+      if (statusText) statusText.textContent = String(targetStateObj.countdownRemaining);
+      await wait(650);
+      targetStateObj.countdownRemaining -= 1;
+    }
+    return true;
+  }
+
+  function startKnowKeyGame() {
+    if (isTouchDevice() && !isLandscape()) {
+      orientationMsg.classList.remove('hidden');
+      return;
+    }
+    ensureAudioUnlocked();
+    hydrateSettings();
+
+    state.sequence = [];
+    state.userIndex = 0;
+    state.started = true;
+    state.gameOver = false;
+    state.paused = false;
+    state.canInput = false;
+    state.playing = false;
+    state.pendingNextRound = false;
+    if (state.nextRoundTimer) {
+      clearTimeout(state.nextRoundTimer);
+      state.nextRoundTimer = null;
+    }
+    document.body.classList.remove('game-over');
+    hideInlineError();
+
+    const myToken = ++state.seqToken;
+    if (playBtn) playBtn.textContent = translate('play.restart');
+    if (pausedBadge) pausedBadge.classList.add('hidden');
+    if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
+
+    state.knowKey.phase = 'countdown';
+    state.knowKey.totalMs = 0;
+    state.knowKey.roundIndex = 0;
+    state.knowKey.currentNote = null;
+    state.knowKey.remainingNotes = shuffle(NOTE_ORDER).map(pc => `${pc}${state.baseOctave}`);
+    setCenterBox('—');
+
+    (async () => {
+      const ok = await runCountdown3(myToken, state.knowKey);
+      if (!ok) return;
+      if (state.gameOver || state.paused || myToken !== state.seqToken) return;
+      state.knowKey.phase = 'running';
+      statusText.textContent = translate('kk.total', { t: formatTimeMs(0), i: 0, n: 12 });
+      nextKnowKeyPrompt();
+    })();
+  }
+
+  function nextKnowKeyPrompt() {
+    if (state.gameOver || state.paused) return;
+    const next = state.knowKey.remainingNotes.pop();
+    if (!next) {
+      const totalMs = Math.floor(state.knowKey.totalMs);
+      statusText.textContent = translate('kk.final', { t: formatTimeMs(totalMs) });
+      saveBestTimeMs('knowKey', totalMs);
+      updateAchievementsUI();
+      setCenterBox('—');
+      state.canInput = false;
+      return;
+    }
+    state.knowKey.currentNote = next;
+    const pc = String(next).replace(/\d+$/, '');
+    setCenterBox(pc);
+    playSample(next);
+    state.knowKey.noteStartTs = performance.now();
+    state.canInput = true;
+  }
+
+  function startKnowScaleGame() {
+    if (isTouchDevice() && !isLandscape()) {
+      orientationMsg.classList.remove('hidden');
+      return;
+    }
+    ensureAudioUnlocked();
+    hydrateSettings();
+
+    state.sequence = [];
+    state.userIndex = 0;
+    state.started = true;
+    state.gameOver = false;
+    state.paused = false;
+    state.canInput = false;
+    state.playing = false;
+    state.pendingNextRound = false;
+    if (state.nextRoundTimer) {
+      clearTimeout(state.nextRoundTimer);
+      state.nextRoundTimer = null;
+    }
+    document.body.classList.remove('game-over');
+    hideInlineError();
+
+    const myToken = ++state.seqToken;
+    if (playBtn) playBtn.textContent = translate('play.restart');
+    if (pausedBadge) pausedBadge.classList.add('hidden');
+    if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
+
+    // Pick a scale root. If Random is selected, each start/restart picks a new root.
+    const rootPc = state.scaleChoice === 'random' ? pickRandom(NOTE_ORDER) : canonicalPitch(state.scaleChoice);
+    if (state.scaleChoice === 'random') state.randomPinnedRoot = rootPc;
+    else state.randomPinnedRoot = null;
+    state.scaleRoot = rootPc;
+    state.knowScale.rootPc = rootPc;
+
+    // Build the exact 7-note major scale in ascending pitch (may cross octave)
+    const tapeNotes = buildTapeNotes();
+    const rootNote = `${rootPc}${state.baseOctave}`;
+    const rootIdxTape = tapeNotes.findIndex(n => n.note === rootNote);
+    if (rootIdxTape === -1) {
+      showInlineError(translate('error.noPlayable'));
+      return;
+    }
+    const scaleNotes = MAJOR_STEPS.map(step => {
+      const idx = rootIdxTape + step;
+      return tapeNotes[idx] ? tapeNotes[idx].note : null;
+    }).filter(Boolean);
+    if (scaleNotes.length !== 7) {
+      showInlineError(translate('error.noPlayable'));
+      return;
+    }
+    state.knowScale.scaleNotes = scaleNotes;
+    state.knowScale.expectedIndex = 0;
+    state.knowScale.startTs = performance.now();
+    state.knowScale.phase = 'running';
+
+    // Keyboard range is root -> 7th (no higher root)
+    buildKeyboardForKnowScale(rootPc);
+    state.visibleNotesSet = new Set(
+      Array.from(keyboardEl.querySelectorAll('.key[data-note]')).map(el => el.dataset.note)
+    );
+
+    setCenterBox(scaleDisplayName(rootPc));
+    statusText.textContent = translate('ks.time', { t: formatTimeMs(0), i: 0 });
+    state.canInput = true;
+    updateInfoTexts();
+    updateAchievementsUI();
+    if (myToken !== state.seqToken) return;
+  }
+
+  function handleUserInputKnowScale(note) {
+    const expected = state.knowScale.scaleNotes[state.knowScale.expectedIndex];
+    if (!expected) return;
+    if (note !== expected) {
+      endGameOverWrongNote();
+      return;
+    }
+
+    state.knowScale.expectedIndex += 1;
+    const elapsed = Math.max(0, performance.now() - (state.knowScale.startTs || performance.now()));
+    if (state.knowScale.expectedIndex >= 7) {
+      const totalMs = Math.floor(elapsed);
+      statusText.textContent = translate('ks.final', { t: formatTimeMs(totalMs) });
+      saveBestTimeMs('knowScale', totalMs);
+      updateAchievementsUI();
+      state.canInput = false;
+      if (playBtn) playBtn.textContent = translate('play.restart');
+      return;
+    }
+
+    statusText.textContent = translate('ks.time', {
+      t: formatTimeMs(elapsed),
+      i: state.knowScale.expectedIndex,
+    });
+  }
+
   function endGameOverWrongNote() {
+    // Cancel any in-flight async loops (countdowns, prompts)
+    state.seqToken++;
     state.canInput = false;
     state.playing = false;
     state.gameOver = true;
@@ -1193,6 +1606,23 @@
 
   function pauseGameForPortrait() {
     if (!state.started || state.gameOver) return;
+
+    if (state.game !== GAMES.memory) {
+      state.paused = true;
+      state.pausedPhase = 'input';
+      state.canInput = false;
+      state.playing = false;
+      state.seqToken++;
+      if (state.game === GAMES.knowKey) state.knowKey.pauseAt = performance.now();
+      if (state.game === GAMES.knowScale) state.knowScale.pauseAt = performance.now();
+      if (statusText) statusText.textContent = translate('status.paused');
+      if (pausedBadge) pausedBadge.classList.remove('hidden');
+      if (pausedBadgePortrait) {
+        positionPausedPortraitBadge();
+        pausedBadgePortrait.classList.remove('hidden');
+      }
+      return;
+    }
 
     state.paused = true;
     state.pausedPhase = state.pendingNextRound ? 'between' : (state.playing ? 'sequence' : 'input');
@@ -1216,6 +1646,43 @@
 
   function resumeGameFromPause() {
     if (!state.started || state.gameOver || !state.paused) return;
+
+    if (state.game !== GAMES.memory) {
+      state.paused = false;
+      if (pausedBadge) pausedBadge.classList.add('hidden');
+      if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
+
+      const now = performance.now();
+      if (state.game === GAMES.knowKey) {
+        if (state.knowKey.pauseAt) {
+          const delta = now - state.knowKey.pauseAt;
+          if (state.knowKey.noteStartTs) state.knowKey.noteStartTs += delta;
+          state.knowKey.pauseAt = 0;
+        }
+        state.canInput = state.knowKey.phase === 'running';
+        statusText.textContent = translate('kk.total', {
+          t: formatTimeMs(state.knowKey.totalMs),
+          i: state.knowKey.roundIndex,
+          n: 12,
+        });
+        return;
+      }
+
+      if (state.game === GAMES.knowScale) {
+        if (state.knowScale.pauseAt) {
+          const delta = now - state.knowScale.pauseAt;
+          if (state.knowScale.startTs) state.knowScale.startTs += delta;
+          state.knowScale.pauseAt = 0;
+        }
+        const elapsed = Math.max(0, now - (state.knowScale.startTs || now));
+        statusText.textContent = translate('ks.time', {
+          t: formatTimeMs(elapsed),
+          i: state.knowScale.expectedIndex,
+        });
+        state.canInput = state.knowScale.phase === 'running';
+        return;
+      }
+    }
 
     state.paused = false;
     if (pausedBadge) pausedBadge.classList.add('hidden');
@@ -1273,6 +1740,7 @@
   }
 
   function startGame(force = false) {
+    // Memory game start
     if (!force && isTouchDevice() && !isLandscape()) {
       orientationMsg.classList.remove('hidden');
       return;
@@ -1301,7 +1769,23 @@
     nextRound();
   }
 
+  function startCurrentGame(force = false) {
+    if (state.game === GAMES.memory) {
+      startGame(force);
+      return;
+    }
+    if (state.game === GAMES.knowKey) {
+      startKnowKeyGame();
+      return;
+    }
+    if (state.game === GAMES.knowScale) {
+      startKnowScaleGame();
+      return;
+    }
+  }
+
   function restartGame() {
+    // Memory game restart
     // On phones, portrait is the home/settings screen. Restarting here should
     // reset the run but keep it paused until the user returns to landscape.
     if (isTouchDevice() && !isLandscape()) {
@@ -1345,6 +1829,29 @@
     nextRound();
   }
 
+  function restartCurrentGame() {
+    if (state.game === GAMES.memory) {
+      restartGame();
+      return;
+    }
+    // For the new games, restart simply re-runs start logic.
+    if (isTouchDevice() && !isLandscape()) {
+      // Match Memory behavior: keep as a paused run until landscape
+      state.started = true;
+      state.gameOver = false;
+      state.paused = true;
+      state.pausedPhase = 'input';
+      state.canInput = false;
+      state.playing = false;
+      state.seqToken++;
+      document.body.classList.remove('game-over');
+      hideInlineError();
+      if (statusText) statusText.textContent = '';
+      return;
+    }
+    startCurrentGame(true);
+  }
+
   function goHome() {
     // stop current game and return to portrait home screen
     state.sequence = [];
@@ -1365,6 +1872,7 @@
       if (pausedBadge) pausedBadge.classList.add('hidden');
       if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
     playBtn.textContent = translate('play.play');
+    setCenterBox(null);
     showPortrait();
   }
 
@@ -1442,8 +1950,13 @@
         const saved = localStorage.getItem('pianomem_show_assist');
         if (saved !== null) assistToggle.checked = saved === '1';
       } catch (e) {}
+      state.showNoteNamesPref = !!assistToggle.checked;
       applyAssistState(assistToggle.checked);
-      assistToggle.addEventListener('change', () => applyAssistState(assistToggle.checked));
+      assistToggle.addEventListener('change', () => {
+        state.showNoteNamesPref = !!assistToggle.checked;
+        applyAssistState(assistToggle.checked);
+        applyGameUiConstraints();
+      });
       // initialize selected-scale-only control
       if (selectedScaleOnlyEl) {
         try {
@@ -1456,13 +1969,13 @@
     }
     playBtn.addEventListener('click', () => {
       ensureAudioUnlocked();
-      if (!state.started) startGame();
-      else restartGame();
+      if (!state.started) startCurrentGame();
+      else restartCurrentGame();
     });
     if (desktopPlayBtn) {
       desktopPlayBtn.addEventListener('click', () => {
         showLandscape();
-        startGame(true);
+        startCurrentGame(true);
       });
     }
     if (homeBtn) homeBtn.addEventListener('click', goHome);
@@ -1494,6 +2007,14 @@
       hydrateSettings();
     });
 
+    // Game selection
+    if (gameInputs && gameInputs.length) {
+      gameInputs.forEach(r => r.addEventListener('change', () => {
+        const v = gameInputs.find(x => x.checked)?.value || GAMES.memory;
+        setGame(v);
+      }));
+    }
+
     modeInputs.forEach(r => r.addEventListener('change', hydrateSettings));
     window.addEventListener('orientationchange', ensureOrientation);
     window.addEventListener('resize', ensureOrientation);
@@ -1523,8 +2044,14 @@
   }
 
   function hydrateSettings() {
+    // Game selection may not exist on older markup
+    if (gameInputs && gameInputs.length) {
+      state.game = gameInputs.find(r => r.checked)?.value || state.game || GAMES.memory;
+    }
     state.mode = modeInputs.find(r => r.checked)?.value || 'normal';
     state.scaleChoice = scaleSelect.value;
+
+    applyGameUiConstraints();
 
     if (state.scaleChoice === 'random') {
       if (!state.randomPinnedRoot) {
@@ -1536,7 +2063,14 @@
       state.scaleRoot = canonicalPitch(state.scaleChoice);
     }
 
-    buildKeyboard(state.scaleRoot, state.mode);
+    // Build the keyboard for the selected game
+    if (state.game === GAMES.memory) {
+      buildKeyboard(state.scaleRoot, state.mode);
+    } else if (state.game === GAMES.knowKey) {
+      buildKeyboardForKnowKey();
+    } else if (state.game === GAMES.knowScale) {
+      buildKeyboardForKnowScale(state.scaleRoot);
+    }
     state.visibleNotesSet = new Set(
       Array.from(keyboardEl.querySelectorAll('.key[data-note]')).map(el => el.dataset.note)
     );
@@ -1547,6 +2081,59 @@
     // If the user changes game-related settings while paused in portrait, end the paused run.
     if (!isLandscape() && state.started && state.paused) {
       goHome();
+    }
+  }
+
+  function setGame(gameValue) {
+    const v = String(gameValue || '').trim();
+    if (!Object.values(GAMES).includes(v)) return;
+    state.game = v;
+    try { localStorage.setItem(GAME_STORAGE_KEY, v); } catch (e) {}
+    // Changing game always resets any paused run (matches memory behavior when changing settings)
+    if (!isLandscape() && state.started && state.paused) {
+      goHome();
+      return;
+    }
+    hydrateSettings();
+    updateInfoTexts();
+    updateAchievementsUI();
+  }
+
+  function applyGameUiConstraints() {
+    // Mode controls only apply to Memory
+    const isMemory = state.game === GAMES.memory;
+    if (memoryModeHalf) {
+      if (isMemory) memoryModeHalf.classList.remove('is-disabled');
+      else memoryModeHalf.classList.add('is-disabled');
+    }
+    modeInputs.forEach((el) => {
+      try { el.disabled = !isMemory; } catch (e) {}
+    });
+
+    // Scale selector stays enabled; Know the key ignores it, Know the scale uses it.
+
+    // Show note names must be disabled in new games (without overwriting user preference)
+    const forceNoLabels = state.game !== GAMES.memory;
+    if (assistToggle) {
+      try { assistToggle.disabled = forceNoLabels; } catch (e) {}
+    }
+
+    if (forceNoLabels) {
+      document.body.classList.add('assist-hidden');
+      if (selectedScaleOnlyWrap) selectedScaleOnlyWrap.style.display = 'none';
+      if (selectedScaleOnlyEl) {
+        try { selectedScaleOnlyEl.disabled = true; } catch (e) {}
+      }
+      document.body.classList.remove('assist-selected-only');
+    } else {
+      // Restore based on preference
+      document.body.classList.toggle('assist-hidden', !state.showNoteNamesPref);
+      if (selectedScaleOnlyWrap) selectedScaleOnlyWrap.style.display = state.showNoteNamesPref ? 'flex' : 'none';
+      if (selectedScaleOnlyEl) {
+        try { selectedScaleOnlyEl.disabled = !state.showNoteNamesPref; } catch (e) {}
+      }
+      if (state.showNoteNamesPref && state.selectedScaleOnly) document.body.classList.add('assist-selected-only');
+      else document.body.classList.remove('assist-selected-only');
     }
   }
 
@@ -1575,8 +2162,29 @@
 
 
   function updateInfoTexts() {
-    if (selectedScaleEl) selectedScaleEl.textContent = translate('scale.prefix', { name: scaleDisplayName(state.scaleRoot) });
-    if (selectedModeEl) selectedModeEl.textContent = translate('mode.prefix', { name: modeLabel(state.mode) });
+    if (state.game === GAMES.memory) {
+      setCenterBox(null);
+      setElHidden(selectedScaleEl, false);
+      setElHidden(selectedModeEl, false);
+      setElHidden(levelDisplay && levelDisplay.parentElement ? levelDisplay.parentElement : null, false);
+      if (selectedScaleEl) selectedScaleEl.textContent = translate('scale.prefix', { name: scaleDisplayName(state.scaleRoot) });
+      if (selectedModeEl) selectedModeEl.textContent = translate('mode.prefix', { name: modeLabel(state.mode) });
+      return;
+    }
+
+    // New games
+    setElHidden(selectedScaleEl, true);
+    setElHidden(selectedModeEl, true);
+    setElHidden(levelDisplay && levelDisplay.parentElement ? levelDisplay.parentElement : null, true);
+
+    if (state.game === GAMES.knowKey) {
+      // centerBox is managed by the game loop
+      return;
+    }
+    if (state.game === GAMES.knowScale) {
+      setCenterBox(scaleDisplayName(state.scaleRoot));
+      return;
+    }
   }
 
   function showInlineError(msg) {
@@ -1608,6 +2216,17 @@
   applyLanguage(getStoredLang());
   registerServiceWorker();
   showPortrait();
+
+  // Restore saved game selection
+  try {
+    const savedGame = localStorage.getItem(GAME_STORAGE_KEY);
+    if (savedGame && gameInputs && gameInputs.length) {
+      const match = gameInputs.find(r => r.value === savedGame);
+      if (match) match.checked = true;
+      state.game = match ? match.value : GAMES.memory;
+    }
+  } catch (e) {}
+
   // default to Random key on first load
   try { scaleSelect.value = 'random'; } catch (e) {}
   state.scaleChoice = 'random';
