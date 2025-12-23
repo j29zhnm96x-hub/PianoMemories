@@ -142,7 +142,6 @@
 
         <div class="lang-row">
           <button id="lang-btn" class="lang-chip" type="button" aria-label="Language">EN</button>
-          <div id="paused-badge-portrait" class="paused-badge hidden" data-i18n="status.paused">Paused</div>
         </div>
         <div class="actions desktop-only">
           <button id="desktop-play-btn" class="primary" data-i18n="home.play">Play</button>
@@ -179,6 +178,9 @@
             <a class="help-link" href="#help-what" data-i18n="help.idx.what">What is PianoMemories?</a>
             <a class="help-link" href="#help-benefits" data-i18n="help.idx.benefits">How it helps you</a>
             <a class="help-link" href="#help-how" data-i18n="help.idx.how">How to play</a>
+            <a class="help-link" href="#help-games" data-i18n="help.idx.games">Games</a>
+            <a class="help-link" href="#help-know-key" data-i18n="help.idx.knowKey">Know the key</a>
+            <a class="help-link" href="#help-know-scale" data-i18n="help.idx.knowScale">Know the scale</a>
             <a class="help-link" href="#help-scale" data-i18n="help.idx.scale">Scale & Random key</a>
             <a class="help-link" href="#help-modes" data-i18n="help.idx.modes">Modes (Easy / Normal / Hard)</a>
             <a class="help-link" href="#help-play" data-i18n="help.idx.play">Play screen</a>
@@ -196,22 +198,49 @@
 
           <h2 id="help-how" class="help-h2" data-i18n="help.how.title">How to play</h2>
           <ol class="help-ol">
-            <li data-i18n="help.how.li1">Choose a major key (or Random key).</li>
-            <li data-i18n="help.how.li2">Select a mode (Easy / Normal / Hard).</li>
-            <li data-i18n="help.how.li3">Flip your phone to landscape and tap Play.</li>
-            <li data-i18n="help.how.li4">Listen to the sequence (blue highlights), then repeat it (your taps highlight in red).</li>
-            <li data-i18n="help.how.li5">Each round adds one new note to the end of the sequence.</li>
+            <li data-i18n="help.how.li1">Choose a game (Memory / Know the key / Know the scale).</li>
+            <li data-i18n="help.how.li2">Choose a Scale (used by Memory and Know the scale).</li>
+            <li data-i18n="help.how.li3">If you play Memory, choose a Mode (Easy / Normal / Hard).</li>
+            <li data-i18n="help.how.li4">Flip your phone to landscape and tap Play.</li>
+            <li data-i18n="help.how.li5">Follow the prompt in the top bar and tap the correct keys.</li>
+          </ol>
+
+          <h2 id="help-games" class="help-h2" data-i18n="help.games.title">Games</h2>
+          <ul class="help-ul">
+            <li data-i18n="help.games.li1"><strong>Memory</strong>: the app plays a growing sequence and you repeat it.</li>
+            <li data-i18n="help.games.li2"><strong>Know the key</strong>: reaction-time trainer for finding random notes.</li>
+            <li data-i18n="help.games.li3"><strong>Know the scale</strong>: speed trainer for playing a major scale in order.</li>
+            <li data-i18n="help.games.li4"><strong>Modes</strong> apply only to Memory.</li>
+          </ul>
+
+          <h2 id="help-know-key" class="help-h2" data-i18n="help.knowKey.title">Know the key</h2>
+          <ol class="help-ol">
+            <li data-i18n="help.knowKey.li1">Tap <strong>Play</strong> to start a 3-2-1 countdown.</li>
+            <li data-i18n="help.knowKey.li2">A note name appears in the middle box (example: <strong>C#</strong>) and its tone plays.</li>
+            <li data-i18n="help.knowKey.li3">Tap the matching key as fast as you can.</li>
+            <li data-i18n="help.knowKey.li4">There are 12 rounds (each note appears once). A wrong tap ends the run.</li>
+            <li data-i18n="help.knowKey.li5">Your total time is shown at the end and saved as your best.</li>
+          </ol>
+
+          <h2 id="help-know-scale" class="help-h2" data-i18n="help.knowScale.title">Know the scale</h2>
+          <ol class="help-ol">
+            <li data-i18n="help.knowScale.li1">Choose a Scale (or Random key) and tap <strong>Play</strong>.</li>
+            <li data-i18n="help.knowScale.li2">The middle box shows the scale name (example: <strong>D Major</strong>).</li>
+            <li data-i18n="help.knowScale.li3">Play the 7 notes of the major scale in exact order starting from the root.</li>
+            <li data-i18n="help.knowScale.li4">A wrong note or wrong order ends the run.</li>
+            <li data-i18n="help.knowScale.li5">Your time is measured for the whole 7-note sequence and saved as your best.</li>
           </ol>
 
           <h2 id="help-scale" class="help-h2" data-i18n="help.scale.title">Scale & Random key</h2>
           <ul class="help-ul">
-            <li data-i18n="help.scale.li1"><strong>Major scale notes only</strong>: the game picks notes only from the selected major key, so you practice inside that key.</li>
-            <li data-i18n="help.scale.li2"><strong>Random key</strong>: chooses one major key for the session and keeps it until you change the Scale setting.</li>
-            <li data-i18n="help.scale.li3"><strong>Keyboard window</strong>: the visible keyboard always starts at the selected root note and expands based on the selected mode.</li>
+            <li data-i18n="help.scale.li1"><strong>Memory</strong>: the game picks notes only from the selected major key, so you practice inside that key.</li>
+            <li data-i18n="help.scale.li2"><strong>Know the scale</strong>: uses the selected Scale; if set to Random key, each restart picks a new scale.</li>
+            <li data-i18n="help.scale.li3"><strong>Know the key</strong>: the Scale setting is ignored (the keyboard is always C4–B4).</li>
           </ul>
 
-          <h2 id="help-modes" class="help-h2" data-i18n="help.modes.title">Modes (Easy / Normal / Hard)</h2>
+          <h2 id="help-modes" class="help-h2" data-i18n="help.modes.title">Modes (Memory)</h2>
           <ul class="help-ul">
+            <li data-i18n="help.modes.li0"><strong>Modes</strong> only affect the Memory game.</li>
             <li data-i18n="help.modes.li1"><strong>Easy (fifth)</strong>: a smaller keyboard window from the root up to the fifth.</li>
             <li data-i18n="help.modes.li2"><strong>Normal (1 octave)</strong>: notes span one octave from the root.</li>
             <li data-i18n="help.modes.li3"><strong>Hard (2 octaves)</strong>: notes span two octaves from the root.</li>
@@ -219,22 +248,24 @@
 
           <h2 id="help-play" class="help-h2" data-i18n="help.play.title">Play screen</h2>
           <ul class="help-ul">
-            <li data-i18n="help.play.li1"><strong>Top bar</strong>: shows status, selected scale, mode, current level, and <strong>Max</strong> (your best level for the current mode).</li>
+            <li data-i18n="help.play.li1"><strong>Top bar</strong>: shows status and a prompt for the current game. Memory shows Scale/Mode/Level; the other games show a center prompt box.</li>
             <li data-i18n="help.play.li2"><strong>Blue highlight</strong>: shows notes played by the app during the sequence.</li>
             <li data-i18n="help.play.li3"><strong>Red highlight</strong>: shows your taps while repeating the sequence.</li>
+            <li data-i18n="help.play.li4"><strong>Max</strong>: shows your best result for the selected game (best level for Memory, best time for the other games).</li>
           </ul>
 
           <h2 id="help-settings" class="help-h2" data-i18n="help.settings.title">Settings</h2>
           <ul class="help-ul">
-            <li data-i18n="help.settings.li1"><strong>Show note names</strong>: shows labels on the keys.</li>
+            <li data-i18n="help.settings.li0"><strong>Show note names</strong> is disabled in Know the key and Know the scale.</li>
+            <li data-i18n="help.settings.li1"><strong>Show note names</strong>: shows labels on the keys (Memory only).</li>
             <li data-i18n="help.settings.li2"><strong>Selected Major scale only</strong>: when enabled, only notes that belong to the selected major key show labels (useful for learning the scale).</li>
             <li data-i18n="help.settings.li3"><strong>Sound on</strong>: enables piano samples (or a fallback tone if missing).</li>
           </ul>
 
           <h2 id="help-achievements" class="help-h2" data-i18n="help.ach.title">Achievements & Max</h2>
           <ul class="help-ul">
-            <li data-i18n="help.ach.li1"><strong>Achievements</strong> on the home screen show your best result for Easy, Normal, and Hard.</li>
-            <li data-i18n="help.ach.li2"><strong>Max</strong> (green) on the play screen shows the best result for the currently selected mode.</li>
+            <li data-i18n="help.ach.li1"><strong>Achievements</strong> on the home screen show best levels for Memory modes and best times for the other games.</li>
+            <li data-i18n="help.ach.li2"><strong>Max</strong> (green) on the play screen shows the best for the currently selected game.</li>
           </ul>
 
           <h2 id="help-mistakes" class="help-h2" data-i18n="help.mistakes.title">Mistakes & restart</h2>
@@ -259,7 +290,6 @@
         <button id="home-btn" class="ghost" data-i18n="play.home">Home</button>
         <div class="top-info">
           <span id="status-text" class="status-text" data-i18n="play.ready">Ready</span>
-          <span id="paused-badge" class="paused-badge hidden" data-i18n="status.paused">Paused</span>
           <span id="center-box" class="center-box hidden" aria-live="polite">—</span>
           <span id="selected-scale" class="info-text info-scale">Scale: —</span>
           <span id="selected-mode" class="info-text info-mode">Mode: —</span>
