@@ -12,7 +12,6 @@
   const assistToggle = document.getElementById('assist-toggle');
   const selectedScaleOnlyEl = document.getElementById('selected-scale-only');
   const selectedScaleOnlyWrap = document.getElementById('selected-scale-only-wrap');
-  const soundToggle = document.getElementById('sound-toggle');
   const flipHint = document.getElementById('flip-hint');
   const orientationMsg = document.getElementById('orientation-message');
   const portraitScreen = document.getElementById('portrait-screen');
@@ -83,7 +82,7 @@
       'home.settings': 'Settings',
       'settings.showNoteNames': 'Show note names',
       'settings.scaleOnly': 'Selected Major scale only',
-      'settings.soundOn': 'Sound on',
+      /* sound always on; key removed */
 
       'home.achievements': 'Achievements',
       'ach.easy': 'Easy best',
@@ -163,7 +162,7 @@
         'help.settings.li0': '<strong>Show note names</strong> is disabled in Know the key and Know the scale.',
         'help.settings.li1': '<strong>Show note names</strong>: shows labels on the keys (Memory only).',
       'help.settings.li2': '<strong>Selected Major scale only</strong>: when enabled, only notes that belong to the selected major key show labels (useful for learning the scale).',
-      'help.settings.li3': '<strong>Sound on</strong>: enables piano samples (or a fallback tone if missing).',
+      'help.settings.li3': 'Audio uses piano samples (or a fallback tone if missing).',
       'help.ach.title': 'Achievements & Max',
         'help.ach.li1': '<strong>Achievements</strong> on the home screen show best levels for Memory modes and best times for the other games.',
         'help.ach.li2': '<strong>Max</strong> (green) on the play screen shows the best for the currently selected game.',
@@ -238,7 +237,7 @@
       'home.settings': 'Postavke',
       'settings.showNoteNames': 'Prikaži nazive nota',
       'settings.scaleOnly': 'Samo odabrana durska ljestvica',
-      'settings.soundOn': 'Zvuk uključen',
+      /* sound always on; key removed */
 
       'home.achievements': 'Postignuća',
       'ach.easy': 'Najbolje (Lako)',
@@ -318,7 +317,7 @@
       'help.settings.li0': '<strong>Prikaži nazive nota</strong> je onemogućeno u Know the key i Know the scale.',
       'help.settings.li1': '<strong>Prikaži nazive nota</strong>: prikazuje oznake na tipkama (samo Memory).',
       'help.settings.li2': '<strong>Samo odabrana durska ljestvica</strong>: kad je uključeno, oznake se prikazuju samo za note u odabranoj ljestvici.',
-      'help.settings.li3': '<strong>Zvuk uključen</strong>: koristi uzorke klavira (ili zamjenski ton ako nedostaju).',
+      'help.settings.li3': 'Audio koristi uzorke klavira (ili zamjenski ton ako nedostaju).',
       'help.ach.title': 'Postignuća i Maks',
       'help.ach.li1': '<strong>Postignuća</strong> prikazuju najbolje razine za Memory načine i najbolja vremena za ostale igre.',
       'help.ach.li2': '<strong>Maks</strong> (zeleno) prikazuje najbolje za trenutno odabranu igru.',
@@ -393,7 +392,7 @@
       'home.settings': 'Ustawienia',
       'settings.showNoteNames': 'Pokaż nazwy nut',
       'settings.scaleOnly': 'Tylko wybrana skala durowa',
-      'settings.soundOn': 'Dźwięk włączony',
+      /* sound always on; key removed */
 
       'home.achievements': 'Osiągnięcia',
       'ach.easy': 'Najlepszy (Łatwy)',
@@ -473,7 +472,7 @@
       'help.settings.li0': '<strong>Pokaż nazwy nut</strong> jest wyłączone w Know the key i Know the scale.',
       'help.settings.li1': '<strong>Pokaż nazwy nut</strong>: wyświetla etykiety na klawiszach (tylko Memory).',
       'help.settings.li2': '<strong>Tylko wybrana skala durowa</strong>: gdy włączone, etykiety pokazują się tylko dla nut należących do wybranej skali.',
-      'help.settings.li3': '<strong>Dźwięk włączony</strong>: używa sampli fortepianu (lub tonu zastępczego, jeśli brak).',
+      'help.settings.li3': 'Audio używa sampli fortepianu (lub tonu zastępczego, jeśli brak).',
       'help.ach.title': 'Osiągnięcia i Max',
       'help.ach.li1': '<strong>Osiągnięcia</strong> pokazują najlepsze poziomy dla trybów Memory oraz najlepsze czasy dla pozostałych gier.',
       'help.ach.li2': '<strong>Max</strong> (zielone) pokazuje najlepszy wynik dla aktualnie wybranej gry.',
@@ -548,7 +547,7 @@
       'home.settings': 'Impostazioni',
       'settings.showNoteNames': 'Mostra i nomi delle note',
       'settings.scaleOnly': 'Solo la scala maggiore selezionata',
-      'settings.soundOn': 'Audio attivo',
+      /* sound always on; key removed */
 
       'home.achievements': 'Traguardi',
       'ach.easy': 'Migliore (Facile)',
@@ -628,7 +627,7 @@
       'help.settings.li0': '<strong>Mostra i nomi delle note</strong> è disattivato in Know the key e Know the scale.',
       'help.settings.li1': '<strong>Mostra i nomi delle note</strong>: mostra le etichette sui tasti (solo Memory).',
       'help.settings.li2': '<strong>Solo la scala maggiore selezionata</strong>: se attivo, mostra etichette solo per le note della scala selezionata.',
-      'help.settings.li3': '<strong>Audio attivo</strong>: abilita i campioni di pianoforte (o un tono di fallback).',
+      'help.settings.li3': "L'audio usa campioni di pianoforte (o un tono di fallback).",
       'help.ach.title': 'Traguardi e Max',
       'help.ach.li1': '<strong>Traguardi</strong> nella home mostrano i migliori livelli per le modalità di Memory e i migliori tempi per gli altri giochi.',
       'help.ach.li2': '<strong>Max</strong> (verde) mostra il migliore per il gioco selezionato.',
@@ -703,7 +702,7 @@
       'home.settings': 'Ajustes',
       'settings.showNoteNames': 'Mostrar nombres de notas',
       'settings.scaleOnly': 'Solo la escala mayor seleccionada',
-      'settings.soundOn': 'Sonido activado',
+      /* sound always on; key removed */
 
       'home.achievements': 'Logros',
       'ach.easy': 'Mejor (Fácil)',
@@ -783,7 +782,7 @@
       'help.settings.li0': '<strong>Mostrar nombres de notas</strong> está desactivado en Know the key y Know the scale.',
       'help.settings.li1': '<strong>Mostrar nombres de notas</strong>: muestra etiquetas en las teclas (solo Memory).',
       'help.settings.li2': '<strong>Solo la escala mayor seleccionada</strong>: si está activado, muestra etiquetas solo para notas de la escala seleccionada.',
-      'help.settings.li3': '<strong>Sonido activado</strong>: habilita muestras de piano (o un tono de respaldo).',
+      'help.settings.li3': 'El audio usa muestras de piano (o un tono de respaldo).',
       'help.ach.title': 'Logros y Max',
       'help.ach.li1': '<strong>Logros</strong> muestran los mejores niveles para los modos de Memory y los mejores tiempos para los otros juegos.',
       'help.ach.li2': '<strong>Max</strong> (verde) muestra el mejor resultado para el juego seleccionado.',
@@ -1113,7 +1112,7 @@
   }
 
   async function playSample(note) {
-    if (!soundToggle.checked) return;
+    // Sound is always enabled.
     ensureAudioUnlocked();
     const src = noteToFile(note);
     if (!audioCache.has(src)) {
