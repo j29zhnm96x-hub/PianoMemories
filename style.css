@@ -72,7 +72,8 @@ body {
   display: grid;
   gap: 10px;
   min-height: 0;
-  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding-right: 0;
 }
 
@@ -90,6 +91,7 @@ body {
 }
 
 .header-row {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -254,7 +256,7 @@ select {
 
 .achievements {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   font-size: 14px;
 }
 
