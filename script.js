@@ -2151,21 +2151,24 @@
     ensureAudioUnlocked();
     if (!audioCtx) return Promise.resolve();
     const perNoteGain = Math.min(0.18, 0.50 / notes.length);
+    const strumDelay = 0.03; // 30ms between each note — fast arpeggio
     return new Promise(resolve => {
       try {
         const now = audioCtx.currentTime;
-        const end = now + durationSec;
-        const oscs = notes.map(note => {
+        const lastStart = now + strumDelay * (notes.length - 1);
+        const end = lastStart + durationSec;
+        const oscs = notes.map((note, i) => {
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
+          const noteStart = now + strumDelay * i;
           osc.type = 'triangle';
           osc.frequency.value = noteToFreq(note);
-          gain.gain.setValueAtTime(0.001, now);
-          gain.gain.exponentialRampToValueAtTime(perNoteGain, now + 0.03);
+          gain.gain.setValueAtTime(0.001, noteStart);
+          gain.gain.exponentialRampToValueAtTime(perNoteGain, noteStart + 0.03);
           gain.gain.setValueAtTime(perNoteGain, end - 0.08);
           gain.gain.exponentialRampToValueAtTime(0.0001, end);
           osc.connect(gain).connect(audioCtx.destination);
-          osc.start(now);
+          osc.start(noteStart);
           osc.stop(end);
           return osc;
         });
