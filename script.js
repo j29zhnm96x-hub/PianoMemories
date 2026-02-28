@@ -31,12 +31,23 @@
   const bestHardEl = document.getElementById('best-hard');
   const bestKnowKeyEl = document.getElementById('best-know-key');
   const bestKnowScaleEl = document.getElementById('best-know-scale');
+  const bestEarTrainerEl = document.getElementById('best-ear-trainer');
   const maxDisplayEl = document.getElementById('max-display');
   const memoryModeHalf = document.getElementById('memory-mode-half');
   const helpBtn = document.getElementById('help-btn');
   const helpBackBtn = document.getElementById('help-back-btn');
   const langBtn = document.getElementById('lang-btn');
   const langModal = document.getElementById('lang-modal');
+  const keyboardWrapper = document.getElementById('keyboard-wrapper');
+  const earPanel = document.getElementById('ear-panel');
+  const earBtnUp = document.getElementById('ear-btn-up');
+  const earBtnDown = document.getElementById('ear-btn-down');
+  const earSpeaker = document.getElementById('ear-speaker');
+  const chordPanel = document.getElementById('chord-panel');
+  const chordButtons = document.getElementById('chord-buttons');
+  const chordSpeaker = document.getElementById('chord-speaker');
+  const chordExtensions = document.getElementById('chord-extensions');
+  const bestGuessChordEl = document.getElementById('best-guess-chord');
 
   const NOTE_ORDER = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   const FLAT_TO_SHARP = { Db: 'C#', Eb: 'D#', Gb: 'F#', Ab: 'G#', Bb: 'A#' };
@@ -60,6 +71,8 @@
       'game.memory': 'Memory',
       'game.knowKey': 'Know the key',
       'game.knowScale': 'Know the scale',
+      'game.earTrainer': 'Ear trainer',
+      'game.guessChord': 'Guess the chord',
       'scale.random': 'Random key',
       'scale.C': 'C Major',
       'scale.C#': 'C# Major',
@@ -90,6 +103,8 @@
       'ach.hard': 'Hard best',
       'ach.knowKey': 'Know the key best',
       'ach.knowScale': 'Know the scale best',
+      'ach.earTrainer': 'Ear trainer best',
+      'ach.guessChord': 'Guess the chord best',
 
       'home.flip': 'FLIP THE PHONE TO PLAY',
       'home.play': 'Play',
@@ -106,6 +121,8 @@
         'help.idx.games': 'Games',
         'help.idx.knowKey': 'Know the key',
         'help.idx.knowScale': 'Know the scale',
+        'help.idx.earTrainer': 'Ear trainer',
+        'help.idx.guessChord': 'Guess the chord',
       'help.idx.scale': 'Scale & Random key',
         'help.idx.modes': 'Modes (Memory)',
       'help.idx.play': 'Play screen',
@@ -129,7 +146,9 @@
         'help.games.li1': '<strong>Memory</strong>: the app plays a growing sequence and you repeat it.',
         'help.games.li2': '<strong>Know the key</strong>: reaction-time trainer for finding random notes.',
         'help.games.li3': '<strong>Know the scale</strong>: speed trainer for playing a major scale in order.',
-        'help.games.li4': '<strong>Modes</strong> apply only to Memory.',
+        'help.games.li4': '<strong>Ear trainer</strong>: pitch discrimination game — guess if a tone is higher or lower than middle C.',
+        'help.games.li5': '<strong>Guess the chord</strong>: identify diatonic chords of C major by ear.',
+        'help.games.li6': '<strong>Modes</strong> apply only to Memory.',
 
         'help.knowKey.title': 'Know the key',
         'help.knowKey.li1': 'Tap <strong>Play</strong> to start a 3-2-1 countdown.',
@@ -144,6 +163,22 @@
         'help.knowScale.li3': 'Play the 7 notes of the major scale in exact order starting from the root.',
         'help.knowScale.li4': 'A wrong note or wrong order ends the run.',
         'help.knowScale.li5': 'Timing starts when you tap the first note (root). Your total time is saved as your best.',
+
+        'help.earTrainer.title': 'Ear trainer',
+        'help.earTrainer.li1': 'Tap <strong>Play</strong> to start.',
+        'help.earTrainer.li2': 'You hear a reference tone (middle C, ~261 Hz) for one second, then a short pause, then a test tone.',
+        'help.earTrainer.li3': 'Tap the <strong>up arrow</strong> if the test tone is higher, or the <strong>down arrow</strong> if it is lower.',
+        'help.earTrainer.li4': 'The first test tone differs by 2 semitones. Each correct answer halves the interval (1, ½, ¼ semitone…).',
+        'help.earTrainer.li5': 'A wrong answer ends the run. Your best level (number of correct answers) is saved.',
+
+        'help.guessChord.title': 'Guess the chord',
+        'help.guessChord.li1': 'Tap <strong>Play</strong> to start.',
+        'help.guessChord.li2': 'You hear a C major chord as a reference, then a short pause, then a mystery chord from the 7 diatonic triads of C major.',
+        'help.guessChord.li3': 'Pick the correct chord from the 7 buttons on screen (C, Dm, Em, F, G, Am, Bdim).',
+        'help.guessChord.li4': 'If correct, the chord you just identified becomes the new reference for the next round.',
+        'help.guessChord.li5': 'A wrong answer ends the run. Your best level is saved.',
+        'help.guessChord.li6': 'After 20 correct answers, 7th and sus4 chords are added. After 35, 9th chords (5 notes) join the mix.',
+
       'help.scale.title': 'Scale & Random key',
         'help.scale.li1': '<strong>Memory</strong>: the game picks notes only from the selected major key, so you practice inside that key.',
         'help.scale.li2': '<strong>Know the scale</strong>: uses the selected Scale; if set to Random key, each restart picks a new scale.',
@@ -190,6 +225,19 @@
       'ks.time': 'Time: {t} ({i}/7)',
       'ks.final': 'Time: {t}',
 
+      'et.level': 'Level: {n}',
+      'et.listen': 'Listen…',
+      'et.guess': 'Higher or lower?',
+      'et.correct': 'Correct! Level {n}',
+      'et.wrong': 'Wrong!',
+      'et.wrongBody': '<div class="gameover-banner"><div class="go-line1">Wrong answer</div><div class="go-line2">Level {n}</div><div class="go-line3">Tap <strong>Restart</strong> to retry</div></div>',
+
+      'gc.level': 'Level: {n}',
+      'gc.listen': 'Listen…',
+      'gc.pick': 'Which chord?',
+      'gc.correct': 'Correct! Level {n}',
+      'gc.wrongBody': '<div class="gameover-banner"><div class="go-line1">Wrong chord</div><div class="go-line2">It was <strong>{chord}</strong> — Level {n}</div><div class="go-line3">Tap <strong>Restart</strong> to retry</div></div>',
+
       'status.listen': 'Listen…',
       'status.listenCount': 'Listen… ({i}/{n})',
       'status.yourTurn': 'Your turn',
@@ -215,6 +263,8 @@
       'game.memory': 'Memory',
       'game.knowKey': 'Know the key',
       'game.knowScale': 'Know the scale',
+      'game.earTrainer': 'Ear trainer',
+      'game.guessChord': 'Guess the chord',
       'scale.random': 'Nasumični tonalitet',
       'scale.C': 'C-dur',
       'scale.C#': 'C#-dur',
@@ -245,6 +295,8 @@
       'ach.hard': 'Najbolje (Teško)',
       'ach.knowKey': 'Know the key (najbolje)',
       'ach.knowScale': 'Know the scale (najbolje)',
+      'ach.earTrainer': 'Ear trainer (najbolje)',
+      'ach.guessChord': 'Guess the chord (najbolje)',
 
       'home.flip': 'OKRENI TELEFON ZA IGRU',
       'home.play': 'Igraj',
@@ -261,6 +313,8 @@
       'help.idx.games': 'Igre',
       'help.idx.knowKey': 'Know the key',
       'help.idx.knowScale': 'Know the scale',
+        'help.idx.earTrainer': 'Ear trainer',
+        'help.idx.guessChord': 'Guess the chord',
       'help.idx.scale': 'Ljestvica i nasumični tonalitet',
       'help.idx.modes': 'Načini (Memory)',
       'help.idx.play': 'Ekran igre',
@@ -284,7 +338,9 @@
       'help.games.li1': '<strong>Memory</strong>: aplikacija svira sve dulji niz, a vi ga ponavljate.',
       'help.games.li2': '<strong>Know the key</strong>: trening reakcije za pronalaženje nasumičnih nota.',
       'help.games.li3': '<strong>Know the scale</strong>: trening brzine za sviranje durske ljestvice po redu.',
-      'help.games.li4': '<strong>Načini</strong> vrijede samo za Memory.',
+      'help.games.li4': '<strong>Ear trainer</strong>: igra razlikovanja tonova — pogodite je li ton viši ili niži od srednjeg C.',
+      'help.games.li5': '<strong>Guess the chord</strong>: prepoznajte dijatoničke akorde C-dura po sluhu.',
+      'help.games.li6': '<strong>Načini</strong> vrijede samo za Memory.',
 
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Dodirnite <strong>Igraj</strong> za odbrojavanje 3-2-1.',
@@ -299,6 +355,22 @@
       'help.knowScale.li3': 'Odsvirajte 7 tonova durske ljestvice točnim redom od osnove.',
       'help.knowScale.li4': 'Pogrešna nota ili redoslijed završava rundu.',
       'help.knowScale.li5': 'Mjerenje vremena počinje kad dodirnete prvu notu (osnovu). Ukupno vrijeme se sprema kao najbolje.',
+
+        'help.earTrainer.title': 'Ear trainer',
+        'help.earTrainer.li1': 'Dodirnite <strong>Igraj</strong> za početak.',
+        'help.earTrainer.li2': 'Čujete referentni ton (srednji C, ~261 Hz) jednu sekundu, zatim kratku pauzu, zatim testni ton.',
+        'help.earTrainer.li3': 'Dodirnite <strong>strelicu gore</strong> ako je testni ton viši, ili <strong>strelicu dolje</strong> ako je niži.',
+        'help.earTrainer.li4': 'Prvi testni ton razlikuje se za 2 polutona. Svaki točan odgovor prepolovi interval (1, ½, ¼ polutona…).',
+        'help.earTrainer.li5': 'Pogrešan odgovor završava pokušaj. Najbolja razina (broj točnih odgovora) se sprema.',
+
+        'help.guessChord.title': 'Guess the chord',
+        'help.guessChord.li1': 'Dodirnite <strong>Igraj</strong> za početak.',
+        'help.guessChord.li2': 'Čujete C-dur akord kao referencu, zatim kratku pauzu, zatim nepoznati akord iz 7 dijatoničkih trozvuka C-dura.',
+        'help.guessChord.li3': 'Odaberite točan akord iz 7 gumba na zaslonu (C, Dm, Em, F, G, Am, Bdim).',
+        'help.guessChord.li4': 'Ako je točno, upravo prepoznati akord postaje nova referenca za sljedeću rundu.',
+        'help.guessChord.li5': 'Pogrešan odgovor završava pokušaj. Najbolja razina se sprema.',
+        'help.guessChord.li6': 'Nakon 20 točnih odgovora dodaju se septakordi i sus4. Nakon 35, i nonakordi (5 nota).',
+
       'help.scale.title': 'Ljestvica i nasumični tonalitet',
       'help.scale.li1': '<strong>Memory</strong>: igra bira note samo iz odabrane durske ljestvice.',
       'help.scale.li2': '<strong>Know the scale</strong>: koristi odabranu ljestvicu; ako je Nasumično, svaki restart bira novu.',
@@ -345,6 +417,19 @@
       'ks.time': 'Vrijeme: {t} ({i}/7)',
       'ks.final': 'Vrijeme: {t}',
 
+      'et.level': 'Razina: {n}',
+      'et.listen': 'Slušaj…',
+      'et.guess': 'Viši ili niži?',
+      'et.correct': 'Točno! Razina {n}',
+      'et.wrong': 'Pogrešno!',
+      'et.wrongBody': '<div class="gameover-banner"><div class="go-line1">Pogrešan odgovor</div><div class="go-line2">Razina {n}</div><div class="go-line3">Dodirnite <strong>Ponovno</strong> za pokušaj</div></div>',
+
+      'gc.level': 'Razina: {n}',
+      'gc.listen': 'Slušaj…',
+      'gc.pick': 'Koji akord?',
+      'gc.correct': 'Točno! Razina {n}',
+      'gc.wrongBody': '<div class="gameover-banner"><div class="go-line1">Pogrešan akord</div><div class="go-line2">Bio je <strong>{chord}</strong> — Razina {n}</div><div class="go-line3">Dodirnite <strong>Ponovno</strong> za pokušaj</div></div>',
+
       'status.listen': 'Slušaj…',
       'status.listenCount': 'Slušaj… ({i}/{n})',
       'status.yourTurn': 'Tvoj red',
@@ -370,6 +455,8 @@
       'game.memory': 'Memory',
       'game.knowKey': 'Know the key',
       'game.knowScale': 'Know the scale',
+      'game.earTrainer': 'Ear trainer',
+      'game.guessChord': 'Guess the chord',
       'scale.random': 'Losowa tonacja',
       'scale.C': 'C-dur',
       'scale.C#': 'C#-dur',
@@ -400,6 +487,8 @@
       'ach.hard': 'Najlepszy (Trudny)',
       'ach.knowKey': 'Know the key (najlepszy)',
       'ach.knowScale': 'Know the scale (najlepszy)',
+      'ach.earTrainer': 'Ear trainer (najlepszy)',
+      'ach.guessChord': 'Guess the chord (najlepszy)',
 
       'home.flip': 'OBRÓĆ TELEFON, ABY GRAĆ',
       'home.play': 'Graj',
@@ -416,6 +505,8 @@
       'help.idx.games': 'Gry',
       'help.idx.knowKey': 'Know the key',
       'help.idx.knowScale': 'Know the scale',
+      'help.idx.earTrainer': 'Ear trainer',
+      'help.idx.guessChord': 'Guess the chord',
       'help.idx.scale': 'Skala i losowa tonacja',
       'help.idx.modes': 'Tryby (Memory)',
       'help.idx.play': 'Ekran gry',
@@ -439,7 +530,9 @@
       'help.games.li1': '<strong>Memory</strong>: aplikacja odtwarza coraz dłuższą sekwencję, a Ty ją powtarzasz.',
       'help.games.li2': '<strong>Know the key</strong>: trening czasu reakcji na losowe nuty.',
       'help.games.li3': '<strong>Know the scale</strong>: trening szybkości grania skali durowej po kolei.',
-      'help.games.li4': '<strong>Tryby</strong> dotyczą tylko gry Memory.',
+      'help.games.li4': '<strong>Ear trainer</strong>: gra w rozróżnianie tonów — zgadnij, czy ton jest wyższy czy niższy od środkowego C.',
+      'help.games.li5': '<strong>Guess the chord</strong>: rozpoznawaj diatoniczne akordy C-dur ze słuchu.',
+      'help.games.li6': '<strong>Tryby</strong> dotyczą tylko gry Memory.',
 
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Stuknij <strong>Graj</strong>, aby rozpocząć odliczanie 3-2-1.',
@@ -454,6 +547,22 @@
       'help.knowScale.li3': 'Zagraj 7 dźwięków skali durowej w dokładnej kolejności od prymy.',
       'help.knowScale.li4': 'Błędna nuta lub kolejność kończy próbę.',
       'help.knowScale.li5': 'Pomiar czasu zaczyna się, gdy stukniesz pierwszą nutę (prymę). Łączny czas zapisuje się jako najlepszy.',
+
+        'help.earTrainer.title': 'Ear trainer',
+        'help.earTrainer.li1': 'Stuknij <strong>Graj</strong>, aby rozpocząć.',
+        'help.earTrainer.li2': 'Słyszysz ton referencyjny (środkowe C, ~261 Hz) przez jedną sekundę, potem krótką pauzę, potem ton testowy.',
+        'help.earTrainer.li3': 'Stuknij <strong>strzałkę w górę</strong>, jeśli ton testowy jest wyższy, lub <strong>strzałkę w dół</strong>, jeśli niższy.',
+        'help.earTrainer.li4': 'Pierwszy ton testowy różni się o 2 półtony. Każda poprawna odpowiedź zmniejsza interwał o połowę (1, ½, ¼ półtonu…).',
+        'help.earTrainer.li5': 'Błędna odpowiedź kończy próbę. Najlepszy poziom (liczba poprawnych) jest zapisywany.',
+
+        'help.guessChord.title': 'Guess the chord',
+        'help.guessChord.li1': 'Stuknij <strong>Graj</strong>, aby rozpocząć.',
+        'help.guessChord.li2': 'Słyszysz akord C-dur jako referencję, potem krótką pauzę, potem nieznany akord z 7 diatonicznych trójdźwięków C-dur.',
+        'help.guessChord.li3': 'Wybierz właściwy akord z 7 przycisków na ekranie (C, Dm, Em, F, G, Am, Bdim).',
+        'help.guessChord.li4': 'Jeśli poprawnie, właśnie rozpoznany akord staje się nową referencją dla następnej rundy.',
+        'help.guessChord.li5': 'Błędna odpowiedź kończy próbę. Najlepszy poziom jest zapisywany.',
+        'help.guessChord.li6': 'Po 20 poprawnych odpowiedziach dochodzą septakordy i sus4. Po 35 — nonakordy (5 dźwięków).',
+
       'help.scale.title': 'Skala i losowa tonacja',
       'help.scale.li1': '<strong>Memory</strong>: gra wybiera nuty tylko z wybranej tonacji durowej.',
       'help.scale.li2': '<strong>Know the scale</strong>: używa wybranej Skali; jeśli jest Losowa, każdy restart wybiera nową.',
@@ -500,6 +609,19 @@
       'ks.time': 'Czas: {t} ({i}/7)',
       'ks.final': 'Czas: {t}',
 
+      'et.level': 'Poziom: {n}',
+      'et.listen': 'Słuchaj…',
+      'et.guess': 'Wyższy czy niższy?',
+      'et.correct': 'Poprawnie! Poziom {n}',
+      'et.wrong': 'Źle!',
+      'et.wrongBody': '<div class="gameover-banner"><div class="go-line1">Zła odpowiedź</div><div class="go-line2">Poziom {n}</div><div class="go-line3">Stuknij <strong>Restart</strong>, aby spróbować ponownie</div></div>',
+
+      'gc.level': 'Poziom: {n}',
+      'gc.listen': 'Słuchaj…',
+      'gc.pick': 'Który akord?',
+      'gc.correct': 'Poprawnie! Poziom {n}',
+      'gc.wrongBody': '<div class="gameover-banner"><div class="go-line1">Zły akord</div><div class="go-line2">To był <strong>{chord}</strong> — Poziom {n}</div><div class="go-line3">Stuknij <strong>Restart</strong>, aby spróbować ponownie</div></div>',
+
       'status.listen': 'Słuchaj…',
       'status.listenCount': 'Słuchaj… ({i}/{n})',
       'status.yourTurn': 'Twoja kolej',
@@ -525,6 +647,8 @@
       'game.memory': 'Memory',
       'game.knowKey': 'Know the key',
       'game.knowScale': 'Know the scale',
+      'game.earTrainer': 'Ear trainer',
+      'game.guessChord': 'Guess the chord',
       'scale.random': 'Tonalità casuale',
       'scale.C': 'Do maggiore',
       'scale.C#': 'Do# maggiore',
@@ -555,6 +679,8 @@
       'ach.hard': 'Migliore (Difficile)',
       'ach.knowKey': 'Know the key (migliore)',
       'ach.knowScale': 'Know the scale (migliore)',
+      'ach.earTrainer': 'Ear trainer (migliore)',
+      'ach.guessChord': 'Guess the chord (migliore)',
 
       'home.flip': 'GIRA IL TELEFONO PER GIOCARE',
       'home.play': 'Gioca',
@@ -571,6 +697,8 @@
       'help.idx.games': 'Giochi',
       'help.idx.knowKey': 'Know the key',
       'help.idx.knowScale': 'Know the scale',
+      'help.idx.earTrainer': 'Ear trainer',
+      'help.idx.guessChord': 'Guess the chord',
       'help.idx.scale': 'Scala e tonalità casuale',
       'help.idx.modes': 'Modalità (Memory)',
       'help.idx.play': 'Schermata di gioco',
@@ -594,7 +722,9 @@
       'help.games.li1': '<strong>Memory</strong>: l’app riproduce una sequenza crescente e tu la ripeti.',
       'help.games.li2': '<strong>Know the key</strong>: allenamento del tempo di reazione su note casuali.',
       'help.games.li3': '<strong>Know the scale</strong>: allenamento di velocità per suonare una scala maggiore in ordine.',
-      'help.games.li4': '<strong>Modalità</strong> solo per Memory.',
+      'help.games.li4': '<strong>Ear trainer</strong>: gioco di discriminazione del tono — indovina se il tono è più alto o più basso del Do centrale.',
+      'help.games.li5': '<strong>Guess the chord</strong>: riconosci gli accordi diatonici di Do maggiore a orecchio.',
+      'help.games.li6': '<strong>Modalità</strong> solo per Memory.',
 
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Tocca <strong>Gioca</strong> per iniziare il conto alla rovescia 3-2-1.',
@@ -609,6 +739,22 @@
       'help.knowScale.li3': 'Suona le 7 note della scala maggiore in ordine esatto partendo dalla fondamentale.',
       'help.knowScale.li4': 'Una nota sbagliata o fuori ordine termina la partita.',
       'help.knowScale.li5': "Il tempo parte quando tocchi la prima nota (tonica). Il tempo totale viene salvato come migliore.",
+
+        'help.earTrainer.title': 'Ear trainer',
+        'help.earTrainer.li1': 'Tocca <strong>Gioca</strong> per iniziare.',
+        'help.earTrainer.li2': 'Senti un tono di riferimento (Do centrale, ~261 Hz) per un secondo, poi una breve pausa, poi un tono di test.',
+        'help.earTrainer.li3': 'Tocca la <strong>freccia su</strong> se il tono di test è più alto, o la <strong>freccia giù</strong> se è più basso.',
+        'help.earTrainer.li4': 'Il primo tono di test differisce di 2 semitoni. Ogni risposta corretta dimezza l’intervallo (1, ½, ¼ di semitono…).',
+        'help.earTrainer.li5': 'Una risposta sbagliata termina la prova. Il miglior livello (numero di risposte corrette) viene salvato.',
+
+        'help.guessChord.title': 'Guess the chord',
+        'help.guessChord.li1': 'Tocca <strong>Gioca</strong> per iniziare.',
+        'help.guessChord.li2': "Senti l'accordo di Do maggiore come riferimento, poi una breve pausa, poi un accordo sconosciuto tra le 7 triadi diatoniche di Do maggiore.",
+        'help.guessChord.li3': "Scegli l'accordo corretto tra i 7 pulsanti sullo schermo (C, Dm, Em, F, G, Am, Bdim).",
+        'help.guessChord.li4': "Se corretto, l'accordo appena riconosciuto diventa il nuovo riferimento per il round successivo.",
+        'help.guessChord.li5': 'Una risposta sbagliata termina la prova. Il miglior livello viene salvato.',
+        'help.guessChord.li6': 'Dopo 20 risposte corrette si aggiungono accordi di settima e sus4. Dopo 35, anche accordi di nona (5 note).',
+
       'help.scale.title': 'Scala e tonalità casuale',
       'help.scale.li1': '<strong>Memory</strong>: il gioco sceglie note solo dalla scala maggiore selezionata.',
       'help.scale.li2': '<strong>Know the scale</strong>: usa la Scala selezionata; con Tonalità casuale, ogni restart sceglie una nuova scala.',
@@ -655,6 +801,19 @@
       'ks.time': 'Tempo: {t} ({i}/7)',
       'ks.final': 'Tempo: {t}',
 
+      'et.level': 'Livello: {n}',
+      'et.listen': 'Ascolta…',
+      'et.guess': 'Più alto o più basso?',
+      'et.correct': 'Corretto! Livello {n}',
+      'et.wrong': 'Sbagliato!',
+      'et.wrongBody': '<div class="gameover-banner"><div class="go-line1">Risposta sbagliata</div><div class="go-line2">Livello {n}</div><div class="go-line3">Tocca <strong>Restart</strong> per riprovare</div></div>',
+
+      'gc.level': 'Livello: {n}',
+      'gc.listen': 'Ascolta…',
+      'gc.pick': 'Quale accordo?',
+      'gc.correct': 'Corretto! Livello {n}',
+      'gc.wrongBody': '<div class="gameover-banner"><div class="go-line1">Accordo sbagliato</div><div class="go-line2">Era <strong>{chord}</strong> — Livello {n}</div><div class="go-line3">Tocca <strong>Restart</strong> per riprovare</div></div>',
+
       'status.listen': 'Ascolta…',
       'status.listenCount': 'Ascolta… ({i}/{n})',
       'status.yourTurn': 'Tocca a te',
@@ -680,6 +839,8 @@
       'game.memory': 'Memory',
       'game.knowKey': 'Know the key',
       'game.knowScale': 'Know the scale',
+      'game.earTrainer': 'Ear trainer',
+      'game.guessChord': 'Guess the chord',
       'scale.random': 'Tonalidad aleatoria',
       'scale.C': 'Do mayor',
       'scale.C#': 'Do# mayor',
@@ -710,6 +871,8 @@
       'ach.hard': 'Mejor (Difícil)',
       'ach.knowKey': 'Know the key (mejor)',
       'ach.knowScale': 'Know the scale (mejor)',
+      'ach.earTrainer': 'Ear trainer (mejor)',
+      'ach.guessChord': 'Guess the chord (mejor)',
 
       'home.flip': 'GIRA EL TELÉFONO PARA JUGAR',
       'home.play': 'Jugar',
@@ -726,6 +889,8 @@
       'help.idx.games': 'Juegos',
       'help.idx.knowKey': 'Know the key',
       'help.idx.knowScale': 'Know the scale',
+      'help.idx.earTrainer': 'Ear trainer',
+      'help.idx.guessChord': 'Guess the chord',
       'help.idx.scale': 'Escala y tonalidad aleatoria',
       'help.idx.modes': 'Modos (Memory)',
       'help.idx.play': 'Pantalla de juego',
@@ -749,7 +914,9 @@
       'help.games.li1': '<strong>Memory</strong>: la app reproduce una secuencia creciente y tú la repites.',
       'help.games.li2': '<strong>Know the key</strong>: entrenamiento de tiempo de reacción con notas aleatorias.',
       'help.games.li3': '<strong>Know the scale</strong>: entrenamiento de velocidad para tocar una escala mayor en orden.',
-      'help.games.li4': '<strong>Modos</strong> solo para Memory.',
+      'help.games.li4': '<strong>Ear trainer</strong>: juego de discriminación tonal — adivina si el tono es más alto o más bajo que el Do central.',
+      'help.games.li5': '<strong>Guess the chord</strong>: reconoce los acordes diatónicos de Do mayor de oído.',
+      'help.games.li6': '<strong>Modos</strong> solo para Memory.',
 
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Toca <strong>Jugar</strong> para iniciar la cuenta atrás 3-2-1.',
@@ -764,6 +931,22 @@
       'help.knowScale.li3': 'Toca las 7 notas de la escala mayor en orden exacto empezando por la tónica.',
       'help.knowScale.li4': 'Una nota incorrecta o fuera de orden termina la partida.',
       'help.knowScale.li5': 'El tiempo empieza cuando tocas la primera nota (tónica). El tiempo total se guarda como tu mejor.',
+
+        'help.earTrainer.title': 'Ear trainer',
+        'help.earTrainer.li1': 'Toca <strong>Jugar</strong> para empezar.',
+        'help.earTrainer.li2': 'Escuchas un tono de referencia (Do central, ~261 Hz) durante un segundo, luego una breve pausa y un tono de prueba.',
+        'help.earTrainer.li3': 'Toca la <strong>flecha arriba</strong> si el tono de prueba es más alto, o la <strong>flecha abajo</strong> si es más bajo.',
+        'help.earTrainer.li4': 'El primer tono de prueba difiere en 2 semitonos. Cada respuesta correcta reduce el intervalo a la mitad (1, ½, ¼ de semitono…).',
+        'help.earTrainer.li5': 'Una respuesta incorrecta termina la partida. Tu mejor nivel (número de respuestas correctas) se guarda.',
+
+        'help.guessChord.title': 'Guess the chord',
+        'help.guessChord.li1': 'Toca <strong>Jugar</strong> para empezar.',
+        'help.guessChord.li2': 'Escuchas el acorde de Do mayor como referencia, luego una breve pausa y un acorde desconocido de las 7 tríadas diatónicas de Do mayor.',
+        'help.guessChord.li3': 'Elige el acorde correcto entre los 7 botones en pantalla (C, Dm, Em, F, G, Am, Bdim).',
+        'help.guessChord.li4': 'Si es correcto, el acorde recién reconocido se convierte en la nueva referencia para la siguiente ronda.',
+        'help.guessChord.li5': 'Una respuesta incorrecta termina la partida. Tu mejor nivel se guarda.',
+        'help.guessChord.li6': 'Después de 20 respuestas correctas se añaden acordes de séptima y sus4. Después de 35, también de novena (5 notas).',
+
       'help.scale.title': 'Escala y tonalidad aleatoria',
       'help.scale.li1': '<strong>Memory</strong>: el juego elige notas solo de la escala mayor seleccionada.',
       'help.scale.li2': '<strong>Know the scale</strong>: usa la Escala seleccionada; si es Aleatoria, cada reinicio elige una nueva.',
@@ -810,6 +993,19 @@
       'ks.time': 'Tiempo: {t} ({i}/7)',
       'ks.final': 'Tiempo: {t}',
 
+      'et.level': 'Nivel: {n}',
+      'et.listen': 'Escucha…',
+      'et.guess': '¿Más alto o más bajo?',
+      'et.correct': '¡Correcto! Nivel {n}',
+      'et.wrong': '¡Incorrecto!',
+      'et.wrongBody': '<div class="gameover-banner"><div class="go-line1">Respuesta incorrecta</div><div class="go-line2">Nivel {n}</div><div class="go-line3">Toca <strong>Reiniciar</strong> para reintentar</div></div>',
+
+      'gc.level': 'Nivel: {n}',
+      'gc.listen': 'Escucha…',
+      'gc.pick': '¿Qué acorde?',
+      'gc.correct': '¡Correcto! Nivel {n}',
+      'gc.wrongBody': '<div class="gameover-banner"><div class="go-line1">Acorde incorrecto</div><div class="go-line2">Era <strong>{chord}</strong> — Nivel {n}</div><div class="go-line3">Toca <strong>Reiniciar</strong> para reintentar</div></div>',
+
       'status.listen': 'Escucha…',
       'status.listenCount': 'Escucha… ({i}/{n})',
       'status.yourTurn': 'Tu turno',
@@ -831,6 +1027,8 @@
     memory: 'memory',
     knowKey: 'knowKey',
     knowScale: 'knowScale',
+    earTrainer: 'earTrainer',
+    guessChord: 'guessChord',
   };
 
   let currentLang = null;
@@ -966,6 +1164,23 @@
       startTs: 0,
       pauseAt: 0,
     },
+
+    earTrainer: {
+      phase: 'idle',        // idle | playing-ref | playing-test | waiting | done
+      level: 0,             // number of correct answers so far
+      intervalSemitones: 2, // current interval in semitones (halves each round)
+      direction: 0,         // +1 higher, -1 lower
+      seqToken: 0,
+    },
+
+    guessChord: {
+      phase: 'idle',        // idle | playing-ref | playing-test | waiting | done
+      level: 0,
+      refChordIdx: 0,       // index into CHORD_POOL of the reference chord
+      testChordIdx: 0,      // index of the mystery chord
+      selectedExt: 'triad', // currently selected extension button
+      seqToken: 0,
+    },
   };
 
   const audioCache = new Map();
@@ -980,6 +1195,11 @@
   const BEST_TIME_KEYS = {
     knowKey: 'pianomem_best_know_key_ms',
     knowScale: 'pianomem_best_know_scale_ms',
+  };
+
+  const BEST_LEVEL_KEYS = {
+    earTrainer: 'pianomem_best_ear_trainer',
+    guessChord: 'pianomem_best_guess_chord',
   };
 
   function setElHidden(el, hidden) {
@@ -1047,6 +1267,28 @@
     } catch (e) {}
   }
 
+  function loadBestLevel(kind) {
+    const key = BEST_LEVEL_KEYS[kind];
+    if (!key) return 0;
+    try {
+      const v = parseInt(localStorage.getItem(key) || '0', 10);
+      return Number.isFinite(v) && v > 0 ? v : 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function saveBestLevel(kind, level) {
+    const key = BEST_LEVEL_KEYS[kind];
+    if (!key) return;
+    const n = Math.max(0, level | 0);
+    if (n <= 0) return;
+    try {
+      const prev = loadBestLevel(kind);
+      if (!prev || n > prev) localStorage.setItem(key, String(n));
+    } catch (e) {}
+  }
+
   function updateAchievementsUI() {
     const bestEasy = loadBest('easy');
     const bestNormal = loadBest('normal');
@@ -1060,6 +1302,12 @@
     if (bestKnowKeyEl) bestKnowKeyEl.textContent = formatTimeMs(bestKnowKey);
     if (bestKnowScaleEl) bestKnowScaleEl.textContent = formatTimeMs(bestKnowScale);
 
+    const bestEarTrainer = loadBestLevel('earTrainer');
+    if (bestEarTrainerEl) bestEarTrainerEl.textContent = String(bestEarTrainer);
+
+    const bestGuessChord = loadBestLevel('guessChord');
+    if (bestGuessChordEl) bestGuessChordEl.textContent = String(bestGuessChord);
+
     if (maxDisplayEl) {
       if (state.game === GAMES.memory) {
         const mode = state.mode || 'normal';
@@ -1068,6 +1316,10 @@
         maxDisplayEl.textContent = formatTimeMs(bestKnowKey);
       } else if (state.game === GAMES.knowScale) {
         maxDisplayEl.textContent = formatTimeMs(bestKnowScale);
+      } else if (state.game === GAMES.earTrainer) {
+        maxDisplayEl.textContent = String(bestEarTrainer);
+      } else if (state.game === GAMES.guessChord) {
+        maxDisplayEl.textContent = String(bestGuessChord);
       }
     }
   }
@@ -1717,6 +1969,378 @@
     });
   }
 
+  /* ───────── Ear Trainer game ───────── */
+
+  const MIDDLE_C_HZ = 261.626; // C4
+
+  function playToneHz(freq, durationSec) {
+    ensureAudioUnlocked();
+    if (!audioCtx) return Promise.resolve();
+    return new Promise(resolve => {
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const now = audioCtx.currentTime;
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.exponentialRampToValueAtTime(0.25, now + 0.02);
+        gain.gain.setValueAtTime(0.25, now + durationSec - 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + durationSec);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + durationSec);
+        osc.onended = resolve;
+      } catch (e) {
+        resolve();
+      }
+    });
+  }
+
+  function startEarTrainerGame() {
+    if (isTouchDevice() && !isLandscape()) {
+      orientationMsg.classList.remove('hidden');
+      return;
+    }
+    ensureAudioUnlocked();
+    hydrateSettings();
+
+    state.started = true;
+    state.gameOver = false;
+    state.paused = false;
+    state.canInput = false;
+    state.playing = false;
+    state.pendingNextRound = false;
+    if (state.nextRoundTimer) { clearTimeout(state.nextRoundTimer); state.nextRoundTimer = null; }
+    document.body.classList.remove('game-over');
+    hideInlineError();
+
+    state.earTrainer.phase = 'idle';
+    state.earTrainer.level = 0;
+    state.earTrainer.intervalSemitones = 2;
+    state.earTrainer.direction = 0;
+    state.earTrainer.seqToken = ++state.seqToken;
+
+    if (playBtn) playBtn.textContent = translate('play.restart');
+    if (pausedBadge) pausedBadge.classList.add('hidden');
+    if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
+    setCenterBox(translate('et.level', { n: 0 }));
+    if (statusText) statusText.textContent = '';
+
+    earTrainerNextRound();
+  }
+
+  async function earTrainerNextRound() {
+    const et = state.earTrainer;
+    const myToken = state.seqToken;
+
+    et.phase = 'playing-ref';
+    state.canInput = false;
+    if (earBtnUp) earBtnUp.disabled = true;
+    if (earBtnDown) earBtnDown.disabled = true;
+    if (statusText) statusText.textContent = translate('et.listen');
+    if (earSpeaker) earSpeaker.classList.add('playing');
+
+    // Play reference tone (middle C) for 1 second
+    await playToneHz(MIDDLE_C_HZ, 1.0);
+    if (myToken !== state.seqToken || state.gameOver || state.paused) { if (earSpeaker) earSpeaker.classList.remove('playing'); return; }
+
+    // Brief pause
+    await new Promise(r => setTimeout(r, 333));
+    if (myToken !== state.seqToken || state.gameOver || state.paused) { if (earSpeaker) earSpeaker.classList.remove('playing'); return; }
+
+    // Pick direction randomly
+    et.direction = Math.random() < 0.5 ? 1 : -1;
+    const testFreq = MIDDLE_C_HZ * Math.pow(2, (et.direction * et.intervalSemitones) / 12);
+
+    et.phase = 'playing-test';
+    await playToneHz(testFreq, 1.0);
+    if (earSpeaker) earSpeaker.classList.remove('playing');
+    if (myToken !== state.seqToken || state.gameOver || state.paused) return;
+
+    // Now waiting for user answer
+    et.phase = 'waiting';
+    state.canInput = true;
+    if (earBtnUp) earBtnUp.disabled = false;
+    if (earBtnDown) earBtnDown.disabled = false;
+    if (statusText) statusText.textContent = translate('et.guess');
+  }
+
+  function handleEarTrainerAnswer(guessedHigher) {
+    const et = state.earTrainer;
+    if (et.phase !== 'waiting' || !state.canInput) return;
+
+    const correct = (guessedHigher && et.direction === 1) || (!guessedHigher && et.direction === -1);
+
+    if (correct) {
+      et.level += 1;
+      // First 3 levels: halve the interval; afterwards shrink by 12.5%
+      if (et.level <= 3) {
+        et.intervalSemitones /= 2;
+      } else {
+        et.intervalSemitones *= 0.875;
+      }
+      setCenterBox(translate('et.level', { n: et.level }));
+      if (statusText) statusText.textContent = translate('et.correct', { n: et.level });
+      earTrainerNextRound();
+    } else {
+      // Wrong answer → game over
+      state.canInput = false;
+      state.gameOver = true;
+      state.seqToken++;
+      if (earBtnUp) earBtnUp.disabled = true;
+      if (earBtnDown) earBtnDown.disabled = true;
+      if (earSpeaker) earSpeaker.classList.remove('playing');
+      document.body.classList.add('game-over');
+      if (statusText) statusText.textContent = translate('status.gameOver');
+      showInlineError(translate('et.wrongBody', { n: et.level }));
+      saveBestLevel('earTrainer', et.level);
+      updateAchievementsUI();
+      if (playBtn) playBtn.textContent = translate('play.restart');
+    }
+  }
+
+  /* ───────── End Ear Trainer ───────── */
+
+  /* ───────── Guess the Chord game ───────── */
+
+  const CHORD_POOL = [
+    // Tier 1 — triads
+    { root: 0, ext: 'triad', name: 'C',     notes: ['C4','E4','G4'],          tier: 1 },
+    { root: 1, ext: 'triad', name: 'Dm',    notes: ['D4','F4','A4'],          tier: 1 },
+    { root: 2, ext: 'triad', name: 'Em',    notes: ['E4','G4','B4'],          tier: 1 },
+    { root: 3, ext: 'triad', name: 'F',     notes: ['F4','A4','C5'],          tier: 1 },
+    { root: 4, ext: 'triad', name: 'G',     notes: ['G4','B4','D5'],          tier: 1 },
+    { root: 5, ext: 'triad', name: 'Am',    notes: ['A4','C5','E5'],          tier: 1 },
+    { root: 6, ext: 'triad', name: 'Bdim',  notes: ['B4','D5','F5'],          tier: 1 },
+    // Tier 2 — diatonic 7th chords (4 notes)
+    { root: 0, ext: '7', name: 'Cmaj7',  notes: ['C4','E4','G4','B4'],       tier: 2 },
+    { root: 1, ext: '7', name: 'Dm7',    notes: ['D4','F4','A4','C5'],       tier: 2 },
+    { root: 2, ext: '7', name: 'Em7',    notes: ['E4','G4','B4','D5'],       tier: 2 },
+    { root: 3, ext: '7', name: 'Fmaj7',  notes: ['F4','A4','C5','E5'],       tier: 2 },
+    { root: 4, ext: '7', name: 'G7',     notes: ['G4','B4','D5','F5'],       tier: 2 },
+    { root: 5, ext: '7', name: 'Am7',    notes: ['A4','C5','E5','G5'],       tier: 2 },
+    { root: 6, ext: '7', name: 'Bm7b5',  notes: ['B4','D5','F5','A5'],       tier: 2 },
+    // Tier 2 — diatonic sus4 chords (3 notes, only roots with a diatonic P4)
+    { root: 0, ext: 'sus4', name: 'Csus4',  notes: ['C4','F4','G4'],          tier: 2 },
+    { root: 1, ext: 'sus4', name: 'Dsus4',  notes: ['D4','G4','A4'],          tier: 2 },
+    { root: 2, ext: 'sus4', name: 'Esus4',  notes: ['E4','A4','B4'],          tier: 2 },
+    { root: 4, ext: 'sus4', name: 'Gsus4',  notes: ['G4','C5','D5'],          tier: 2 },
+    { root: 5, ext: 'sus4', name: 'Asus4',  notes: ['A4','D5','E5'],          tier: 2 },
+    // Tier 3 — diatonic 9th chords (5 notes)
+    { root: 0, ext: '9', name: 'Cmaj9',  notes: ['C4','E4','G4','B4','D5'],  tier: 3 },
+    { root: 1, ext: '9', name: 'Dm9',    notes: ['D4','F4','A4','C5','E5'],  tier: 3 },
+    { root: 3, ext: '9', name: 'Fmaj9',  notes: ['F4','A4','C5','E5','G5'],  tier: 3 },
+    { root: 4, ext: '9', name: 'G9',     notes: ['G4','B4','D5','F5','A5'],  tier: 3 },
+    { root: 5, ext: '9', name: 'Am9',    notes: ['A4','C5','E5','G5','B5'],  tier: 3 },
+  ];
+
+  function getChordTier(level) {
+    if (level < 20) return 1;
+    if (level < 35) return 2;
+    return 3;
+  }
+
+  function getAvailableChordIndices(tier) {
+    const indices = [];
+    CHORD_POOL.forEach((ch, i) => { if (ch.tier <= tier) indices.push(i); });
+    return indices;
+  }
+
+  function playChord(notes, durationSec = 1.0) {
+    ensureAudioUnlocked();
+    if (!audioCtx) return Promise.resolve();
+    const perNoteGain = Math.min(0.18, 0.50 / notes.length);
+    return new Promise(resolve => {
+      try {
+        const now = audioCtx.currentTime;
+        const end = now + durationSec;
+        const oscs = notes.map(note => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.value = noteToFreq(note);
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.exponentialRampToValueAtTime(perNoteGain, now + 0.03);
+          gain.gain.setValueAtTime(perNoteGain, end - 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.0001, end);
+          osc.connect(gain).connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(end);
+          return osc;
+        });
+        oscs[oscs.length - 1].onended = resolve;
+      } catch (e) {
+        resolve();
+      }
+    });
+  }
+
+  /** Show / hide the extension row and the 9-button based on current tier */
+  function updateChordTierUI(level) {
+    const tier = getChordTier(level);
+    if (chordExtensions) {
+      if (tier >= 2) chordExtensions.classList.remove('hidden');
+      else chordExtensions.classList.add('hidden');
+    }
+    // Show the 9 button only in tier 3
+    const btn9 = chordExtensions && chordExtensions.querySelector('.chord-ext-9');
+    if (btn9) btn9.style.display = tier >= 3 ? '' : 'none';
+  }
+
+  /** Reset extension selection back to triad */
+  function resetChordExtSelection() {
+    state.guessChord.selectedExt = 'triad';
+    if (chordExtensions) {
+      Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(b => {
+        b.classList.toggle('selected', b.dataset.ext === 'triad');
+      });
+    }
+  }
+
+  function startGuessChordGame() {
+    if (isTouchDevice() && !isLandscape()) {
+      orientationMsg.classList.remove('hidden');
+      return;
+    }
+    ensureAudioUnlocked();
+    hydrateSettings();
+
+    state.started = true;
+    state.gameOver = false;
+    state.paused = false;
+    state.canInput = false;
+    state.playing = false;
+    state.pendingNextRound = false;
+    if (state.nextRoundTimer) { clearTimeout(state.nextRoundTimer); state.nextRoundTimer = null; }
+    document.body.classList.remove('game-over');
+    hideInlineError();
+
+    const gc = state.guessChord;
+    gc.phase = 'idle';
+    gc.level = 0;
+    gc.refChordIdx = 0; // start with C major triad (index 0)
+    gc.testChordIdx = 0;
+    gc.selectedExt = 'triad';
+    gc.seqToken = ++state.seqToken;
+
+    // Reset chord button states
+    const rootBtns = chordButtons ? Array.from(chordButtons.querySelectorAll('.chord-btn')) : [];
+    rootBtns.forEach(btn => { btn.disabled = true; btn.classList.remove('chord-correct', 'chord-wrong'); });
+    resetChordExtSelection();
+    updateChordTierUI(0);
+
+    if (playBtn) playBtn.textContent = translate('play.restart');
+    if (pausedBadge) pausedBadge.classList.add('hidden');
+    if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
+    setCenterBox(translate('gc.level', { n: 0 }));
+    if (statusText) statusText.textContent = '';
+
+    guessChordNextRound();
+  }
+
+  async function guessChordNextRound() {
+    const gc = state.guessChord;
+    const myToken = state.seqToken;
+
+    gc.phase = 'playing-ref';
+    state.canInput = false;
+
+    // Disable root buttons & clear highlights during playback
+    const rootBtns = chordButtons ? Array.from(chordButtons.querySelectorAll('.chord-btn')) : [];
+    rootBtns.forEach(btn => { btn.disabled = true; btn.classList.remove('chord-correct', 'chord-wrong'); });
+    resetChordExtSelection();
+    updateChordTierUI(gc.level);
+
+    if (statusText) statusText.textContent = translate('gc.listen');
+    if (chordSpeaker) chordSpeaker.classList.add('playing');
+
+    // Play reference chord for 1 second
+    await playChord(CHORD_POOL[gc.refChordIdx].notes, 1.0);
+    if (myToken !== state.seqToken || state.gameOver || state.paused) { if (chordSpeaker) chordSpeaker.classList.remove('playing'); return; }
+
+    // Brief pause
+    await new Promise(r => setTimeout(r, 500));
+    if (myToken !== state.seqToken || state.gameOver || state.paused) { if (chordSpeaker) chordSpeaker.classList.remove('playing'); return; }
+
+    // Pick a random different chord from the current tier pool
+    const tier = getChordTier(gc.level);
+    const pool = getAvailableChordIndices(tier);
+    const candidates = pool.filter(i => i !== gc.refChordIdx);
+    gc.testChordIdx = candidates[Math.floor(Math.random() * candidates.length)];
+
+    gc.phase = 'playing-test';
+    await playChord(CHORD_POOL[gc.testChordIdx].notes, 1.0);
+    if (chordSpeaker) chordSpeaker.classList.remove('playing');
+    if (myToken !== state.seqToken || state.gameOver || state.paused) return;
+
+    // Now waiting for user answer
+    gc.phase = 'waiting';
+    state.canInput = true;
+    rootBtns.forEach(btn => { btn.disabled = false; });
+    // Enable extension buttons (disable invalid combos per tier)
+    if (chordExtensions) {
+      Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(btn => { btn.disabled = false; });
+    }
+    if (statusText) statusText.textContent = translate('gc.pick');
+  }
+
+  function handleChordAnswer(rootIdx, ext) {
+    const gc = state.guessChord;
+    if (gc.phase !== 'waiting' || !state.canInput) return;
+
+    // Find the chord the player picked
+    const guessedPoolIdx = CHORD_POOL.findIndex(ch => ch.root === rootIdx && ch.ext === ext);
+    const correct = guessedPoolIdx === gc.testChordIdx;
+    const rootBtns = chordButtons ? Array.from(chordButtons.querySelectorAll('.chord-btn')) : [];
+    const correctChord = CHORD_POOL[gc.testChordIdx];
+
+    if (correct) {
+      // Flash the correct root button green
+      const btn = rootBtns.find(b => parseInt(b.dataset.root, 10) === rootIdx);
+      if (btn) btn.classList.add('chord-correct');
+      gc.level += 1;
+      gc.refChordIdx = gc.testChordIdx; // chain: correct becomes new reference
+      setCenterBox(translate('gc.level', { n: gc.level }));
+      if (statusText) statusText.textContent = translate('gc.correct', { n: gc.level });
+      // Disable buttons and proceed to next round after a brief pause
+      rootBtns.forEach(b => { b.disabled = true; });
+      if (chordExtensions) Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(b => { b.disabled = true; });
+      setTimeout(() => {
+        if (state.seqToken !== gc.seqToken || state.gameOver || state.paused) return;
+        guessChordNextRound();
+      }, 800);
+    } else {
+      // Wrong answer → game over
+      state.canInput = false;
+      state.gameOver = true;
+      state.seqToken++;
+      // Highlight the picked root red, the correct root green
+      const pickedBtn = rootBtns.find(b => parseInt(b.dataset.root, 10) === rootIdx);
+      const correctBtn = rootBtns.find(b => parseInt(b.dataset.root, 10) === correctChord.root);
+      if (pickedBtn) pickedBtn.classList.add('chord-wrong');
+      if (correctBtn) correctBtn.classList.add('chord-correct');
+      // Show the correct extension as selected
+      if (chordExtensions && correctChord.ext !== gc.selectedExt) {
+        Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(b => {
+          b.classList.remove('selected');
+          if (b.dataset.ext === correctChord.ext) b.classList.add('selected');
+        });
+      }
+      rootBtns.forEach(b => { b.disabled = true; });
+      if (chordExtensions) Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(b => { b.disabled = true; });
+      if (chordSpeaker) chordSpeaker.classList.remove('playing');
+      document.body.classList.add('game-over');
+      if (statusText) statusText.textContent = translate('status.gameOver');
+      showInlineError(translate('gc.wrongBody', { n: gc.level, chord: correctChord.name }));
+      saveBestLevel('guessChord', gc.level);
+      updateAchievementsUI();
+      if (playBtn) playBtn.textContent = translate('play.restart');
+    }
+  }
+
+  /* ───────── End Guess the Chord ───────── */
+
   function endGameOverWrongNote() {
     // Cancel any in-flight async loops (countdowns, prompts)
     state.seqToken++;
@@ -1750,6 +2374,16 @@
       state.seqToken++;
       if (state.game === GAMES.knowKey) state.knowKey.pauseAt = performance.now();
       if (state.game === GAMES.knowScale) state.knowScale.pauseAt = performance.now();
+      if (state.game === GAMES.earTrainer) {
+        if (earSpeaker) earSpeaker.classList.remove('playing');
+        if (earBtnUp) earBtnUp.disabled = true;
+        if (earBtnDown) earBtnDown.disabled = true;
+      }
+      if (state.game === GAMES.guessChord) {
+        if (chordSpeaker) chordSpeaker.classList.remove('playing');
+        if (chordButtons) Array.from(chordButtons.querySelectorAll('.chord-btn')).forEach(b => { b.disabled = true; });
+        if (chordExtensions) Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(b => { b.disabled = true; });
+      }
       if (statusText) statusText.textContent = '';
       if (pausedBadge) pausedBadge.classList.remove('hidden');
       if (pausedBadgePortrait) {
@@ -1815,6 +2449,20 @@
           i: state.knowScale.expectedIndex,
         });
         state.canInput = state.knowScale.phase === 'running';
+        return;
+      }
+
+      if (state.game === GAMES.earTrainer) {
+        // Re-play the current round from scratch
+        state.earTrainer.seqToken = ++state.seqToken;
+        earTrainerNextRound();
+        return;
+      }
+
+      if (state.game === GAMES.guessChord) {
+        // Re-play the current round from scratch
+        state.guessChord.seqToken = ++state.seqToken;
+        guessChordNextRound();
         return;
       }
     }
@@ -1915,6 +2563,14 @@
     }
     if (state.game === GAMES.knowScale) {
       startKnowScaleGame();
+      return;
+    }
+    if (state.game === GAMES.earTrainer) {
+      startEarTrainerGame();
+      return;
+    }
+    if (state.game === GAMES.guessChord) {
+      startGuessChordGame();
       return;
     }
   }
@@ -2115,6 +2771,34 @@
     }
     if (homeBtn) homeBtn.addEventListener('click', goHome);
 
+    // Ear trainer arrow buttons
+    if (earBtnUp) earBtnUp.addEventListener('click', () => handleEarTrainerAnswer(true));
+    if (earBtnDown) earBtnDown.addEventListener('click', () => handleEarTrainerAnswer(false));
+
+    // Chord game buttons (event delegation)
+    if (chordButtons) {
+      chordButtons.addEventListener('click', (e) => {
+        const btn = e.target.closest('.chord-btn');
+        if (!btn || btn.disabled) return;
+        const rootIdx = parseInt(btn.getAttribute('data-root'), 10);
+        if (isNaN(rootIdx)) return;
+        handleChordAnswer(rootIdx, state.guessChord.selectedExt);
+      });
+    }
+
+    // Chord extension selection
+    if (chordExtensions) {
+      chordExtensions.addEventListener('click', (e) => {
+        const btn = e.target.closest('.chord-ext-btn');
+        if (!btn || btn.disabled) return;
+        const ext = btn.dataset.ext;
+        state.guessChord.selectedExt = ext;
+        Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(b => {
+          b.classList.toggle('selected', b.dataset.ext === ext);
+        });
+      });
+    }
+
     if (helpBtn) helpBtn.addEventListener('click', showHelp);
     if (helpBackBtn) helpBackBtn.addEventListener('click', hideHelp);
 
@@ -2199,12 +2883,26 @@
     }
 
     // Build the keyboard for the selected game
-    if (state.game === GAMES.memory) {
-      buildKeyboard(state.scaleRoot, state.mode);
-    } else if (state.game === GAMES.knowKey) {
-      buildKeyboardForKnowKey();
-    } else if (state.game === GAMES.knowScale) {
-      buildKeyboardForKnowScale(state.scaleRoot);
+    if (state.game === GAMES.earTrainer) {
+      // Ear trainer uses its own panel instead of the keyboard
+      if (keyboardWrapper) keyboardWrapper.classList.add('hidden');
+      if (earPanel) earPanel.classList.remove('hidden');
+      if (chordPanel) chordPanel.classList.add('hidden');
+    } else if (state.game === GAMES.guessChord) {
+      if (keyboardWrapper) keyboardWrapper.classList.add('hidden');
+      if (earPanel) earPanel.classList.add('hidden');
+      if (chordPanel) chordPanel.classList.remove('hidden');
+    } else {
+      if (earPanel) earPanel.classList.add('hidden');
+      if (chordPanel) chordPanel.classList.add('hidden');
+      if (keyboardWrapper) keyboardWrapper.classList.remove('hidden');
+      if (state.game === GAMES.memory) {
+        buildKeyboard(state.scaleRoot, state.mode);
+      } else if (state.game === GAMES.knowKey) {
+        buildKeyboardForKnowKey();
+      } else if (state.game === GAMES.knowScale) {
+        buildKeyboardForKnowScale(state.scaleRoot);
+      }
     }
     state.visibleNotesSet = new Set(
       Array.from(keyboardEl.querySelectorAll('.key[data-note]')).map(el => el.dataset.note)
@@ -2246,6 +2944,10 @@
     });
 
     // Scale selector stays enabled; Know the key ignores it, Know the scale uses it.
+    // Ear trainer doesn't use it either.
+    if (scaleSelect) {
+      try { scaleSelect.disabled = (state.game === GAMES.earTrainer || state.game === GAMES.guessChord); } catch (e) {}
+    }
 
     // Show note names must be disabled in new games (without overwriting user preference)
     const forceNoLabels = state.game !== GAMES.memory;
@@ -2318,6 +3020,14 @@
     }
     if (state.game === GAMES.knowScale) {
       setCenterBox(scaleDisplayName(state.scaleRoot));
+      return;
+    }
+    if (state.game === GAMES.earTrainer) {
+      setCenterBox(translate('et.level', { n: state.earTrainer.level }));
+      return;
+    }
+    if (state.game === GAMES.guessChord) {
+      setCenterBox(translate('gc.level', { n: state.guessChord.level }));
       return;
     }
   }

@@ -67,6 +67,14 @@
                   <input type="radio" name="game" value="knowScale">
                   <span data-i18n="game.knowScale">Know the scale</span>
                 </label>
+                <label class="chip">
+                  <input type="radio" name="game" value="earTrainer">
+                  <span data-i18n="game.earTrainer">Ear trainer</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="game" value="guessChord">
+                  <span data-i18n="game.guessChord">Guess the chord</span>
+                </label>
               </div>
             </div>
 
@@ -130,6 +138,14 @@
             <span class="achievement-label" data-i18n="ach.knowScale">Know the scale best</span>
             <span id="best-know-scale" class="achievement-value">0.00s</span>
           </div>
+          <div class="achievement-row">
+            <span class="achievement-label" data-i18n="ach.earTrainer">Ear trainer best</span>
+            <span id="best-ear-trainer" class="achievement-value">0</span>
+          </div>
+          <div class="achievement-row">
+            <span class="achievement-label" data-i18n="ach.guessChord">Guess the chord best</span>
+            <span id="best-guess-chord" class="achievement-value">0</span>
+          </div>
         </div>
         </div>
       </div>
@@ -178,6 +194,8 @@
             <a class="help-link" href="#help-games" data-i18n="help.idx.games">Games</a>
             <a class="help-link" href="#help-know-key" data-i18n="help.idx.knowKey">Know the key</a>
             <a class="help-link" href="#help-know-scale" data-i18n="help.idx.knowScale">Know the scale</a>
+            <a class="help-link" href="#help-ear-trainer" data-i18n="help.idx.earTrainer">Ear trainer</a>
+            <a class="help-link" href="#help-guess-chord" data-i18n="help.idx.guessChord">Guess the chord</a>
             <a class="help-link" href="#help-scale" data-i18n="help.idx.scale">Scale & Random key</a>
             <a class="help-link" href="#help-modes" data-i18n="help.idx.modes">Modes (Easy / Normal / Hard)</a>
             <a class="help-link" href="#help-play" data-i18n="help.idx.play">Play screen</a>
@@ -207,7 +225,9 @@
             <li data-i18n="help.games.li1"><strong>Memory</strong>: the app plays a growing sequence and you repeat it.</li>
             <li data-i18n="help.games.li2"><strong>Know the key</strong>: reaction-time trainer for finding random notes.</li>
             <li data-i18n="help.games.li3"><strong>Know the scale</strong>: speed trainer for playing a major scale in order.</li>
-            <li data-i18n="help.games.li4"><strong>Modes</strong> apply only to Memory.</li>
+            <li data-i18n="help.games.li4"><strong>Ear trainer</strong>: pitch discrimination game — guess if a tone is higher or lower than middle C.</li>
+            <li data-i18n="help.games.li5"><strong>Guess the chord</strong>: identify diatonic chords of C major by ear.</li>
+            <li data-i18n="help.games.li6"><strong>Modes</strong> apply only to Memory.</li>
           </ul>
 
           <h2 id="help-know-key" class="help-h2" data-i18n="help.knowKey.title">Know the key</h2>
@@ -226,6 +246,25 @@
             <li data-i18n="help.knowScale.li3">Play the 7 notes of the major scale in exact order starting from the root.</li>
             <li data-i18n="help.knowScale.li4">A wrong note or wrong order ends the run.</li>
             <li data-i18n="help.knowScale.li5">Timing starts when you tap the first note (root). Your total time is saved as your best.</li>
+          </ol>
+
+          <h2 id="help-ear-trainer" class="help-h2" data-i18n="help.earTrainer.title">Ear trainer</h2>
+          <ol class="help-ol">
+            <li data-i18n="help.earTrainer.li1">Tap <strong>Play</strong> to start.</li>
+            <li data-i18n="help.earTrainer.li2">You hear a reference tone (middle C, ~261 Hz) for one second, then a short pause, then a test tone.</li>
+            <li data-i18n="help.earTrainer.li3">Tap the <strong>up arrow</strong> if the test tone is higher, or the <strong>down arrow</strong> if it is lower.</li>
+            <li data-i18n="help.earTrainer.li4">The first test tone differs by 2 semitones. Each correct answer halves the interval (1, ½, ¼ semitone…).</li>
+            <li data-i18n="help.earTrainer.li5">A wrong answer ends the run. Your best level (number of correct answers) is saved.</li>
+          </ol>
+
+          <h2 id="help-guess-chord" class="help-h2" data-i18n="help.guessChord.title">Guess the chord</h2>
+          <ol class="help-ol">
+            <li data-i18n="help.guessChord.li1">Tap <strong>Play</strong> to start.</li>
+            <li data-i18n="help.guessChord.li2">You hear a C major chord as a reference, then a short pause, then a mystery chord from the 7 diatonic triads of C major.</li>
+            <li data-i18n="help.guessChord.li3">Pick the correct chord from the 7 buttons on screen (C, Dm, Em, F, G, Am, Bdim).</li>
+            <li data-i18n="help.guessChord.li4">If correct, the chord you just identified becomes the new reference for the next round.</li>
+            <li data-i18n="help.guessChord.li5">A wrong answer ends the run. Your best level is saved.</li>
+            <li data-i18n="help.guessChord.li6">After 20 correct answers, 7th and sus4 chords are added. After 35, 9th chords (5 notes) join the mix.</li>
           </ol>
 
           <h2 id="help-scale" class="help-h2" data-i18n="help.scale.title">Scale & Random key</h2>
@@ -296,9 +335,54 @@
         <button id="play-btn" class="primary" data-i18n="play.play">Play</button>
       </header>
 
-      <div class="keyboard-wrapper">
+      <div class="keyboard-wrapper" id="keyboard-wrapper">
         <div id="inline-error" class="inline-error hidden" data-i18n="play.wrong" role="alert" aria-live="assertive">Wrong note! Try again</div>
         <div id="keyboard" class="keyboard" aria-label="Piano keyboard"></div>
+      </div>
+
+      <div class="chord-panel hidden" id="chord-panel">
+        <div class="chord-speaker" id="chord-speaker" aria-label="Speaker">
+          <svg viewBox="0 0 80 80" width="60" height="60">
+            <rect x="10" y="24" width="16" height="32" rx="3" fill="currentColor"/>
+            <polygon points="26,24 48,8 48,72 26,56" fill="currentColor"/>
+            <path class="ear-wave ear-wave-1" d="M56,28 Q66,40 56,52" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path class="ear-wave ear-wave-2" d="M62,20 Q76,40 62,60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="chord-buttons" id="chord-buttons">
+          <div class="chord-roots">
+            <button class="chord-btn" type="button" data-root="0">C</button>
+            <button class="chord-btn" type="button" data-root="1">Dm</button>
+            <button class="chord-btn" type="button" data-root="2">Em</button>
+            <button class="chord-btn" type="button" data-root="3">F</button>
+            <button class="chord-btn" type="button" data-root="4">G</button>
+            <button class="chord-btn" type="button" data-root="5">Am</button>
+            <button class="chord-btn" type="button" data-root="6">Bdim</button>
+          </div>
+          <div class="chord-extensions hidden" id="chord-extensions">
+            <button class="chord-ext-btn selected" type="button" data-ext="triad">&ndash;</button>
+            <button class="chord-ext-btn" type="button" data-ext="7">7</button>
+            <button class="chord-ext-btn" type="button" data-ext="sus4">sus4</button>
+            <button class="chord-ext-btn chord-ext-9" type="button" data-ext="9">9</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ear-panel hidden" id="ear-panel">
+        <button id="ear-btn-down" class="ear-arrow ear-arrow-down" type="button" aria-label="Lower">
+          <svg viewBox="0 0 48 48" width="64" height="64"><path d="M24 34 8 16h32z" fill="currentColor"/></svg>
+        </button>
+        <div class="ear-speaker" id="ear-speaker" aria-label="Speaker">
+          <svg viewBox="0 0 80 80" width="80" height="80">
+            <rect x="10" y="24" width="16" height="32" rx="3" fill="currentColor"/>
+            <polygon points="26,24 48,8 48,72 26,56" fill="currentColor"/>
+            <path class="ear-wave ear-wave-1" d="M56,28 Q66,40 56,52" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path class="ear-wave ear-wave-2" d="M62,20 Q76,40 62,60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <button id="ear-btn-up" class="ear-arrow ear-arrow-up" type="button" aria-label="Higher">
+          <svg viewBox="0 0 48 48" width="64" height="64"><path d="M24 14 40 32H8z" fill="currentColor"/></svg>
+        </button>
       </div>
     </section>
   </div>
