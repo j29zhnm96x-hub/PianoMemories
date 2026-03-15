@@ -1182,6 +1182,7 @@
       refChordIdx: 0,       // index into CHORD_POOL of the reference chord
       testChordIdx: 0,      // index of the mystery chord
       selectedExt: 'triad', // currently selected extension button
+      referenceUpperMidis: [],
       previousUpperMidis: [],
       lastTestUpperMidis: [],
       lastReferenceNotes: [],
@@ -2249,6 +2250,23 @@
     return total;
   }
 
+  function chordVoicingRangePenalty(candidate) {
+    if (!candidate || !candidate.length) return 0;
+    const low = candidate[0];
+    const high = candidate[candidate.length - 1];
+    const span = high - low;
+    let penalty = 0;
+
+    if (low < 60) penalty += (60 - low) * 8;
+    if (low > 72) penalty += (low - 72) * 10;
+    if (high > 76) penalty += (high - 76) * 4;
+
+    penalty += Math.abs(low - 60) * 1.5;
+    penalty += Math.abs(averageMidi(candidate) - 66) * 0.75;
+    penalty += span * 0.35;
+    return penalty;
+  }
+
   function buildGuessChordVoicing(notes, previousUpperMidis = []) {
     const rootPc = String(notes[0]).replace(/\d+$/, '');
     const bassNote = `${rootPc}3`;
@@ -2264,7 +2282,7 @@
         const shifted = rotated.map((midi) => midi + octaveShift);
         const low = shifted[0];
         const high = shifted[shifted.length - 1];
-        if (low < 55 || high > 86) continue;
+        if (low < 48 || high > 88) continue;
         if (!candidates.some((existing) => existing.every((midi, idx) => midi === shifted[idx]))) {
           candidates.push(shifted);
         }
@@ -2276,12 +2294,19 @@
 
     if (previousUpperMidis && previousUpperMidis.length) {
       const ranked = pool
-        .map((candidate) => ({ candidate, distance: chordVoicingDistance(candidate, previousUpperMidis) }))
-        .sort((a, b) => a.distance - b.distance);
+        .map((candidate) => ({
+          candidate,
+          score: chordVoicingDistance(candidate, previousUpperMidis) + chordVoicingRangePenalty(candidate),
+        }))
+        .sort((a, b) => a.score - b.score);
       const shortlist = ranked.slice(0, Math.min(3, ranked.length));
       chosen = pickRandom(shortlist).candidate;
     } else {
-      chosen = pickRandom(pool);
+      const ranked = pool
+        .map((candidate) => ({ candidate, score: chordVoicingRangePenalty(candidate) }))
+        .sort((a, b) => a.score - b.score);
+      const shortlist = ranked.slice(0, Math.min(3, ranked.length));
+      chosen = pickRandom(shortlist).candidate;
     }
 
     return {
@@ -2336,6 +2361,7 @@
     gc.refChordIdx = 0; // start with C major triad (index 0)
     gc.testChordIdx = 0;
     gc.selectedExt = 'triad';
+    gc.referenceUpperMidis = [];
     gc.previousUpperMidis = [];
     gc.lastTestUpperMidis = [];
     gc.lastReferenceNotes = [];
@@ -2358,6 +2384,24 @@
     guessChordNextRound();
   }
 
+  function setReferenceChordIndicator(visible) {
+    if (!chordButtons) return;
+    const gc = state.guessChord;
+    const referenceChord = CHORD_POOL[gc.refChordIdx];
+    if (!referenceChord) return;
+
+    Array.from(chordButtons.querySelectorAll('.chord-btn')).forEach((btn) => {
+      const rootIdx = parseInt(btn.dataset.root, 10);
+      btn.classList.toggle('chord-reference', visible && rootIdx === referenceChord.root);
+    });
+
+    if (chordExtensions) {
+      Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach((btn) => {
+        btn.classList.toggle('chord-reference', visible && btn.dataset.ext === referenceChord.ext);
+      });
+    }
+  }
+
   async function playStoredGuessChordRound(myToken) {
     const gc = state.guessChord;
 
@@ -2365,20 +2409,25 @@
     state.canInput = false;
 
     const rootBtns = chordButtons ? Array.from(chordButtons.querySelectorAll('.chord-btn')) : [];
-    rootBtns.forEach(btn => { btn.disabled = true; btn.classList.remove('chord-correct', 'chord-wrong'); });
+    rootBtns.forEach(btn => { btn.disabled = true; btn.classList.remove('chord-correct', 'chord-wrong', 'chord-reference'); });
+    if (chordExtensions) {
+      Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach((btn) => btn.classList.remove('chord-reference'));
+    }
     resetChordExtSelection();
     updateChordTierUI(gc.level);
 
     if (statusText) statusText.textContent = translate('gc.listen');
     if (chordSpeaker) chordSpeaker.classList.add('playing');
+    setReferenceChordIndicator(true);
 
     await playChord(gc.lastReferenceNotes, 1.0);
-    if (myToken !== state.seqToken || state.gameOver || state.paused) { if (chordSpeaker) chordSpeaker.classList.remove('playing'); return; }
+    if (myToken !== state.seqToken || state.gameOver || state.paused) { setReferenceChordIndicator(false); if (chordSpeaker) chordSpeaker.classList.remove('playing'); return; }
 
     await wait(500);
-    if (myToken !== state.seqToken || state.gameOver || state.paused) { if (chordSpeaker) chordSpeaker.classList.remove('playing'); return; }
+    if (myToken !== state.seqToken || state.gameOver || state.paused) { setReferenceChordIndicator(false); if (chordSpeaker) chordSpeaker.classList.remove('playing'); return; }
 
     gc.phase = 'playing-test';
+    setReferenceChordIndicator(false);
     await playChord(gc.lastTestNotes, 1.0);
     if (chordSpeaker) chordSpeaker.classList.remove('playing');
     if (myToken !== state.seqToken || state.gameOver || state.paused) return;
@@ -2396,7 +2445,17 @@
     const gc = state.guessChord;
     const myToken = state.seqToken;
 
-    const referenceVoicing = buildGuessChordVoicing(CHORD_POOL[gc.refChordIdx].notes, gc.previousUpperMidis);
+    let referenceVoicing;
+    if (gc.referenceUpperMidis.length) {
+      const rootPc = String(CHORD_POOL[gc.refChordIdx].notes[0]).replace(/\d+$/, '');
+      referenceVoicing = {
+        notes: [`${rootPc}3`, ...gc.referenceUpperMidis.map(midiToNote)],
+        upperMidis: gc.referenceUpperMidis.slice(),
+      };
+    } else {
+      referenceVoicing = buildGuessChordVoicing(CHORD_POOL[gc.refChordIdx].notes, gc.previousUpperMidis);
+      gc.referenceUpperMidis = referenceVoicing.upperMidis.slice();
+    }
     gc.lastReferenceNotes = referenceVoicing.notes.slice();
     const tier = getChordTier(gc.level);
     const pool = getAvailableChordIndices(tier);
@@ -2447,12 +2506,15 @@
       if (btn) btn.classList.add('chord-correct');
       gc.level += 1;
       gc.refChordIdx = gc.testChordIdx; // chain: correct becomes new reference
+      gc.referenceUpperMidis = gc.lastTestUpperMidis.slice();
       gc.previousUpperMidis = gc.lastTestUpperMidis.slice();
+      gc.lastReferenceNotes = gc.lastTestNotes.slice();
       setCenterBox(translate('gc.level', { n: gc.level }));
       if (statusText) statusText.textContent = translate('gc.correct', { n: gc.level });
       // Disable buttons and proceed to next round after a brief pause
       rootBtns.forEach(b => { b.disabled = true; });
       if (chordExtensions) Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(b => { b.disabled = true; });
+      setReferenceChordIndicator(false);
       setTimeout(() => {
         if (state.seqToken !== gc.seqToken || state.gameOver || state.paused) return;
         guessChordNextRound();
@@ -2474,6 +2536,7 @@
           if (b.dataset.ext === correctChord.ext) b.classList.add('selected');
         });
       }
+      setReferenceChordIndicator(false);
       rootBtns.forEach(b => { b.disabled = true; });
       if (chordExtensions) Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(b => { b.disabled = true; });
       if (chordSpeaker) chordSpeaker.classList.remove('playing');
