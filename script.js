@@ -153,7 +153,7 @@
         'help.knowKey.title': 'Know the key',
         'help.knowKey.li1': 'Tap <strong>Play</strong> to start a 3-2-1 countdown.',
         'help.knowKey.li2': 'A note name appears in the middle box (example: <strong>C#</strong>) and its tone plays.',
-        'help.knowKey.li3': 'Tap the matching key as fast as you can.',
+        'help.knowKey.li3': 'Tap the matching key as fast as you can. Every piano key you press also plays its note.',
         'help.knowKey.li4': 'There are 12 rounds (each note appears once). A wrong tap ends the run.',
         'help.knowKey.li5': 'Your total time is shown at the end and saved as your best.',
 
@@ -166,16 +166,16 @@
 
         'help.earTrainer.title': 'Ear trainer',
         'help.earTrainer.li1': 'Tap <strong>Play</strong> to start.',
-        'help.earTrainer.li2': 'You hear a reference tone (middle C, ~261 Hz) for one second, then a short pause, then a test tone.',
+        'help.earTrainer.li2': 'You hear a reference tone (middle C, ~261 Hz) for one second, then a short pause, then a test tone. Tap the speaker to repeat the last pair.',
         'help.earTrainer.li3': 'Tap the <strong>up arrow</strong> if the test tone is higher, or the <strong>down arrow</strong> if it is lower.',
-        'help.earTrainer.li4': 'The first test tone differs by 2 semitones. Each correct answer halves the interval (1, ½, ¼ semitone…).',
+        'help.earTrainer.li4': 'The first 3 levels halve the interval (2, 1, ½, ¼ semitone). After that, each correct answer shrinks it by 15%.',
         'help.earTrainer.li5': 'A wrong answer ends the run. Your best level (number of correct answers) is saved.',
 
         'help.guessChord.title': 'Guess the chord',
         'help.guessChord.li1': 'Tap <strong>Play</strong> to start.',
-        'help.guessChord.li2': 'You hear a C major chord as a reference, then a short pause, then a mystery chord from the 7 diatonic triads of C major.',
+        'help.guessChord.li2': 'You hear a C major chord as a reference, then a short pause, then a mystery chord. Each voicing keeps the root in the bass while the upper notes use a close inversion.',
         'help.guessChord.li3': 'Pick the correct chord from the 7 buttons on screen (C, Dm, Em, F, G, Am, Bdim).',
-        'help.guessChord.li4': 'If correct, the chord you just identified becomes the new reference for the next round.',
+        'help.guessChord.li4': 'If correct, the chord you just identified becomes the new reference for the next round. Tap the speaker to repeat the last reference and mystery chord.',
         'help.guessChord.li5': 'A wrong answer ends the run. Your best level is saved.',
         'help.guessChord.li6': 'After 20 correct answers, 7th and sus4 chords are added. After 35, 9th chords (5 notes) join the mix.',
 
@@ -345,7 +345,7 @@
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Dodirnite <strong>Igraj</strong> za odbrojavanje 3-2-1.',
       'help.knowKey.li2': 'U sredini se prikaže naziv note (npr. <strong>C#</strong>) i čuje se ton.',
-      'help.knowKey.li3': 'Dodirnite odgovarajuću tipku što brže možete.',
+      'help.knowKey.li3': 'Dodirnite odgovarajuću tipku što brže možete. Svaka tipka klavira koju pritisnete također svira svoju notu.',
       'help.knowKey.li4': 'Ima 12 rundi (svaka nota jednom). Pogrešan dodir završava rundu.',
       'help.knowKey.li5': 'Na kraju se prikaže ukupno vrijeme i sprema se kao najbolje.',
 
@@ -358,16 +358,16 @@
 
         'help.earTrainer.title': 'Ear trainer',
         'help.earTrainer.li1': 'Dodirnite <strong>Igraj</strong> za početak.',
-        'help.earTrainer.li2': 'Čujete referentni ton (srednji C, ~261 Hz) jednu sekundu, zatim kratku pauzu, zatim testni ton.',
+        'help.earTrainer.li2': 'Čujete referentni ton (srednji C, ~261 Hz) jednu sekundu, zatim kratku pauzu, zatim testni ton. Dodirnite zvučnik za ponavljanje zadnjeg para tonova.',
         'help.earTrainer.li3': 'Dodirnite <strong>strelicu gore</strong> ako je testni ton viši, ili <strong>strelicu dolje</strong> ako je niži.',
-        'help.earTrainer.li4': 'Prvi testni ton razlikuje se za 2 polutona. Svaki točan odgovor prepolovi interval (1, ½, ¼ polutona…).',
+        'help.earTrainer.li4': 'Prve 3 razine prepolovljuju interval (2, 1, ½, ¼ polutona). Nakon toga svaki točan odgovor smanji ga za 15%.',
         'help.earTrainer.li5': 'Pogrešan odgovor završava pokušaj. Najbolja razina (broj točnih odgovora) se sprema.',
 
         'help.guessChord.title': 'Guess the chord',
         'help.guessChord.li1': 'Dodirnite <strong>Igraj</strong> za početak.',
-        'help.guessChord.li2': 'Čujete C-dur akord kao referencu, zatim kratku pauzu, zatim nepoznati akord iz 7 dijatoničkih trozvuka C-dura.',
+        'help.guessChord.li2': 'Čujete C-dur akord kao referencu, zatim kratku pauzu, zatim nepoznati akord. Svaki akord ima osnovni ton u basu, a gornji glasovi sviraju blisku inverziju.',
         'help.guessChord.li3': 'Odaberite točan akord iz 7 gumba na zaslonu (C, Dm, Em, F, G, Am, Bdim).',
-        'help.guessChord.li4': 'Ako je točno, upravo prepoznati akord postaje nova referenca za sljedeću rundu.',
+        'help.guessChord.li4': 'Ako je točno, upravo prepoznati akord postaje nova referenca za sljedeću rundu. Dodirnite zvučnik za ponavljanje zadnjeg referentnog i skrivenog akorda.',
         'help.guessChord.li5': 'Pogrešan odgovor završava pokušaj. Najbolja razina se sprema.',
         'help.guessChord.li6': 'Nakon 20 točnih odgovora dodaju se septakordi i sus4. Nakon 35, i nonakordi (5 nota).',
 
@@ -537,7 +537,7 @@
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Stuknij <strong>Graj</strong>, aby rozpocząć odliczanie 3-2-1.',
       'help.knowKey.li2': 'W środkowym polu pojawi się nazwa nuty (np. <strong>C#</strong>) i zabrzmi jej dźwięk.',
-      'help.knowKey.li3': 'Stuknij pasujący klawisz jak najszybciej.',
+      'help.knowKey.li3': 'Stuknij pasujący klawisz jak najszybciej. Każdy naciśnięty klawisz fortepianu odtwarza też swój dźwięk.',
       'help.knowKey.li4': 'Jest 12 rund (każda nuta raz). Błędny klawisz kończy próbę.',
       'help.knowKey.li5': 'Na końcu zobaczysz łączny czas i zapisze się on jako najlepszy.',
 
@@ -550,16 +550,16 @@
 
         'help.earTrainer.title': 'Ear trainer',
         'help.earTrainer.li1': 'Stuknij <strong>Graj</strong>, aby rozpocząć.',
-        'help.earTrainer.li2': 'Słyszysz ton referencyjny (środkowe C, ~261 Hz) przez jedną sekundę, potem krótką pauzę, potem ton testowy.',
+        'help.earTrainer.li2': 'Słyszysz ton referencyjny (środkowe C, ~261 Hz) przez jedną sekundę, potem krótką pauzę, potem ton testowy. Dotknij głośnika, aby powtórzyć ostatnią parę.',
         'help.earTrainer.li3': 'Stuknij <strong>strzałkę w górę</strong>, jeśli ton testowy jest wyższy, lub <strong>strzałkę w dół</strong>, jeśli niższy.',
-        'help.earTrainer.li4': 'Pierwszy ton testowy różni się o 2 półtony. Każda poprawna odpowiedź zmniejsza interwał o połowę (1, ½, ¼ półtonu…).',
+        'help.earTrainer.li4': 'Przez pierwsze 3 poziomy interwał zmniejsza się o połowę (2, 1, ½, ¼ półtonu). Potem każda poprawna odpowiedź zmniejsza go o 15%.',
         'help.earTrainer.li5': 'Błędna odpowiedź kończy próbę. Najlepszy poziom (liczba poprawnych) jest zapisywany.',
 
         'help.guessChord.title': 'Guess the chord',
         'help.guessChord.li1': 'Stuknij <strong>Graj</strong>, aby rozpocząć.',
-        'help.guessChord.li2': 'Słyszysz akord C-dur jako referencję, potem krótką pauzę, potem nieznany akord z 7 diatonicznych trójdźwięków C-dur.',
+        'help.guessChord.li2': 'Słyszysz akord C-dur jako referencję, potem krótką pauzę, potem nieznany akord. Każdy akord ma prymę w basie, a górne głosy grają bliskie przewroty.',
         'help.guessChord.li3': 'Wybierz właściwy akord z 7 przycisków na ekranie (C, Dm, Em, F, G, Am, Bdim).',
-        'help.guessChord.li4': 'Jeśli poprawnie, właśnie rozpoznany akord staje się nową referencją dla następnej rundy.',
+        'help.guessChord.li4': 'Jeśli poprawnie, właśnie rozpoznany akord staje się nową referencją dla następnej rundy. Dotknij głośnika, aby powtórzyć ostatni akord referencyjny i testowy.',
         'help.guessChord.li5': 'Błędna odpowiedź kończy próbę. Najlepszy poziom jest zapisywany.',
         'help.guessChord.li6': 'Po 20 poprawnych odpowiedziach dochodzą septakordy i sus4. Po 35 — nonakordy (5 dźwięków).',
 
@@ -729,7 +729,7 @@
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Tocca <strong>Gioca</strong> per iniziare il conto alla rovescia 3-2-1.',
       'help.knowKey.li2': 'Nel riquadro centrale appare il nome della nota (es: <strong>C#</strong>) e viene riprodotto il suono.',
-      'help.knowKey.li3': 'Tocca il tasto corrispondente il più velocemente possibile.',
+      'help.knowKey.li3': 'Tocca il tasto corrispondente il più velocemente possibile. Ogni tasto del piano che premi riproduce anche la sua nota.',
       'help.knowKey.li4': 'Ci sono 12 round (ogni nota una volta). Un errore termina la partita.',
       'help.knowKey.li5': 'Il tempo totale viene mostrato alla fine e salvato come migliore.',
 
@@ -742,16 +742,16 @@
 
         'help.earTrainer.title': 'Ear trainer',
         'help.earTrainer.li1': 'Tocca <strong>Gioca</strong> per iniziare.',
-        'help.earTrainer.li2': 'Senti un tono di riferimento (Do centrale, ~261 Hz) per un secondo, poi una breve pausa, poi un tono di test.',
+        'help.earTrainer.li2': 'Senti un tono di riferimento (Do centrale, ~261 Hz) per un secondo, poi una breve pausa, poi un tono di test. Tocca l’altoparlante per ripetere l’ultima coppia.',
         'help.earTrainer.li3': 'Tocca la <strong>freccia su</strong> se il tono di test è più alto, o la <strong>freccia giù</strong> se è più basso.',
-        'help.earTrainer.li4': 'Il primo tono di test differisce di 2 semitoni. Ogni risposta corretta dimezza l’intervallo (1, ½, ¼ di semitono…).',
+        'help.earTrainer.li4': 'Per i primi 3 livelli l’intervallo si dimezza (2, 1, ½, ¼ di semitono). Dopo, ogni risposta corretta lo riduce del 15%.',
         'help.earTrainer.li5': 'Una risposta sbagliata termina la prova. Il miglior livello (numero di risposte corrette) viene salvato.',
 
         'help.guessChord.title': 'Guess the chord',
         'help.guessChord.li1': 'Tocca <strong>Gioca</strong> per iniziare.',
-        'help.guessChord.li2': "Senti l'accordo di Do maggiore come riferimento, poi una breve pausa, poi un accordo sconosciuto tra le 7 triadi diatoniche di Do maggiore.",
+        'help.guessChord.li2': "Senti l'accordo di Do maggiore come riferimento, poi una breve pausa, poi un accordo sconosciuto. Ogni voicing tiene la fondamentale nel basso mentre le note acute usano un'inversione ravvicinata.",
         'help.guessChord.li3': "Scegli l'accordo corretto tra i 7 pulsanti sullo schermo (C, Dm, Em, F, G, Am, Bdim).",
-        'help.guessChord.li4': "Se corretto, l'accordo appena riconosciuto diventa il nuovo riferimento per il round successivo.",
+        'help.guessChord.li4': "Se corretto, l'accordo appena riconosciuto diventa il nuovo riferimento per il round successivo. Tocca l'altoparlante per ripetere l'ultimo accordo di riferimento e quello misterioso.",
         'help.guessChord.li5': 'Una risposta sbagliata termina la prova. Il miglior livello viene salvato.',
         'help.guessChord.li6': 'Dopo 20 risposte corrette si aggiungono accordi di settima e sus4. Dopo 35, anche accordi di nona (5 note).',
 
@@ -921,7 +921,7 @@
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Toca <strong>Jugar</strong> para iniciar la cuenta atrás 3-2-1.',
       'help.knowKey.li2': 'En el cuadro central aparece el nombre de la nota (ej.: <strong>C#</strong>) y se reproduce su sonido.',
-      'help.knowKey.li3': 'Toca la tecla correspondiente lo más rápido posible.',
+      'help.knowKey.li3': 'Toca la tecla correspondiente lo más rápido posible. Cada tecla del piano que pulses también reproduce su nota.',
       'help.knowKey.li4': 'Hay 12 rondas (cada nota una vez). Un fallo termina la partida.',
       'help.knowKey.li5': 'El tiempo total se muestra al final y se guarda como tu mejor.',
 
@@ -934,16 +934,16 @@
 
         'help.earTrainer.title': 'Ear trainer',
         'help.earTrainer.li1': 'Toca <strong>Jugar</strong> para empezar.',
-        'help.earTrainer.li2': 'Escuchas un tono de referencia (Do central, ~261 Hz) durante un segundo, luego una breve pausa y un tono de prueba.',
+        'help.earTrainer.li2': 'Escuchas un tono de referencia (Do central, ~261 Hz) durante un segundo, luego una breve pausa y un tono de prueba. Toca el altavoz para repetir el último par.',
         'help.earTrainer.li3': 'Toca la <strong>flecha arriba</strong> si el tono de prueba es más alto, o la <strong>flecha abajo</strong> si es más bajo.',
-        'help.earTrainer.li4': 'El primer tono de prueba difiere en 2 semitonos. Cada respuesta correcta reduce el intervalo a la mitad (1, ½, ¼ de semitono…).',
+        'help.earTrainer.li4': 'Durante los primeros 3 niveles el intervalo se reduce a la mitad (2, 1, ½, ¼ de semitono). Después, cada acierto lo reduce un 15%.',
         'help.earTrainer.li5': 'Una respuesta incorrecta termina la partida. Tu mejor nivel (número de respuestas correctas) se guarda.',
 
         'help.guessChord.title': 'Guess the chord',
         'help.guessChord.li1': 'Toca <strong>Jugar</strong> para empezar.',
-        'help.guessChord.li2': 'Escuchas el acorde de Do mayor como referencia, luego una breve pausa y un acorde desconocido de las 7 tríadas diatónicas de Do mayor.',
+        'help.guessChord.li2': 'Escuchas el acorde de Do mayor como referencia, luego una breve pausa y un acorde desconocido. Cada voicing mantiene la tónica en el bajo y usa una inversión cerrada en las notas superiores.',
         'help.guessChord.li3': 'Elige el acorde correcto entre los 7 botones en pantalla (C, Dm, Em, F, G, Am, Bdim).',
-        'help.guessChord.li4': 'Si es correcto, el acorde recién reconocido se convierte en la nueva referencia para la siguiente ronda.',
+        'help.guessChord.li4': 'Si es correcto, el acorde recién reconocido se convierte en la nueva referencia para la siguiente ronda. Toca el altavoz para repetir el último acorde de referencia y el misterioso.',
         'help.guessChord.li5': 'Una respuesta incorrecta termina la partida. Tu mejor nivel se guarda.',
         'help.guessChord.li6': 'Después de 20 respuestas correctas se añaden acordes de séptima y sus4. Después de 35, también de novena (5 notas).',
 
@@ -1170,6 +1170,9 @@
       level: 0,             // number of correct answers so far
       intervalSemitones: 2, // current interval in semitones (halves each round)
       direction: 0,         // +1 higher, -1 lower
+      lastReferenceHz: 0,
+      lastTestHz: 0,
+      replayingPrompt: false,
       seqToken: 0,
     },
 
@@ -1179,6 +1182,11 @@
       refChordIdx: 0,       // index into CHORD_POOL of the reference chord
       testChordIdx: 0,      // index of the mystery chord
       selectedExt: 'triad', // currently selected extension button
+      previousUpperMidis: [],
+      lastTestUpperMidis: [],
+      lastReferenceNotes: [],
+      lastTestNotes: [],
+      replayingPrompt: false,
       seqToken: 0,
     },
   };
@@ -1410,6 +1418,24 @@
     const semitone = NOTE_ORDER.indexOf(name);
     const midi = (parseInt(octave, 10) + 1) * 12 + semitone;
     return 440 * Math.pow(2, (midi - 69) / 12);
+  }
+
+  function noteToMidi(note) {
+    const match = note.match(/^([A-G])(#|b)?(\d)$/);
+    if (!match) return 69;
+    let [, letter, accidental, octave] = match;
+    let name = letter + (accidental || '');
+    name = FLAT_TO_SHARP[name] || name;
+    const semitone = NOTE_ORDER.indexOf(name);
+    if (semitone === -1) return 69;
+    return (parseInt(octave, 10) + 1) * 12 + semitone;
+  }
+
+  function midiToNote(midi) {
+    const rounded = Math.round(midi);
+    const octave = Math.floor(rounded / 12) - 1;
+    const pc = NOTE_ORDER[((rounded % 12) + 12) % 12];
+    return `${pc}${octave}`;
   }
 
   function canonicalPitch(name) {
@@ -2019,6 +2045,9 @@
     state.earTrainer.level = 0;
     state.earTrainer.intervalSemitones = 2;
     state.earTrainer.direction = 0;
+    state.earTrainer.lastReferenceHz = 0;
+    state.earTrainer.lastTestHz = 0;
+    state.earTrainer.replayingPrompt = false;
     state.earTrainer.seqToken = ++state.seqToken;
 
     if (playBtn) playBtn.textContent = translate('play.restart');
@@ -2042,6 +2071,7 @@
     if (earSpeaker) earSpeaker.classList.add('playing');
 
     // Play reference tone (middle C) for 1 second
+    et.lastReferenceHz = MIDDLE_C_HZ;
     await playToneHz(MIDDLE_C_HZ, 1.0);
     if (myToken !== state.seqToken || state.gameOver || state.paused) { if (earSpeaker) earSpeaker.classList.remove('playing'); return; }
 
@@ -2052,6 +2082,7 @@
     // Pick direction randomly
     et.direction = Math.random() < 0.5 ? 1 : -1;
     const testFreq = MIDDLE_C_HZ * Math.pow(2, (et.direction * et.intervalSemitones) / 12);
+    et.lastTestHz = testFreq;
 
     et.phase = 'playing-test';
     await playToneHz(testFreq, 1.0);
@@ -2066,6 +2097,28 @@
     if (statusText) statusText.textContent = translate('et.guess');
   }
 
+  async function replayEarTrainerPrompt() {
+    const et = state.earTrainer;
+    if (state.game !== GAMES.earTrainer || !state.started || state.gameOver || state.paused) return;
+    if (!et.lastReferenceHz || !et.lastTestHz || et.replayingPrompt) return;
+
+    et.replayingPrompt = true;
+    if (earSpeaker) earSpeaker.classList.add('playing');
+
+    try {
+      await playToneHz(et.lastReferenceHz, 1.0);
+      if (state.game !== GAMES.earTrainer || state.gameOver || state.paused) return;
+
+      await wait(333);
+      if (state.game !== GAMES.earTrainer || state.gameOver || state.paused) return;
+
+      await playToneHz(et.lastTestHz, 1.0);
+    } finally {
+      et.replayingPrompt = false;
+      if (earSpeaker) earSpeaker.classList.remove('playing');
+    }
+  }
+
   function handleEarTrainerAnswer(guessedHigher) {
     const et = state.earTrainer;
     if (et.phase !== 'waiting' || !state.canInput) return;
@@ -2074,11 +2127,11 @@
 
     if (correct) {
       et.level += 1;
-      // First 3 levels: halve the interval; afterwards shrink by 12.5%
+      // First 3 levels: halve the interval; afterwards shrink by 15%
       if (et.level <= 3) {
         et.intervalSemitones /= 2;
       } else {
-        et.intervalSemitones *= 0.875;
+        et.intervalSemitones *= 0.85;
       }
       setCenterBox(translate('et.level', { n: et.level }));
       if (statusText) statusText.textContent = translate('et.correct', { n: et.level });
@@ -2179,6 +2232,64 @@
     });
   }
 
+  function averageMidi(midis) {
+    if (!midis || !midis.length) return 0;
+    return midis.reduce((sum, midi) => sum + midi, 0) / midis.length;
+  }
+
+  function chordVoicingDistance(candidate, previous) {
+    if (!previous || !previous.length) return 0;
+    const overlap = Math.min(candidate.length, previous.length);
+    let total = Math.abs(candidate.length - previous.length) * 6;
+    for (let i = 0; i < overlap; i += 1) {
+      total += Math.abs(candidate[i] - previous[i]);
+    }
+    total += Math.abs(averageMidi(candidate) - averageMidi(previous));
+    total += Math.abs(candidate[0] - previous[0]) * 0.5;
+    return total;
+  }
+
+  function buildGuessChordVoicing(notes, previousUpperMidis = []) {
+    const rootPc = String(notes[0]).replace(/\d+$/, '');
+    const bassNote = `${rootPc}3`;
+    const upperMidis = notes.map(noteToMidi);
+    const candidates = [];
+
+    for (let inversion = 0; inversion < upperMidis.length; inversion += 1) {
+      const rotated = upperMidis
+        .slice(inversion)
+        .concat(upperMidis.slice(0, inversion).map((midi) => midi + 12));
+
+      for (const octaveShift of [-12, 0, 12]) {
+        const shifted = rotated.map((midi) => midi + octaveShift);
+        const low = shifted[0];
+        const high = shifted[shifted.length - 1];
+        if (low < 55 || high > 86) continue;
+        if (!candidates.some((existing) => existing.every((midi, idx) => midi === shifted[idx]))) {
+          candidates.push(shifted);
+        }
+      }
+    }
+
+    const pool = candidates.length ? candidates : [upperMidis];
+    let chosen = pool[0];
+
+    if (previousUpperMidis && previousUpperMidis.length) {
+      const ranked = pool
+        .map((candidate) => ({ candidate, distance: chordVoicingDistance(candidate, previousUpperMidis) }))
+        .sort((a, b) => a.distance - b.distance);
+      const shortlist = ranked.slice(0, Math.min(3, ranked.length));
+      chosen = pickRandom(shortlist).candidate;
+    } else {
+      chosen = pickRandom(pool);
+    }
+
+    return {
+      notes: [bassNote, ...chosen.map(midiToNote)],
+      upperMidis: chosen.slice(),
+    };
+  }
+
   /** Show / hide the extension row and the 9-button based on current tier */
   function updateChordTierUI(level) {
     const tier = getChordTier(level);
@@ -2225,6 +2336,11 @@
     gc.refChordIdx = 0; // start with C major triad (index 0)
     gc.testChordIdx = 0;
     gc.selectedExt = 'triad';
+    gc.previousUpperMidis = [];
+    gc.lastTestUpperMidis = [];
+    gc.lastReferenceNotes = [];
+    gc.lastTestNotes = [];
+    gc.replayingPrompt = false;
     gc.seqToken = ++state.seqToken;
 
     // Reset chord button states
@@ -2242,14 +2358,12 @@
     guessChordNextRound();
   }
 
-  async function guessChordNextRound() {
+  async function playStoredGuessChordRound(myToken) {
     const gc = state.guessChord;
-    const myToken = state.seqToken;
 
     gc.phase = 'playing-ref';
     state.canInput = false;
 
-    // Disable root buttons & clear highlights during playback
     const rootBtns = chordButtons ? Array.from(chordButtons.querySelectorAll('.chord-btn')) : [];
     rootBtns.forEach(btn => { btn.disabled = true; btn.classList.remove('chord-correct', 'chord-wrong'); });
     resetChordExtSelection();
@@ -2258,34 +2372,63 @@
     if (statusText) statusText.textContent = translate('gc.listen');
     if (chordSpeaker) chordSpeaker.classList.add('playing');
 
-    // Play reference chord for 1 second
-    await playChord(CHORD_POOL[gc.refChordIdx].notes, 1.0);
+    await playChord(gc.lastReferenceNotes, 1.0);
     if (myToken !== state.seqToken || state.gameOver || state.paused) { if (chordSpeaker) chordSpeaker.classList.remove('playing'); return; }
 
-    // Brief pause
-    await new Promise(r => setTimeout(r, 500));
+    await wait(500);
     if (myToken !== state.seqToken || state.gameOver || state.paused) { if (chordSpeaker) chordSpeaker.classList.remove('playing'); return; }
-
-    // Pick a random different chord from the current tier pool
-    const tier = getChordTier(gc.level);
-    const pool = getAvailableChordIndices(tier);
-    const candidates = pool.filter(i => i !== gc.refChordIdx);
-    gc.testChordIdx = candidates[Math.floor(Math.random() * candidates.length)];
 
     gc.phase = 'playing-test';
-    await playChord(CHORD_POOL[gc.testChordIdx].notes, 1.0);
+    await playChord(gc.lastTestNotes, 1.0);
     if (chordSpeaker) chordSpeaker.classList.remove('playing');
     if (myToken !== state.seqToken || state.gameOver || state.paused) return;
 
-    // Now waiting for user answer
     gc.phase = 'waiting';
     state.canInput = true;
     rootBtns.forEach(btn => { btn.disabled = false; });
-    // Enable extension buttons (disable invalid combos per tier)
     if (chordExtensions) {
       Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(btn => { btn.disabled = false; });
     }
     if (statusText) statusText.textContent = translate('gc.pick');
+  }
+
+  async function guessChordNextRound() {
+    const gc = state.guessChord;
+    const myToken = state.seqToken;
+
+    const referenceVoicing = buildGuessChordVoicing(CHORD_POOL[gc.refChordIdx].notes, gc.previousUpperMidis);
+    gc.lastReferenceNotes = referenceVoicing.notes.slice();
+    const tier = getChordTier(gc.level);
+    const pool = getAvailableChordIndices(tier);
+    const candidates = pool.filter(i => i !== gc.refChordIdx);
+    gc.testChordIdx = candidates[Math.floor(Math.random() * candidates.length)];
+    const testVoicing = buildGuessChordVoicing(CHORD_POOL[gc.testChordIdx].notes, referenceVoicing.upperMidis);
+    gc.lastTestNotes = testVoicing.notes.slice();
+    gc.lastTestUpperMidis = testVoicing.upperMidis.slice();
+
+    await playStoredGuessChordRound(myToken);
+  }
+
+  async function replayGuessChordPrompt() {
+    const gc = state.guessChord;
+    if (state.game !== GAMES.guessChord || !state.started || state.gameOver || state.paused) return;
+    if (!gc.lastReferenceNotes.length || !gc.lastTestNotes.length || gc.replayingPrompt) return;
+
+    gc.replayingPrompt = true;
+    if (chordSpeaker) chordSpeaker.classList.add('playing');
+
+    try {
+      await playChord(gc.lastReferenceNotes, 1.0);
+      if (state.game !== GAMES.guessChord || state.gameOver || state.paused) return;
+
+      await wait(500);
+      if (state.game !== GAMES.guessChord || state.gameOver || state.paused) return;
+
+      await playChord(gc.lastTestNotes, 1.0);
+    } finally {
+      gc.replayingPrompt = false;
+      if (chordSpeaker) chordSpeaker.classList.remove('playing');
+    }
   }
 
   function handleChordAnswer(rootIdx, ext) {
@@ -2304,6 +2447,7 @@
       if (btn) btn.classList.add('chord-correct');
       gc.level += 1;
       gc.refChordIdx = gc.testChordIdx; // chain: correct becomes new reference
+      gc.previousUpperMidis = gc.lastTestUpperMidis.slice();
       setCenterBox(translate('gc.level', { n: gc.level }));
       if (statusText) statusText.textContent = translate('gc.correct', { n: gc.level });
       // Disable buttons and proceed to next round after a brief pause
@@ -2463,9 +2607,13 @@
       }
 
       if (state.game === GAMES.guessChord) {
-        // Re-play the current round from scratch
+        // Re-play the current round from the stored voicing
         state.guessChord.seqToken = ++state.seqToken;
-        guessChordNextRound();
+        if (state.guessChord.lastReferenceNotes.length && state.guessChord.lastTestNotes.length) {
+          playStoredGuessChordRound(state.seqToken);
+        } else {
+          guessChordNextRound();
+        }
         return;
       }
     }
@@ -2777,6 +2925,7 @@
     // Ear trainer arrow buttons
     if (earBtnUp) earBtnUp.addEventListener('click', () => handleEarTrainerAnswer(true));
     if (earBtnDown) earBtnDown.addEventListener('click', () => handleEarTrainerAnswer(false));
+    if (earSpeaker) earSpeaker.addEventListener('click', replayEarTrainerPrompt);
 
     // Chord game buttons (event delegation)
     if (chordButtons) {
@@ -2801,6 +2950,7 @@
         });
       });
     }
+    if (chordSpeaker) chordSpeaker.addEventListener('click', replayGuessChordPrompt);
 
     if (helpBtn) helpBtn.addEventListener('click', showHelp);
     if (helpBackBtn) helpBackBtn.addEventListener('click', hideHelp);
