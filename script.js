@@ -289,6 +289,9 @@
       'rt.guidedStatus': 'Guide {i}/{n}',
       'rt.silentStatus': 'Finish at {t}',
       'rt.finishedStatus': 'Timing checked',
+      'rt.feedbackFast': 'Your counting was too fast.',
+      'rt.feedbackSlow': 'Your counting was too slow.',
+      'rt.feedbackPerfect': 'Your counting was right on time.',
       'rt.onTime': '0.00s on time',
       'rt.earlyBy': '{t} early',
       'rt.lateBy': '{t} late',
@@ -1608,6 +1611,13 @@
     return translate('rt.lateBy', { t: formatTimeMs(abs) });
   }
 
+  function getRhythmFeedbackMessage(offsetMs) {
+    const abs = Math.abs(Number(offsetMs) || 0);
+    if (abs < 5) return translate('rt.feedbackPerfect');
+    if (offsetMs < 0) return translate('rt.feedbackFast');
+    return translate('rt.feedbackSlow');
+  }
+
   function renderRhythmIdleUI() {
     updateRhythmMeta();
     clearRhythmBeatPulse();
@@ -2378,7 +2388,7 @@
 
     clearRhythmBeatPulse();
     setRhythmBeatLabel(formatRhythmBeatTime(rt.resultMs), true);
-    if (rhythmStageText) rhythmStageText.textContent = translate('rt.stageFinished');
+    if (rhythmStageText) rhythmStageText.textContent = getRhythmFeedbackMessage(rt.offsetMs);
     if (rhythmActualEl) rhythmActualEl.textContent = formatTimeMs(rt.resultMs);
     if (rhythmOffsetEl) rhythmOffsetEl.textContent = formatRhythmOffsetText(rt.offsetMs);
     setElHidden(rhythmResultEl, false);
