@@ -758,6 +758,7 @@ body.game-over #play-btn.primary {
 }
 
 .rhythm-beat-disc {
+  padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -776,6 +777,36 @@ body.game-over #play-btn.primary {
   font-weight: 900;
   letter-spacing: 0.5px;
   transition: transform 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+  cursor: default;
+}
+
+#rhythm-beat-number {
+  display: block;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+#rhythm-beat-number.is-time {
+  font-size: clamp(30px, 4.8vw, 54px);
+  letter-spacing: 0.08em;
+}
+
+.rhythm-beat-disc.is-actionable {
+  cursor: pointer;
+  border-color: rgba(56, 189, 248, 0.85);
+  box-shadow:
+    0 0 0 6px rgba(56, 189, 248, 0.08),
+    0 20px 45px rgba(2, 8, 23, 0.32),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.rhythm-beat-disc.is-actionable:active {
+  transform: scale(0.98);
+}
+
+.rhythm-beat-disc:disabled {
+  opacity: 1;
 }
 
 .rhythm-beat-disc.is-hit {

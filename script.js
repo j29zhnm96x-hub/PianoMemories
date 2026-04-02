@@ -284,7 +284,7 @@
       'rt.centerSilent': 'Keep counting',
       'rt.stageReady': 'Tap Play to begin the 10-second reference.',
       'rt.stageGuided': 'Follow the click and count {i} of {n}.',
-      'rt.stageSilent': 'No more help. Keep counting on your own, then tap Finish at the target time.',
+      'rt.stageSilent': 'No more help. Keep counting on your own, then tap the big counter or Finish at the target time.',
       'rt.stageFinished': 'Run finished.',
       'rt.guidedStatus': 'Guide {i}/{n}',
       'rt.silentStatus': 'Finish at {t}',
@@ -1558,8 +1558,19 @@
     if (rhythmBeatDisc) rhythmBeatDisc.classList.remove('is-hit');
   }
 
-  function setRhythmBeatLabel(text) {
-    if (rhythmBeatNumber) rhythmBeatNumber.textContent = String(text);
+  function formatRhythmBeatTime(ms) {
+    const v = Number(ms);
+    const safe = Number.isFinite(v) && v > 0 ? v : 0;
+    const totalHundredths = Math.round(safe / 10);
+    const seconds = Math.floor(totalHundredths / 100);
+    const hundredths = totalHundredths % 100;
+    return `${String(seconds).padStart(2, '0')}:${String(hundredths).padStart(2, '0')}`;
+  }
+
+  function setRhythmBeatLabel(text, useTimeStyle = false) {
+    if (!rhythmBeatNumber) return;
+    rhythmBeatNumber.textContent = String(text);
+    rhythmBeatNumber.classList.toggle('is-time', !!useTimeStyle);
   }
 
   function pulseRhythmBeat() {
@@ -1570,6 +1581,13 @@
       if (rhythmBeatDisc) rhythmBeatDisc.classList.remove('is-hit');
       state.rhythmTrainer.hitTimer = null;
     }, 180);
+  }
+
+  function setRhythmFinishEnabled(enabled) {
+    const isEnabled = !!enabled;
+    if (rhythmFinishBtn) rhythmFinishBtn.disabled = !isEnabled;
+    if (rhythmBeatDisc) rhythmBeatDisc.disabled = !isEnabled;
+    if (rhythmBeatDisc) rhythmBeatDisc.classList.toggle('is-actionable', isEnabled);
   }
 
   function updateRhythmMeta() {
@@ -1595,7 +1613,7 @@
     clearRhythmBeatPulse();
     setRhythmBeatLabel('10');
     if (rhythmStageText) rhythmStageText.textContent = translate('rt.stageReady');
-    if (rhythmFinishBtn) rhythmFinishBtn.disabled = true;
+    setRhythmFinishEnabled(false);
     resetRhythmResultUI();
     if (state.game === GAMES.rhythmTrainer && !state.started) {
       setCenterBox(translate('rt.centerReady'));
@@ -2313,7 +2331,7 @@
 
     updateRhythmMeta();
     resetRhythmResultUI();
-    if (rhythmFinishBtn) rhythmFinishBtn.disabled = true;
+    setRhythmFinishEnabled(false);
     if (statusText) statusText.textContent = translate('rt.guidedStatus', { i: 1, n: 10 });
 
     runRhythmTrainerGuidedPhase(myToken);
@@ -2342,7 +2360,7 @@
     clearRhythmBeatPulse();
     setRhythmBeatLabel('...');
     if (rhythmStageText) rhythmStageText.textContent = translate('rt.stageSilent');
-    if (rhythmFinishBtn) rhythmFinishBtn.disabled = false;
+    setRhythmFinishEnabled(true);
     if (statusText) statusText.textContent = translate('rt.silentStatus', { t: formatTimeMs(rt.targetMs) });
     setCenterBox(translate('rt.centerSilent'));
   }
@@ -2359,12 +2377,12 @@
     state.canInput = false;
 
     clearRhythmBeatPulse();
-    setRhythmBeatLabel(Math.abs(rt.offsetMs) < 5 ? 'OK' : (rt.offsetMs < 0 ? '-' : '+'));
+    setRhythmBeatLabel(formatRhythmBeatTime(rt.resultMs), true);
     if (rhythmStageText) rhythmStageText.textContent = translate('rt.stageFinished');
     if (rhythmActualEl) rhythmActualEl.textContent = formatTimeMs(rt.resultMs);
     if (rhythmOffsetEl) rhythmOffsetEl.textContent = formatRhythmOffsetText(rt.offsetMs);
     setElHidden(rhythmResultEl, false);
-    if (rhythmFinishBtn) rhythmFinishBtn.disabled = true;
+    setRhythmFinishEnabled(false);
 
     if (statusText) statusText.textContent = translate('rt.finishedStatus');
     setCenterBox(formatSignedTimeMs(rt.offsetMs));
@@ -2975,7 +2993,7 @@
       }
       if (state.game === GAMES.rhythmTrainer) {
         clearRhythmBeatPulse();
-        if (rhythmFinishBtn) rhythmFinishBtn.disabled = true;
+        setRhythmFinishEnabled(false);
       }
       if (statusText) statusText.textContent = '';
       if (pausedBadge) pausedBadge.classList.remove('hidden');
@@ -3384,6 +3402,7 @@
     if (earBtnDown) earBtnDown.addEventListener('click', () => handleEarTrainerAnswer(false));
     if (earSpeaker) earSpeaker.addEventListener('click', replayEarTrainerPrompt);
     if (rhythmFinishBtn) rhythmFinishBtn.addEventListener('click', finishRhythmTrainerGame);
+    if (rhythmBeatDisc) rhythmBeatDisc.addEventListener('click', finishRhythmTrainerGame);
 
     // Chord game buttons (event delegation)
     if (chordButtons) {
