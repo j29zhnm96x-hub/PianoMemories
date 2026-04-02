@@ -707,9 +707,10 @@ body.game-over #play-btn.primary {
 .rhythm-panel {
   position: relative;
   display: grid;
-  grid-template-rows: auto 1fr auto auto;
-  align-items: center;
-  gap: clamp(10px, 2vh, 18px);
+  grid-template-rows: auto 1fr auto;
+  align-items: stretch;
+  align-content: start;
+  gap: clamp(8px, 1.4vh, 14px);
   height: calc(100% - 8px);
   border-radius: 18px;
   border: 1px solid var(--border);
@@ -718,6 +719,11 @@ body.game-over #play-btn.primary {
     linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
   padding: clamp(14px, 2.5vw, 24px);
+  overflow-y: auto;
+}
+
+.rhythm-panel.has-result {
+  grid-template-rows: auto auto auto;
 }
 
 .rhythm-meta {
@@ -754,7 +760,8 @@ body.game-over #play-btn.primary {
   display: grid;
   justify-items: center;
   align-content: center;
-  gap: clamp(12px, 2vh, 20px);
+  gap: clamp(8px, 1.4vh, 14px);
+  min-height: 0;
 }
 
 .rhythm-beat-disc {
@@ -831,8 +838,7 @@ body.game-over #play-btn.primary {
 }
 
 .rhythm-actions {
-  display: flex;
-  justify-content: center;
+  display: none;
 }
 
 .rhythm-actions button {
@@ -849,11 +855,77 @@ body.game-over #play-btn.primary {
 
 .rhythm-result {
   display: grid;
-  gap: 10px;
-  padding: 14px;
+  gap: 8px;
+  padding: 12px 14px;
   border-radius: 16px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.05);
+}
+
+.rhythm-feedback {
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-size: clamp(16px, 2.2vw, 20px);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.rhythm-feedback.is-fast {
+  border-color: rgba(248, 113, 113, 0.45);
+  background: rgba(127, 29, 29, 0.22);
+  color: #fecaca;
+}
+
+.rhythm-feedback.is-slow {
+  border-color: rgba(251, 191, 36, 0.45);
+  background: rgba(120, 53, 15, 0.22);
+  color: #fde68a;
+}
+
+.rhythm-feedback.is-perfect {
+  border-color: rgba(134, 239, 172, 0.45);
+  background: rgba(20, 83, 45, 0.24);
+  color: #bbf7d0;
+}
+
+@media (max-height: 500px) {
+  .rhythm-panel {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .rhythm-meta-item {
+    padding: 8px 10px;
+  }
+
+  .rhythm-meta-item strong {
+    font-size: clamp(18px, 2.6vw, 24px);
+  }
+
+  .rhythm-beat-disc {
+    width: clamp(112px, 16vw, 160px);
+  }
+
+  #rhythm-beat-number.is-time {
+    font-size: clamp(24px, 3.6vw, 36px);
+  }
+
+  .rhythm-stage-text {
+    font-size: clamp(15px, 2.1vw, 20px);
+  }
+
+  .rhythm-feedback {
+    font-size: clamp(14px, 1.9vw, 18px);
+    padding: 8px 10px;
+  }
+
+  .rhythm-result-row strong {
+    font-size: clamp(16px, 2vw, 20px);
+  }
 }
 
 .rhythm-result-row {

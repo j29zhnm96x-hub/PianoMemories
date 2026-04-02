@@ -62,6 +62,7 @@
   const rhythmReferenceEl = document.getElementById('rhythm-reference');
   const rhythmFinishBtn = document.getElementById('rhythm-finish-btn');
   const rhythmResultEl = document.getElementById('rhythm-result');
+  const rhythmFeedbackEl = document.getElementById('rhythm-feedback');
   const rhythmActualEl = document.getElementById('rhythm-actual');
   const rhythmOffsetEl = document.getElementById('rhythm-offset');
 
@@ -289,6 +290,8 @@
       'rt.guidedStatus': 'Guide {i}/{n}',
       'rt.silentStatus': 'Finish at {t}',
       'rt.finishedStatus': 'Timing checked',
+      'rt.feedbackExcellent': 'Excellent. Your counting was very close to the target.',
+      'rt.feedbackSuperb': 'Superb. Your counting was almost perfect.',
       'rt.feedbackFast': 'Your counting was too fast.',
       'rt.feedbackSlow': 'Your counting was too slow.',
       'rt.feedbackPerfect': 'Your counting was right on time.',
@@ -1599,6 +1602,11 @@
   }
 
   function resetRhythmResultUI() {
+    if (rhythmPanel) rhythmPanel.classList.remove('has-result');
+    if (rhythmFeedbackEl) {
+      rhythmFeedbackEl.textContent = '—';
+      rhythmFeedbackEl.classList.remove('is-fast', 'is-slow', 'is-perfect');
+    }
     if (rhythmActualEl) rhythmActualEl.textContent = '—';
     if (rhythmOffsetEl) rhythmOffsetEl.textContent = '—';
     setElHidden(rhythmResultEl, true);
@@ -1613,7 +1621,8 @@
 
   function getRhythmFeedbackMessage(offsetMs) {
     const abs = Math.abs(Number(offsetMs) || 0);
-    if (abs < 5) return translate('rt.feedbackPerfect');
+    if (abs <= 190) return translate('rt.feedbackSuperb');
+    if (abs <= 490) return translate('rt.feedbackExcellent');
     if (offsetMs < 0) return translate('rt.feedbackFast');
     return translate('rt.feedbackSlow');
   }
@@ -1622,6 +1631,7 @@
     updateRhythmMeta();
     clearRhythmBeatPulse();
     setRhythmBeatLabel('10');
+    setElHidden(rhythmStageText, false);
     if (rhythmStageText) rhythmStageText.textContent = translate('rt.stageReady');
     setRhythmFinishEnabled(false);
     resetRhythmResultUI();
@@ -2342,6 +2352,7 @@
     updateRhythmMeta();
     resetRhythmResultUI();
     setRhythmFinishEnabled(false);
+    setElHidden(rhythmStageText, false);
     if (statusText) statusText.textContent = translate('rt.guidedStatus', { i: 1, n: 10 });
 
     runRhythmTrainerGuidedPhase(myToken);
@@ -2388,10 +2399,19 @@
 
     clearRhythmBeatPulse();
     setRhythmBeatLabel(formatRhythmBeatTime(rt.resultMs), true);
-    if (rhythmStageText) rhythmStageText.textContent = getRhythmFeedbackMessage(rt.offsetMs);
+    const feedbackMessage = getRhythmFeedbackMessage(rt.offsetMs);
+    setElHidden(rhythmStageText, true);
+    if (rhythmFeedbackEl) {
+      rhythmFeedbackEl.textContent = feedbackMessage;
+      rhythmFeedbackEl.classList.remove('is-fast', 'is-slow', 'is-perfect');
+      if (Math.abs(rt.offsetMs) < 5) rhythmFeedbackEl.classList.add('is-perfect');
+      else if (rt.offsetMs < 0) rhythmFeedbackEl.classList.add('is-fast');
+      else rhythmFeedbackEl.classList.add('is-slow');
+    }
     if (rhythmActualEl) rhythmActualEl.textContent = formatTimeMs(rt.resultMs);
     if (rhythmOffsetEl) rhythmOffsetEl.textContent = formatRhythmOffsetText(rt.offsetMs);
     setElHidden(rhythmResultEl, false);
+    if (rhythmPanel) rhythmPanel.classList.add('has-result');
     setRhythmFinishEnabled(false);
 
     if (statusText) statusText.textContent = translate('rt.finishedStatus');
@@ -3411,8 +3431,21 @@
     if (earBtnUp) earBtnUp.addEventListener('click', () => handleEarTrainerAnswer(true));
     if (earBtnDown) earBtnDown.addEventListener('click', () => handleEarTrainerAnswer(false));
     if (earSpeaker) earSpeaker.addEventListener('click', replayEarTrainerPrompt);
-    if (rhythmFinishBtn) rhythmFinishBtn.addEventListener('click', finishRhythmTrainerGame);
-    if (rhythmBeatDisc) rhythmBeatDisc.addEventListener('click', finishRhythmTrainerGame);
+    const bindRhythmFinishTrigger = (el) => {
+      if (!el) return;
+      el.addEventListener('pointerdown', (e) => {
+        if (typeof e.button === 'number' && e.button !== 0) return;
+        e.preventDefault();
+        finishRhythmTrainerGame();
+      });
+      el.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        finishRhythmTrainerGame();
+      });
+    };
+    bindRhythmFinishTrigger(rhythmFinishBtn);
+    bindRhythmFinishTrigger(rhythmBeatDisc);
 
     // Chord game buttons (event delegation)
     if (chordButtons) {

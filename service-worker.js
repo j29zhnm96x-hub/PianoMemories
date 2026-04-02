@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pianomemories-cache-v1';
+const CACHE_NAME = 'pianomemories-cache-v2';
 const CORE_ASSETS = [
   '/',
   '/index.html',
@@ -42,14 +42,41 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const { request } = event;
   if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+  const isSameOrigin = url.origin === self.location.origin;
+  const isAppShellRequest = isSameOrigin && (
+    request.mode === 'navigate' ||
+    CORE_ASSETS.includes(url.pathname) ||
+    request.destination === 'script' ||
+    request.destination === 'style' ||
+    request.destination === 'document'
+  );
+
   event.respondWith(
-    caches.match(request).then(cached => {
+    (async () => {
+      if (isAppShellRequest) {
+        try {
+          const fresh = await fetch(request, { cache: 'no-store' });
+          if (fresh && fresh.ok) {
+            const copy = fresh.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+          }
+          return fresh;
+        } catch (e) {
+          const cached = await caches.match(request);
+          if (cached) return cached;
+          throw e;
+        }
+      }
+
+      const cached = await caches.match(request);
       if (cached) return cached;
-      return fetch(request).then(response => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
-        return response;
-      }).catch(() => cached);
-    })
+
+      const response = await fetch(request);
+      const copy = response.clone();
+      caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+      return response;
+    })()
   );
 });
