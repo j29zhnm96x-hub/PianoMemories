@@ -75,6 +75,10 @@
                   <input type="radio" name="game" value="guessChord">
                   <span data-i18n="game.guessChord">Guess the chord</span>
                 </label>
+                <label class="chip">
+                  <input type="radio" name="game" value="rhythmTrainer">
+                  <span data-i18n="game.rhythmTrainer">Rythm trainer</span>
+                </label>
               </div>
             </div>
 
@@ -83,15 +87,15 @@
               <div class="mode-toggle mode-toggle-small" id="mode-toggle">
                 <label class="chip chip-small">
                   <input type="radio" name="mode" value="easy">
-                  <span data-i18n="mode.easy">Easy (fifth)</span>
+                  <span id="mode-option-easy" data-i18n="mode.easy">Easy (fifth)</span>
                 </label>
                 <label class="chip chip-small">
                   <input type="radio" name="mode" value="normal" checked>
-                  <span data-i18n="mode.normal">Normal (1 octave)</span>
+                  <span id="mode-option-normal" data-i18n="mode.normal">Normal (1 octave)</span>
                 </label>
                 <label class="chip chip-small">
                   <input type="radio" name="mode" value="hard">
-                  <span data-i18n="mode.hard">Hard (2 octaves)</span>
+                  <span id="mode-option-hard" data-i18n="mode.hard">Hard (2 octaves)</span>
                 </label>
               </div>
             </div>
@@ -146,6 +150,18 @@
             <span class="achievement-label" data-i18n="ach.guessChord">Guess the chord best</span>
             <span id="best-guess-chord" class="achievement-value">0</span>
           </div>
+          <div class="achievement-row">
+            <span class="achievement-label" data-i18n="ach.rhythmEasy">Rythm easy best</span>
+            <span id="best-rhythm-easy" class="achievement-value">0.00s</span>
+          </div>
+          <div class="achievement-row">
+            <span class="achievement-label" data-i18n="ach.rhythmNormal">Rythm normal best</span>
+            <span id="best-rhythm-normal" class="achievement-value">0.00s</span>
+          </div>
+          <div class="achievement-row">
+            <span class="achievement-label" data-i18n="ach.rhythmHard">Rythm hard best</span>
+            <span id="best-rhythm-hard" class="achievement-value">0.00s</span>
+          </div>
         </div>
         </div>
       </div>
@@ -196,6 +212,7 @@
             <a class="help-link" href="#help-know-scale" data-i18n="help.idx.knowScale">Know the scale</a>
             <a class="help-link" href="#help-ear-trainer" data-i18n="help.idx.earTrainer">Ear trainer</a>
             <a class="help-link" href="#help-guess-chord" data-i18n="help.idx.guessChord">Guess the chord</a>
+            <a class="help-link" href="#help-rhythm" data-i18n="help.idx.rhythmTrainer">Rythm trainer</a>
             <a class="help-link" href="#help-scale" data-i18n="help.idx.scale">Scale & Random key</a>
             <a class="help-link" href="#help-modes" data-i18n="help.idx.modes">Modes (Easy / Normal / Hard)</a>
             <a class="help-link" href="#help-play" data-i18n="help.idx.play">Play screen</a>
@@ -227,7 +244,8 @@
             <li data-i18n="help.games.li3"><strong>Know the scale</strong>: speed trainer for playing a major scale in order.</li>
             <li data-i18n="help.games.li4"><strong>Ear trainer</strong>: pitch discrimination game — guess if a tone is higher or lower than middle C.</li>
             <li data-i18n="help.games.li5"><strong>Guess the chord</strong>: identify diatonic chords of C major by ear.</li>
-            <li data-i18n="help.games.li6"><strong>Modes</strong> apply only to Memory.</li>
+            <li data-i18n="help.games.li6"><strong>Rythm trainer</strong>: train your internal clock by following 10 guided clicks and finishing on the target time.</li>
+            <li data-i18n="help.games.li7"><strong>Modes</strong> apply to Memory and Rythm trainer.</li>
           </ul>
 
           <h2 id="help-know-key" class="help-h2" data-i18n="help.knowKey.title">Know the key</h2>
@@ -267,19 +285,32 @@
             <li data-i18n="help.guessChord.li6">After 20 correct answers, 7th and sus4 chords are added. After 35, 9th chords (5 notes) join the mix.</li>
           </ol>
 
+          <h2 id="help-rhythm" class="help-h2" data-i18n="help.rhythmTrainer.title">Rythm trainer</h2>
+          <ol class="help-ol">
+            <li data-i18n="help.rhythmTrainer.li1">Tap <strong>Play</strong> to start a 10-second guided count with one click and one number per second.</li>
+            <li data-i18n="help.rhythmTrainer.li2">Listen to the clicks and follow the visual count from 1 to 10 to lock into the tempo.</li>
+            <li data-i18n="help.rhythmTrainer.li3">After 10 seconds, all help stops. Keep counting internally, clap, or tap along away from the app if that helps.</li>
+            <li data-i18n="help.rhythmTrainer.li4">Press <strong>Finish</strong> when you believe you reached the target time for the selected mode.</li>
+            <li data-i18n="help.rhythmTrainer.li5">Easy targets 20 seconds total, Normal 30 seconds total, and Hard 60 seconds total.</li>
+            <li data-i18n="help.rhythmTrainer.li6">The result shows your actual time and how early or late you were to the nearest hundredth of a second. Your best result is the smallest error.</li>
+          </ol>
+
           <h2 id="help-scale" class="help-h2" data-i18n="help.scale.title">Scale & Random key</h2>
           <ul class="help-ul">
             <li data-i18n="help.scale.li1"><strong>Memory</strong>: the game picks notes only from the selected major key, so you practice inside that key.</li>
             <li data-i18n="help.scale.li2"><strong>Know the scale</strong>: uses the selected Scale; if set to Random key, each restart picks a new scale.</li>
-            <li data-i18n="help.scale.li3"><strong>Know the key</strong>: the Scale setting is ignored (the keyboard is always C4–B4).</li>
+            <li data-i18n="help.scale.li3"><strong>Know the key</strong>, <strong>Ear trainer</strong>, <strong>Guess the chord</strong>, and <strong>Rythm trainer</strong>: the Scale setting is ignored.</li>
           </ul>
 
           <h2 id="help-modes" class="help-h2" data-i18n="help.modes.title">Modes (Memory)</h2>
           <ul class="help-ul">
-            <li data-i18n="help.modes.li0"><strong>Modes</strong> only affect the Memory game.</li>
-            <li data-i18n="help.modes.li1"><strong>Easy (fifth)</strong>: a smaller keyboard window from the root up to the fifth.</li>
-            <li data-i18n="help.modes.li2"><strong>Normal (1 octave)</strong>: notes span one octave from the root.</li>
-            <li data-i18n="help.modes.li3"><strong>Hard (2 octaves)</strong>: notes span two octaves from the root.</li>
+            <li data-i18n="help.modes.li0"><strong>Modes</strong> affect Memory and Rythm trainer.</li>
+            <li data-i18n="help.modes.li1"><strong>Memory Easy (fifth)</strong>: a smaller keyboard window from the root up to the fifth.</li>
+            <li data-i18n="help.modes.li2"><strong>Memory Normal (1 octave)</strong>: notes span one octave from the root.</li>
+            <li data-i18n="help.modes.li3"><strong>Memory Hard (2 octaves)</strong>: notes span two octaves from the root.</li>
+            <li data-i18n="help.modes.li4"><strong>Rythm Easy</strong>: finish at 20 seconds total.</li>
+            <li data-i18n="help.modes.li5"><strong>Rythm Normal</strong>: finish at 30 seconds total.</li>
+            <li data-i18n="help.modes.li6"><strong>Rythm Hard</strong>: finish at 60 seconds total.</li>
           </ul>
 
           <h2 id="help-play" class="help-h2" data-i18n="help.play.title">Play screen</h2>
@@ -383,6 +414,41 @@
         <button id="ear-btn-up" class="ear-arrow ear-arrow-up" type="button" aria-label="Higher">
           <svg viewBox="0 0 48 48" width="64" height="64"><path d="M24 14 40 32H8z" fill="currentColor"/></svg>
         </button>
+      </div>
+
+      <div class="rhythm-panel hidden" id="rhythm-panel">
+        <div class="rhythm-meta">
+          <div class="rhythm-meta-item">
+            <span class="rhythm-meta-label" data-i18n="rt.target">Target</span>
+            <strong id="rhythm-target">30.00s</strong>
+          </div>
+          <div class="rhythm-meta-item">
+            <span class="rhythm-meta-label" data-i18n="rt.reference">Reference</span>
+            <strong id="rhythm-reference">10.00s</strong>
+          </div>
+        </div>
+
+        <div class="rhythm-stage">
+          <div class="rhythm-beat-disc" id="rhythm-beat-disc">
+            <span id="rhythm-beat-number">10</span>
+          </div>
+          <div id="rhythm-stage-text" class="rhythm-stage-text" aria-live="polite" data-i18n="rt.stageReady">Tap Play to begin</div>
+        </div>
+
+        <div class="rhythm-actions">
+          <button id="rhythm-finish-btn" class="primary" type="button" disabled data-i18n="rt.finish">Finish</button>
+        </div>
+
+        <div class="rhythm-result hidden" id="rhythm-result">
+          <div class="rhythm-result-row">
+            <span data-i18n="rt.actual">Actual</span>
+            <strong id="rhythm-actual">—</strong>
+          </div>
+          <div class="rhythm-result-row">
+            <span data-i18n="rt.offBy">Off by</span>
+            <strong id="rhythm-offset">—</strong>
+          </div>
+        </div>
       </div>
     </section>
   </div>

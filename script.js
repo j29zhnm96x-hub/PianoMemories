@@ -48,6 +48,22 @@
   const chordSpeaker = document.getElementById('chord-speaker');
   const chordExtensions = document.getElementById('chord-extensions');
   const bestGuessChordEl = document.getElementById('best-guess-chord');
+  const bestRhythmEasyEl = document.getElementById('best-rhythm-easy');
+  const bestRhythmNormalEl = document.getElementById('best-rhythm-normal');
+  const bestRhythmHardEl = document.getElementById('best-rhythm-hard');
+  const modeOptionEasy = document.getElementById('mode-option-easy');
+  const modeOptionNormal = document.getElementById('mode-option-normal');
+  const modeOptionHard = document.getElementById('mode-option-hard');
+  const rhythmPanel = document.getElementById('rhythm-panel');
+  const rhythmBeatDisc = document.getElementById('rhythm-beat-disc');
+  const rhythmBeatNumber = document.getElementById('rhythm-beat-number');
+  const rhythmStageText = document.getElementById('rhythm-stage-text');
+  const rhythmTargetEl = document.getElementById('rhythm-target');
+  const rhythmReferenceEl = document.getElementById('rhythm-reference');
+  const rhythmFinishBtn = document.getElementById('rhythm-finish-btn');
+  const rhythmResultEl = document.getElementById('rhythm-result');
+  const rhythmActualEl = document.getElementById('rhythm-actual');
+  const rhythmOffsetEl = document.getElementById('rhythm-offset');
 
   const NOTE_ORDER = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   const FLAT_TO_SHARP = { Db: 'C#', Eb: 'D#', Gb: 'F#', Ab: 'G#', Bb: 'A#' };
@@ -73,6 +89,7 @@
       'game.knowScale': 'Know the scale',
       'game.earTrainer': 'Ear trainer',
       'game.guessChord': 'Guess the chord',
+      'game.rhythmTrainer': 'Rythm trainer',
       'scale.random': 'Random key',
       'scale.C': 'C Major',
       'scale.C#': 'C# Major',
@@ -91,6 +108,9 @@
       'mode.easy': 'Easy (fifth)',
       'mode.normal': 'Normal (1 octave)',
       'mode.hard': 'Hard (2 octaves)',
+      'mode.rhythm.easy': 'Easy (20 seconds)',
+      'mode.rhythm.normal': 'Normal (30 seconds)',
+      'mode.rhythm.hard': 'Hard (60 seconds)',
 
       'home.settings': 'Settings',
       'settings.showNoteNames': 'Show note names',
@@ -105,6 +125,9 @@
       'ach.knowScale': 'Know the scale best',
       'ach.earTrainer': 'Ear trainer best',
       'ach.guessChord': 'Guess the chord best',
+      'ach.rhythmEasy': 'Rythm easy best',
+      'ach.rhythmNormal': 'Rythm normal best',
+      'ach.rhythmHard': 'Rythm hard best',
 
       'home.flip': 'FLIP THE PHONE TO PLAY',
       'home.play': 'Play',
@@ -123,8 +146,9 @@
         'help.idx.knowScale': 'Know the scale',
         'help.idx.earTrainer': 'Ear trainer',
         'help.idx.guessChord': 'Guess the chord',
+        'help.idx.rhythmTrainer': 'Rythm trainer',
       'help.idx.scale': 'Scale & Random key',
-        'help.idx.modes': 'Modes (Memory)',
+        'help.idx.modes': 'Modes',
       'help.idx.play': 'Play screen',
       'help.idx.settings': 'Settings',
       'help.idx.ach': 'Achievements & Max',
@@ -136,9 +160,9 @@
       'help.benefits.title': 'How it helps you',
       'help.benefits.body': 'It trains musical memory, pitch recognition, and finger-to-note mapping. By staying inside a chosen major key, it also reinforces scale awareness and common note patterns.',
       'help.how.title': 'How to play',
-        'help.how.li1': 'Choose a game (Memory / Know the key / Know the scale).',
+        'help.how.li1': 'Choose a game (Memory / Know the key / Know the scale / Ear trainer / Guess the chord / Rythm trainer).',
         'help.how.li2': 'Choose a Scale (used by Memory and Know the scale).',
-        'help.how.li3': 'If you play Memory, choose a Mode (Easy / Normal / Hard).',
+        'help.how.li3': 'If you play Memory or Rythm trainer, choose a Mode (Easy / Normal / Hard).',
         'help.how.li4': 'Flip your phone to landscape and tap Play.',
         'help.how.li5': 'Follow the prompt in the top bar and tap the correct keys.',
 
@@ -148,7 +172,8 @@
         'help.games.li3': '<strong>Know the scale</strong>: speed trainer for playing a major scale in order.',
         'help.games.li4': '<strong>Ear trainer</strong>: pitch discrimination game — guess if a tone is higher or lower than middle C.',
         'help.games.li5': '<strong>Guess the chord</strong>: identify diatonic chords of C major by ear.',
-        'help.games.li6': '<strong>Modes</strong> apply only to Memory.',
+        'help.games.li6': '<strong>Rythm trainer</strong>: train your internal clock by following 10 guided clicks and finishing on the target time.',
+        'help.games.li7': '<strong>Modes</strong> apply to Memory and Rythm trainer.',
 
         'help.knowKey.title': 'Know the key',
         'help.knowKey.li1': 'Tap <strong>Play</strong> to start a 3-2-1 countdown.',
@@ -179,27 +204,38 @@
         'help.guessChord.li5': 'A wrong answer ends the run. Your best level is saved.',
         'help.guessChord.li6': 'After 20 correct answers, 7th and sus4 chords are added. After 35, 9th chords (5 notes) join the mix.',
 
+        'help.rhythmTrainer.title': 'Rythm trainer',
+        'help.rhythmTrainer.li1': 'Tap <strong>Play</strong> to start a 10-second guided count with one click and one number per second.',
+        'help.rhythmTrainer.li2': 'Listen to the clicks and follow the visual count from 1 to 10 to lock into the tempo.',
+        'help.rhythmTrainer.li3': 'After 10 seconds, all help stops. Keep counting internally, clap, or tap away from the app if that helps.',
+        'help.rhythmTrainer.li4': 'Press <strong>Finish</strong> when you believe you reached the target time for the selected mode.',
+        'help.rhythmTrainer.li5': 'Easy targets 20 seconds total, Normal 30 seconds total, and Hard 60 seconds total.',
+        'help.rhythmTrainer.li6': 'The result shows your actual time and how early or late you were to the nearest hundredth of a second. Your best result is the smallest error.',
+
       'help.scale.title': 'Scale & Random key',
         'help.scale.li1': '<strong>Memory</strong>: the game picks notes only from the selected major key, so you practice inside that key.',
         'help.scale.li2': '<strong>Know the scale</strong>: uses the selected Scale; if set to Random key, each restart picks a new scale.',
-        'help.scale.li3': '<strong>Know the key</strong>: the Scale setting is ignored (the keyboard is always C4–B4).',
-        'help.modes.title': 'Modes (Memory)',
-        'help.modes.li0': '<strong>Modes</strong> only affect the Memory game.',
-      'help.modes.li1': '<strong>Easy (fifth)</strong>: a smaller keyboard window from the root up to the fifth.',
-      'help.modes.li2': '<strong>Normal (1 octave)</strong>: notes span one octave from the root.',
-      'help.modes.li3': '<strong>Hard (2 octaves)</strong>: notes span two octaves from the root.',
+        'help.scale.li3': '<strong>Know the key</strong>, <strong>Ear trainer</strong>, <strong>Guess the chord</strong>, and <strong>Rythm trainer</strong>: the Scale setting is ignored.',
+        'help.modes.title': 'Modes',
+        'help.modes.li0': '<strong>Modes</strong> affect Memory and Rythm trainer.',
+      'help.modes.li1': '<strong>Memory Easy (fifth)</strong>: a smaller keyboard window from the root up to the fifth.',
+      'help.modes.li2': '<strong>Memory Normal (1 octave)</strong>: notes span one octave from the root.',
+      'help.modes.li3': '<strong>Memory Hard (2 octaves)</strong>: notes span two octaves from the root.',
+      'help.modes.li4': '<strong>Rythm Easy</strong>: finish at 20 seconds total.',
+      'help.modes.li5': '<strong>Rythm Normal</strong>: finish at 30 seconds total.',
+      'help.modes.li6': '<strong>Rythm Hard</strong>: finish at 60 seconds total.',
       'help.play.title': 'Play screen',
-        'help.play.li1': '<strong>Top bar</strong>: shows status and a prompt for the current game. Memory shows Scale/Mode/Level; the other games show a center prompt box.',
+        'help.play.li1': '<strong>Top bar</strong>: shows status and a prompt for the current game. Memory shows Scale/Mode/Level, while the other games show prompts or dedicated panels.',
       'help.play.li2': '<strong>Blue highlight</strong>: shows notes played by the app during the sequence.',
       'help.play.li3': '<strong>Red highlight</strong>: shows your taps while repeating the sequence.',
-        'help.play.li4': '<strong>Max</strong>: shows your best result for the selected game (best level for Memory, best time for the other games).',
+        'help.play.li4': '<strong>Max</strong>: shows your best result for the selected game (best level for Memory, smallest error for Rythm trainer, and the relevant best time or level for the other games).',
       'help.settings.title': 'Settings',
         'help.settings.li0': '<strong>Show note names</strong> is disabled in Know the key and Know the scale.',
         'help.settings.li1': '<strong>Show note names</strong>: shows labels on the keys (Memory only).',
       'help.settings.li2': '<strong>Selected Major scale only</strong>: when enabled, only notes that belong to the selected major key show labels (useful for learning the scale).',
       'help.settings.li3': 'Audio uses piano samples (or a fallback tone if missing).',
       'help.ach.title': 'Achievements & Max',
-        'help.ach.li1': '<strong>Achievements</strong> on the home screen show best levels for Memory modes and best times for the other games.',
+        'help.ach.li1': '<strong>Achievements</strong> on the home screen show best levels for Memory modes, smallest timing errors for Rythm trainer, and the relevant best times or levels for the other games.',
         'help.ach.li2': '<strong>Max</strong> (green) on the play screen shows the best for the currently selected game.',
       'help.mistakes.title': 'Mistakes & restart',
       'help.mistakes.li1': 'If you tap a wrong note, you’ll see a message and input stops for that run.',
@@ -237,6 +273,25 @@
       'gc.pick': 'Which chord?',
       'gc.correct': 'Correct! Level {n}',
       'gc.wrongBody': '<div class="gameover-banner"><div class="go-line1">Wrong chord</div><div class="go-line2">It was <strong>{chord}</strong> — Level {n}</div><div class="go-line3">Tap <strong>Restart</strong> to retry</div></div>',
+
+      'rt.target': 'Target',
+      'rt.reference': 'Reference',
+      'rt.finish': 'Finish',
+      'rt.actual': 'Actual',
+      'rt.offBy': 'Off by',
+      'rt.targetPrefix': 'Target: {t}',
+      'rt.centerReady': '10-beat guide',
+      'rt.centerSilent': 'Keep counting',
+      'rt.stageReady': 'Tap Play to begin the 10-second reference.',
+      'rt.stageGuided': 'Follow the click and count {i} of {n}.',
+      'rt.stageSilent': 'No more help. Keep counting on your own, then tap Finish at the target time.',
+      'rt.stageFinished': 'Run finished.',
+      'rt.guidedStatus': 'Guide {i}/{n}',
+      'rt.silentStatus': 'Finish at {t}',
+      'rt.finishedStatus': 'Timing checked',
+      'rt.onTime': '0.00s on time',
+      'rt.earlyBy': '{t} early',
+      'rt.lateBy': '{t} late',
 
       'status.listen': 'Listen…',
       'status.listenCount': 'Listen… ({i}/{n})',
@@ -315,6 +370,7 @@
       'help.idx.knowScale': 'Know the scale',
         'help.idx.earTrainer': 'Ear trainer',
         'help.idx.guessChord': 'Guess the chord',
+        'help.idx.rhythmTrainer': 'Rythm trainer',
       'help.idx.scale': 'Ljestvica i nasumični tonalitet',
       'help.idx.modes': 'Načini (Memory)',
       'help.idx.play': 'Ekran igre',
@@ -341,6 +397,7 @@
       'help.games.li4': '<strong>Ear trainer</strong>: igra razlikovanja tonova — pogodite je li ton viši ili niži od srednjeg C.',
       'help.games.li5': '<strong>Guess the chord</strong>: prepoznajte dijatoničke akorde C-dura po sluhu.',
       'help.games.li6': '<strong>Načini</strong> vrijede samo za Memory.',
+      'help.games.li7': '<strong>Modes</strong> apply to Memory and Rythm trainer.',
 
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Dodirnite <strong>Igraj</strong> za odbrojavanje 3-2-1.',
@@ -371,6 +428,14 @@
         'help.guessChord.li5': 'Pogrešan odgovor završava pokušaj. Najbolja razina se sprema.',
         'help.guessChord.li6': 'Nakon 20 točnih odgovora dodaju se septakordi i sus4. Nakon 35, i nonakordi (5 nota).',
 
+        'help.rhythmTrainer.title': 'Rythm trainer',
+        'help.rhythmTrainer.li1': 'Tap <strong>Play</strong> to start a 10-second guided count with one click and one number per second.',
+        'help.rhythmTrainer.li2': 'Listen to the clicks and follow the visual count from 1 to 10 to lock into the tempo.',
+        'help.rhythmTrainer.li3': 'After 10 seconds, all help stops. Keep counting internally, clap, or tap away from the app if that helps.',
+        'help.rhythmTrainer.li4': 'Press <strong>Finish</strong> when you believe you reached the target time for the selected mode.',
+        'help.rhythmTrainer.li5': 'Easy targets 20 seconds total, Normal 30 seconds total, and Hard 60 seconds total.',
+        'help.rhythmTrainer.li6': 'The result shows your actual time and how early or late you were to the nearest hundredth of a second. Your best result is the smallest error.',
+
       'help.scale.title': 'Ljestvica i nasumični tonalitet',
       'help.scale.li1': '<strong>Memory</strong>: igra bira note samo iz odabrane durske ljestvice.',
       'help.scale.li2': '<strong>Know the scale</strong>: koristi odabranu ljestvicu; ako je Nasumično, svaki restart bira novu.',
@@ -380,6 +445,9 @@
       'help.modes.li1': '<strong>Lako (kvinta)</strong>: manji prozor tipkovnice od osnove do kvinte.',
       'help.modes.li2': '<strong>Normalno (1 oktava)</strong>: note obuhvaćaju jednu oktavu od osnove.',
       'help.modes.li3': '<strong>Teško (2 oktave)</strong>: note obuhvaćaju dvije oktave od osnove.',
+      'help.modes.li4': '<strong>Rythm Easy</strong>: finish at 20 seconds total.',
+      'help.modes.li5': '<strong>Rythm Normal</strong>: finish at 30 seconds total.',
+      'help.modes.li6': '<strong>Rythm Hard</strong>: finish at 60 seconds total.',
       'help.play.title': 'Ekran igre',
       'help.play.li1': '<strong>Gornja traka</strong>: prikazuje status i upute za odabranu igru. Memory prikazuje ljestvicu/način/razinu; ostale igre prikazuju središnji okvir s uputom.',
       'help.play.li2': '<strong>Plavo osvjetljenje</strong>: note koje svira aplikacija tijekom niza.',
@@ -507,6 +575,7 @@
       'help.idx.knowScale': 'Know the scale',
       'help.idx.earTrainer': 'Ear trainer',
       'help.idx.guessChord': 'Guess the chord',
+      'help.idx.rhythmTrainer': 'Rythm trainer',
       'help.idx.scale': 'Skala i losowa tonacja',
       'help.idx.modes': 'Tryby (Memory)',
       'help.idx.play': 'Ekran gry',
@@ -533,6 +602,7 @@
       'help.games.li4': '<strong>Ear trainer</strong>: gra w rozróżnianie tonów — zgadnij, czy ton jest wyższy czy niższy od środkowego C.',
       'help.games.li5': '<strong>Guess the chord</strong>: rozpoznawaj diatoniczne akordy C-dur ze słuchu.',
       'help.games.li6': '<strong>Tryby</strong> dotyczą tylko gry Memory.',
+      'help.games.li7': '<strong>Modes</strong> apply to Memory and Rythm trainer.',
 
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Stuknij <strong>Graj</strong>, aby rozpocząć odliczanie 3-2-1.',
@@ -563,6 +633,14 @@
         'help.guessChord.li5': 'Błędna odpowiedź kończy próbę. Najlepszy poziom jest zapisywany.',
         'help.guessChord.li6': 'Po 20 poprawnych odpowiedziach dochodzą septakordy i sus4. Po 35 — nonakordy (5 dźwięków).',
 
+        'help.rhythmTrainer.title': 'Rythm trainer',
+        'help.rhythmTrainer.li1': 'Tap <strong>Play</strong> to start a 10-second guided count with one click and one number per second.',
+        'help.rhythmTrainer.li2': 'Listen to the clicks and follow the visual count from 1 to 10 to lock into the tempo.',
+        'help.rhythmTrainer.li3': 'After 10 seconds, all help stops. Keep counting internally, clap, or tap away from the app if that helps.',
+        'help.rhythmTrainer.li4': 'Press <strong>Finish</strong> when you believe you reached the target time for the selected mode.',
+        'help.rhythmTrainer.li5': 'Easy targets 20 seconds total, Normal 30 seconds total, and Hard 60 seconds total.',
+        'help.rhythmTrainer.li6': 'The result shows your actual time and how early or late you were to the nearest hundredth of a second. Your best result is the smallest error.',
+
       'help.scale.title': 'Skala i losowa tonacja',
       'help.scale.li1': '<strong>Memory</strong>: gra wybiera nuty tylko z wybranej tonacji durowej.',
       'help.scale.li2': '<strong>Know the scale</strong>: używa wybranej Skali; jeśli jest Losowa, każdy restart wybiera nową.',
@@ -572,6 +650,9 @@
       'help.modes.li1': '<strong>Łatwy (kwinta)</strong>: mniejsze okno klawiatury od podstawy do kwinty.',
       'help.modes.li2': '<strong>Normalny (1 oktawa)</strong>: nuty obejmują jedną oktawę od podstawy.',
       'help.modes.li3': '<strong>Trudny (2 oktawy)</strong>: nuty obejmują dwie oktawy od podstawy.',
+      'help.modes.li4': '<strong>Rythm Easy</strong>: finish at 20 seconds total.',
+      'help.modes.li5': '<strong>Rythm Normal</strong>: finish at 30 seconds total.',
+      'help.modes.li6': '<strong>Rythm Hard</strong>: finish at 60 seconds total.',
       'help.play.title': 'Ekran gry',
       'help.play.li1': '<strong>Pasek górny</strong>: pokazuje status i podpowiedź dla wybranej gry. Memory pokazuje Skala/Tryb/Poziom; pozostałe gry pokazują środkowe pole z podpowiedzią.',
       'help.play.li2': '<strong>Niebieskie podświetlenie</strong>: nuty odtwarzane przez aplikację podczas sekwencji.',
@@ -699,6 +780,7 @@
       'help.idx.knowScale': 'Know the scale',
       'help.idx.earTrainer': 'Ear trainer',
       'help.idx.guessChord': 'Guess the chord',
+      'help.idx.rhythmTrainer': 'Rythm trainer',
       'help.idx.scale': 'Scala e tonalità casuale',
       'help.idx.modes': 'Modalità (Memory)',
       'help.idx.play': 'Schermata di gioco',
@@ -725,6 +807,7 @@
       'help.games.li4': '<strong>Ear trainer</strong>: gioco di discriminazione del tono — indovina se il tono è più alto o più basso del Do centrale.',
       'help.games.li5': '<strong>Guess the chord</strong>: riconosci gli accordi diatonici di Do maggiore a orecchio.',
       'help.games.li6': '<strong>Modalità</strong> solo per Memory.',
+      'help.games.li7': '<strong>Modes</strong> apply to Memory and Rythm trainer.',
 
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Tocca <strong>Gioca</strong> per iniziare il conto alla rovescia 3-2-1.',
@@ -755,6 +838,14 @@
         'help.guessChord.li5': 'Una risposta sbagliata termina la prova. Il miglior livello viene salvato.',
         'help.guessChord.li6': 'Dopo 20 risposte corrette si aggiungono accordi di settima e sus4. Dopo 35, anche accordi di nona (5 note).',
 
+        'help.rhythmTrainer.title': 'Rythm trainer',
+        'help.rhythmTrainer.li1': 'Tap <strong>Play</strong> to start a 10-second guided count with one click and one number per second.',
+        'help.rhythmTrainer.li2': 'Listen to the clicks and follow the visual count from 1 to 10 to lock into the tempo.',
+        'help.rhythmTrainer.li3': 'After 10 seconds, all help stops. Keep counting internally, clap, or tap away from the app if that helps.',
+        'help.rhythmTrainer.li4': 'Press <strong>Finish</strong> when you believe you reached the target time for the selected mode.',
+        'help.rhythmTrainer.li5': 'Easy targets 20 seconds total, Normal 30 seconds total, and Hard 60 seconds total.',
+        'help.rhythmTrainer.li6': 'The result shows your actual time and how early or late you were to the nearest hundredth of a second. Your best result is the smallest error.',
+
       'help.scale.title': 'Scala e tonalità casuale',
       'help.scale.li1': '<strong>Memory</strong>: il gioco sceglie note solo dalla scala maggiore selezionata.',
       'help.scale.li2': '<strong>Know the scale</strong>: usa la Scala selezionata; con Tonalità casuale, ogni restart sceglie una nuova scala.',
@@ -764,6 +855,9 @@
       'help.modes.li1': '<strong>Facile (quinta)</strong>: finestra più piccola dalla fondamentale alla quinta.',
       'help.modes.li2': '<strong>Normale (1 ottava)</strong>: note su un’ottava dalla fondamentale.',
       'help.modes.li3': '<strong>Difficile (2 ottave)</strong>: note su due ottave dalla fondamentale.',
+      'help.modes.li4': '<strong>Rythm Easy</strong>: finish at 20 seconds total.',
+      'help.modes.li5': '<strong>Rythm Normal</strong>: finish at 30 seconds total.',
+      'help.modes.li6': '<strong>Rythm Hard</strong>: finish at 60 seconds total.',
       'help.play.title': 'Schermata di gioco',
       'help.play.li1': '<strong>Barra superiore</strong>: mostra lo stato e un prompt per il gioco selezionato. Memory mostra Scala/Modalità/Livello; gli altri giochi mostrano un riquadro centrale.',
       'help.play.li2': '<strong>Evidenziazione blu</strong>: note riprodotte dall’app durante la sequenza.',
@@ -891,6 +985,7 @@
       'help.idx.knowScale': 'Know the scale',
       'help.idx.earTrainer': 'Ear trainer',
       'help.idx.guessChord': 'Guess the chord',
+      'help.idx.rhythmTrainer': 'Rythm trainer',
       'help.idx.scale': 'Escala y tonalidad aleatoria',
       'help.idx.modes': 'Modos (Memory)',
       'help.idx.play': 'Pantalla de juego',
@@ -917,6 +1012,7 @@
       'help.games.li4': '<strong>Ear trainer</strong>: juego de discriminación tonal — adivina si el tono es más alto o más bajo que el Do central.',
       'help.games.li5': '<strong>Guess the chord</strong>: reconoce los acordes diatónicos de Do mayor de oído.',
       'help.games.li6': '<strong>Modos</strong> solo para Memory.',
+      'help.games.li7': '<strong>Modes</strong> apply to Memory and Rythm trainer.',
 
       'help.knowKey.title': 'Know the key',
       'help.knowKey.li1': 'Toca <strong>Jugar</strong> para iniciar la cuenta atrás 3-2-1.',
@@ -947,6 +1043,14 @@
         'help.guessChord.li5': 'Una respuesta incorrecta termina la partida. Tu mejor nivel se guarda.',
         'help.guessChord.li6': 'Después de 20 respuestas correctas se añaden acordes de séptima y sus4. Después de 35, también de novena (5 notas).',
 
+        'help.rhythmTrainer.title': 'Rythm trainer',
+        'help.rhythmTrainer.li1': 'Tap <strong>Play</strong> to start a 10-second guided count with one click and one number per second.',
+        'help.rhythmTrainer.li2': 'Listen to the clicks and follow the visual count from 1 to 10 to lock into the tempo.',
+        'help.rhythmTrainer.li3': 'After 10 seconds, all help stops. Keep counting internally, clap, or tap away from the app if that helps.',
+        'help.rhythmTrainer.li4': 'Press <strong>Finish</strong> when you believe you reached the target time for the selected mode.',
+        'help.rhythmTrainer.li5': 'Easy targets 20 seconds total, Normal 30 seconds total, and Hard 60 seconds total.',
+        'help.rhythmTrainer.li6': 'The result shows your actual time and how early or late you were to the nearest hundredth of a second. Your best result is the smallest error.',
+
       'help.scale.title': 'Escala y tonalidad aleatoria',
       'help.scale.li1': '<strong>Memory</strong>: el juego elige notas solo de la escala mayor seleccionada.',
       'help.scale.li2': '<strong>Know the scale</strong>: usa la Escala seleccionada; si es Aleatoria, cada reinicio elige una nueva.',
@@ -956,6 +1060,9 @@
       'help.modes.li1': '<strong>Fácil (quinta)</strong>: ventana más pequeña desde la raíz hasta la quinta.',
       'help.modes.li2': '<strong>Normal (1 octava)</strong>: notas en una octava desde la raíz.',
       'help.modes.li3': '<strong>Difícil (2 octavas)</strong>: notas en dos octavas desde la raíz.',
+      'help.modes.li4': '<strong>Rythm Easy</strong>: finish at 20 seconds total.',
+      'help.modes.li5': '<strong>Rythm Normal</strong>: finish at 30 seconds total.',
+      'help.modes.li6': '<strong>Rythm Hard</strong>: finish at 60 seconds total.',
       'help.play.title': 'Pantalla de juego',
       'help.play.li1': '<strong>Barra superior</strong>: muestra el estado y un prompt para el juego seleccionado. Memory muestra Escala/Modo/Nivel; los otros juegos muestran un cuadro central.',
       'help.play.li2': '<strong>Resaltado azul</strong>: notas tocadas por la app durante la secuencia.',
@@ -1029,6 +1136,7 @@
     knowScale: 'knowScale',
     earTrainer: 'earTrainer',
     guessChord: 'guessChord',
+    rhythmTrainer: 'rhythmTrainer',
   };
 
   let currentLang = null;
@@ -1082,7 +1190,12 @@
     });
 
     // Keep dynamic labels in sync
+    syncModeOptionLabels();
     updateInfoTexts();
+    updateRhythmMeta();
+    if (state.game === GAMES.rhythmTrainer && state.rhythmTrainer.phase === 'idle') {
+      renderRhythmIdleUI();
+    }
     // Ensure play button matches state
     if (playBtn) playBtn.textContent = state.started ? translate('play.restart') : translate('play.play');
   }
@@ -1190,6 +1303,16 @@
       replayingPrompt: false,
       seqToken: 0,
     },
+
+    rhythmTrainer: {
+      phase: 'idle',        // idle | guided | silent | finished
+      startTs: 0,
+      targetMs: 30000,
+      beatIndex: 0,
+      resultMs: 0,
+      offsetMs: 0,
+      hitTimer: null,
+    },
   };
 
   const audioCache = new Map();
@@ -1211,6 +1334,19 @@
     guessChord: 'pianomem_best_guess_chord',
   };
 
+  const BEST_RHYTHM_KEYS = {
+    easy: 'pianomem_best_rhythm_easy_ms',
+    normal: 'pianomem_best_rhythm_normal_ms',
+    hard: 'pianomem_best_rhythm_hard_ms',
+  };
+
+  const RHYTHM_REFERENCE_MS = 10000;
+  const RHYTHM_TARGETS_MS = {
+    easy: 20000,
+    normal: 30000,
+    hard: 60000,
+  };
+
   function setElHidden(el, hidden) {
     if (!el) return;
     if (hidden) el.classList.add('hidden');
@@ -1223,6 +1359,30 @@
     return `${(safe / 1000).toFixed(2)}s`;
   }
 
+  function formatSignedTimeMs(ms) {
+    const v = Number(ms);
+    const safe = Number.isFinite(v) ? v : 0;
+    const sign = safe > 0 ? '+' : safe < 0 ? '-' : '';
+    return `${sign}${(Math.abs(safe) / 1000).toFixed(2)}s`;
+  }
+
+  function getRhythmTargetMs(mode = state.mode) {
+    return RHYTHM_TARGETS_MS[mode] || RHYTHM_TARGETS_MS.normal;
+  }
+
+  function getModeOptionLabel(mode, game = state.game) {
+    if (game === GAMES.rhythmTrainer) {
+      return translate(`mode.rhythm.${mode}`);
+    }
+    return translate(`mode.${mode}`);
+  }
+
+  function syncModeOptionLabels() {
+    if (modeOptionEasy) modeOptionEasy.textContent = getModeOptionLabel('easy');
+    if (modeOptionNormal) modeOptionNormal.textContent = getModeOptionLabel('normal');
+    if (modeOptionHard) modeOptionHard.textContent = getModeOptionLabel('hard');
+  }
+
   function rangeSemitoneOffsetForMode(mode) {
     if (mode === 'easy') return 7; // perfect fifth
     if (mode === 'hard') return 24; // two octaves
@@ -1230,9 +1390,19 @@
   }
 
   function modeLabel(mode) {
-    if (mode === 'easy') return translate('mode.easy');
-    if (mode === 'hard') return translate('mode.hard');
-    return translate('mode.normal');
+    return getModeOptionLabel(mode);
+  }
+
+  function readStoredNonNegativeMs(key) {
+    if (!key) return null;
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw === null) return null;
+      const v = parseInt(raw, 10);
+      return Number.isFinite(v) && v >= 0 ? v : null;
+    } catch (e) {
+      return null;
+    }
   }
 
   function loadBest(mode) {
@@ -1298,6 +1468,23 @@
     } catch (e) {}
   }
 
+  function loadBestRhythmMs(mode) {
+    const key = BEST_RHYTHM_KEYS[mode];
+    const v = readStoredNonNegativeMs(key);
+    return v === null ? 0 : v;
+  }
+
+  function saveBestRhythmMs(mode, ms) {
+    const key = BEST_RHYTHM_KEYS[mode];
+    if (!key) return;
+    const n = Math.max(0, Math.round(Number(ms) || 0));
+    if (!Number.isFinite(n)) return;
+    try {
+      const prev = readStoredNonNegativeMs(key);
+      if (prev === null || n < prev) localStorage.setItem(key, String(n));
+    } catch (e) {}
+  }
+
   function updateAchievementsUI() {
     const bestEasy = loadBest('easy');
     const bestNormal = loadBest('normal');
@@ -1317,6 +1504,13 @@
     const bestGuessChord = loadBestLevel('guessChord');
     if (bestGuessChordEl) bestGuessChordEl.textContent = String(bestGuessChord);
 
+    const bestRhythmEasy = loadBestRhythmMs('easy');
+    const bestRhythmNormal = loadBestRhythmMs('normal');
+    const bestRhythmHard = loadBestRhythmMs('hard');
+    if (bestRhythmEasyEl) bestRhythmEasyEl.textContent = formatTimeMs(bestRhythmEasy);
+    if (bestRhythmNormalEl) bestRhythmNormalEl.textContent = formatTimeMs(bestRhythmNormal);
+    if (bestRhythmHardEl) bestRhythmHardEl.textContent = formatTimeMs(bestRhythmHard);
+
     if (maxDisplayEl) {
       if (state.game === GAMES.memory) {
         const mode = state.mode || 'normal';
@@ -1329,6 +1523,8 @@
         maxDisplayEl.textContent = String(bestEarTrainer);
       } else if (state.game === GAMES.guessChord) {
         maxDisplayEl.textContent = String(bestGuessChord);
+      } else if (state.game === GAMES.rhythmTrainer) {
+        maxDisplayEl.textContent = formatTimeMs(loadBestRhythmMs(state.mode || 'normal'));
       }
     }
   }
@@ -1351,6 +1547,59 @@
     }
     centerBox.textContent = String(text);
     setElHidden(centerBox, false);
+  }
+
+  function clearRhythmBeatPulse() {
+    const rt = state.rhythmTrainer;
+    if (rt.hitTimer) {
+      clearTimeout(rt.hitTimer);
+      rt.hitTimer = null;
+    }
+    if (rhythmBeatDisc) rhythmBeatDisc.classList.remove('is-hit');
+  }
+
+  function setRhythmBeatLabel(text) {
+    if (rhythmBeatNumber) rhythmBeatNumber.textContent = String(text);
+  }
+
+  function pulseRhythmBeat() {
+    clearRhythmBeatPulse();
+    if (!rhythmBeatDisc) return;
+    rhythmBeatDisc.classList.add('is-hit');
+    state.rhythmTrainer.hitTimer = setTimeout(() => {
+      if (rhythmBeatDisc) rhythmBeatDisc.classList.remove('is-hit');
+      state.rhythmTrainer.hitTimer = null;
+    }, 180);
+  }
+
+  function updateRhythmMeta() {
+    if (rhythmTargetEl) rhythmTargetEl.textContent = formatTimeMs(getRhythmTargetMs(state.mode));
+    if (rhythmReferenceEl) rhythmReferenceEl.textContent = formatTimeMs(RHYTHM_REFERENCE_MS);
+  }
+
+  function resetRhythmResultUI() {
+    if (rhythmActualEl) rhythmActualEl.textContent = '—';
+    if (rhythmOffsetEl) rhythmOffsetEl.textContent = '—';
+    setElHidden(rhythmResultEl, true);
+  }
+
+  function formatRhythmOffsetText(offsetMs) {
+    const abs = Math.abs(Number(offsetMs) || 0);
+    if (abs < 5) return translate('rt.onTime');
+    if (offsetMs < 0) return translate('rt.earlyBy', { t: formatTimeMs(abs) });
+    return translate('rt.lateBy', { t: formatTimeMs(abs) });
+  }
+
+  function renderRhythmIdleUI() {
+    updateRhythmMeta();
+    clearRhythmBeatPulse();
+    setRhythmBeatLabel('10');
+    if (rhythmStageText) rhythmStageText.textContent = translate('rt.stageReady');
+    if (rhythmFinishBtn) rhythmFinishBtn.disabled = true;
+    resetRhythmResultUI();
+    if (state.game === GAMES.rhythmTrainer && !state.started) {
+      setCenterBox(translate('rt.centerReady'));
+    }
   }
 
   function initAudioContext() {
@@ -1996,6 +2245,136 @@
     });
   }
 
+  /* ───────── Rythm Trainer game ───────── */
+
+  function playRhythmClick() {
+    ensureAudioUnlocked();
+    if (!audioCtx) return;
+    try {
+      const now = audioCtx.currentTime;
+      const oscHigh = audioCtx.createOscillator();
+      const oscLow = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      oscHigh.type = 'triangle';
+      oscLow.type = 'square';
+      oscHigh.frequency.setValueAtTime(1800, now);
+      oscLow.frequency.setValueAtTime(920, now);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.18, now + 0.004);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+
+      oscHigh.connect(gain);
+      oscLow.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      oscHigh.start(now);
+      oscLow.start(now);
+      oscHigh.stop(now + 0.08);
+      oscLow.stop(now + 0.08);
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  function startRhythmTrainerGame() {
+    if (isTouchDevice() && !isLandscape()) {
+      orientationMsg.classList.remove('hidden');
+      return;
+    }
+    ensureAudioUnlocked();
+    hydrateSettings();
+
+    state.started = true;
+    state.gameOver = false;
+    state.paused = false;
+    state.canInput = false;
+    state.playing = false;
+    state.pendingNextRound = false;
+    if (state.nextRoundTimer) { clearTimeout(state.nextRoundTimer); state.nextRoundTimer = null; }
+    document.body.classList.remove('game-over');
+    hideInlineError();
+
+    const rt = state.rhythmTrainer;
+    rt.phase = 'guided';
+    rt.startTs = 0;
+    rt.targetMs = getRhythmTargetMs(state.mode);
+    rt.beatIndex = 0;
+    rt.resultMs = 0;
+    rt.offsetMs = 0;
+    clearRhythmBeatPulse();
+
+    const myToken = ++state.seqToken;
+
+    if (playBtn) playBtn.textContent = translate('play.restart');
+    if (pausedBadge) pausedBadge.classList.add('hidden');
+    if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
+
+    updateRhythmMeta();
+    resetRhythmResultUI();
+    if (rhythmFinishBtn) rhythmFinishBtn.disabled = true;
+    if (statusText) statusText.textContent = translate('rt.guidedStatus', { i: 1, n: 10 });
+
+    runRhythmTrainerGuidedPhase(myToken);
+  }
+
+  async function runRhythmTrainerGuidedPhase(myToken) {
+    const rt = state.rhythmTrainer;
+    rt.phase = 'guided';
+    rt.startTs = performance.now();
+
+    for (let beat = 1; beat <= 10; beat += 1) {
+      if (state.game !== GAMES.rhythmTrainer || state.gameOver || state.paused || myToken !== state.seqToken) return;
+      rt.beatIndex = beat;
+      if (statusText) statusText.textContent = translate('rt.guidedStatus', { i: beat, n: 10 });
+      if (rhythmStageText) rhythmStageText.textContent = translate('rt.stageGuided', { i: beat, n: 10 });
+      setRhythmBeatLabel(String(beat));
+      setCenterBox(String(beat));
+      pulseRhythmBeat();
+      playRhythmClick();
+      await wait(1000);
+    }
+
+    if (state.game !== GAMES.rhythmTrainer || state.gameOver || state.paused || myToken !== state.seqToken) return;
+
+    rt.phase = 'silent';
+    clearRhythmBeatPulse();
+    setRhythmBeatLabel('...');
+    if (rhythmStageText) rhythmStageText.textContent = translate('rt.stageSilent');
+    if (rhythmFinishBtn) rhythmFinishBtn.disabled = false;
+    if (statusText) statusText.textContent = translate('rt.silentStatus', { t: formatTimeMs(rt.targetMs) });
+    setCenterBox(translate('rt.centerSilent'));
+  }
+
+  function finishRhythmTrainerGame() {
+    const rt = state.rhythmTrainer;
+    if (state.game !== GAMES.rhythmTrainer || !state.started || state.paused || state.gameOver) return;
+    if (rt.phase !== 'silent') return;
+
+    const now = performance.now();
+    rt.resultMs = Math.max(0, now - (rt.startTs || now));
+    rt.offsetMs = rt.resultMs - rt.targetMs;
+    rt.phase = 'finished';
+    state.canInput = false;
+
+    clearRhythmBeatPulse();
+    setRhythmBeatLabel(Math.abs(rt.offsetMs) < 5 ? 'OK' : (rt.offsetMs < 0 ? '-' : '+'));
+    if (rhythmStageText) rhythmStageText.textContent = translate('rt.stageFinished');
+    if (rhythmActualEl) rhythmActualEl.textContent = formatTimeMs(rt.resultMs);
+    if (rhythmOffsetEl) rhythmOffsetEl.textContent = formatRhythmOffsetText(rt.offsetMs);
+    setElHidden(rhythmResultEl, false);
+    if (rhythmFinishBtn) rhythmFinishBtn.disabled = true;
+
+    if (statusText) statusText.textContent = translate('rt.finishedStatus');
+    setCenterBox(formatSignedTimeMs(rt.offsetMs));
+    saveBestRhythmMs(state.mode || 'normal', Math.abs(rt.offsetMs));
+    updateAchievementsUI();
+    if (playBtn) playBtn.textContent = translate('play.restart');
+  }
+
+  /* ───────── End Rythm Trainer ───────── */
+
   /* ───────── Ear Trainer game ───────── */
 
   const MIDDLE_C_HZ = 261.626; // C4
@@ -2594,6 +2973,10 @@
         if (chordButtons) Array.from(chordButtons.querySelectorAll('.chord-btn')).forEach(b => { b.disabled = true; });
         if (chordExtensions) Array.from(chordExtensions.querySelectorAll('.chord-ext-btn')).forEach(b => { b.disabled = true; });
       }
+      if (state.game === GAMES.rhythmTrainer) {
+        clearRhythmBeatPulse();
+        if (rhythmFinishBtn) rhythmFinishBtn.disabled = true;
+      }
       if (statusText) statusText.textContent = '';
       if (pausedBadge) pausedBadge.classList.remove('hidden');
       if (pausedBadgePortrait) {
@@ -2677,6 +3060,11 @@
         } else {
           guessChordNextRound();
         }
+        return;
+      }
+
+      if (state.game === GAMES.rhythmTrainer) {
+        startRhythmTrainerGame();
         return;
       }
     }
@@ -2787,6 +3175,10 @@
       startGuessChordGame();
       return;
     }
+    if (state.game === GAMES.rhythmTrainer) {
+      startRhythmTrainerGame();
+      return;
+    }
   }
 
   function restartGame() {
@@ -2872,12 +3264,14 @@
       state.nextRoundTimer = null;
     }
     state.seqToken++;
+    clearRhythmBeatPulse();
     document.body.classList.remove('game-over');
       statusText.textContent = '';
       if (pausedBadge) pausedBadge.classList.add('hidden');
       if (pausedBadgePortrait) pausedBadgePortrait.classList.add('hidden');
     playBtn.textContent = translate('play.play');
     setCenterBox(null);
+    if (state.game === GAMES.rhythmTrainer) renderRhythmIdleUI();
     showPortrait();
   }
 
@@ -2989,6 +3383,7 @@
     if (earBtnUp) earBtnUp.addEventListener('click', () => handleEarTrainerAnswer(true));
     if (earBtnDown) earBtnDown.addEventListener('click', () => handleEarTrainerAnswer(false));
     if (earSpeaker) earSpeaker.addEventListener('click', replayEarTrainerPrompt);
+    if (rhythmFinishBtn) rhythmFinishBtn.addEventListener('click', finishRhythmTrainerGame);
 
     // Chord game buttons (event delegation)
     if (chordButtons) {
@@ -3103,14 +3498,24 @@
       // Ear trainer uses its own panel instead of the keyboard
       if (keyboardWrapper) keyboardWrapper.classList.add('hidden');
       if (earPanel) earPanel.classList.remove('hidden');
+      if (rhythmPanel) rhythmPanel.classList.add('hidden');
       if (chordPanel) chordPanel.classList.add('hidden');
     } else if (state.game === GAMES.guessChord) {
       if (keyboardWrapper) keyboardWrapper.classList.add('hidden');
       if (earPanel) earPanel.classList.add('hidden');
+      if (rhythmPanel) rhythmPanel.classList.add('hidden');
       if (chordPanel) chordPanel.classList.remove('hidden');
+    } else if (state.game === GAMES.rhythmTrainer) {
+      if (keyboardWrapper) keyboardWrapper.classList.add('hidden');
+      if (earPanel) earPanel.classList.add('hidden');
+      if (chordPanel) chordPanel.classList.add('hidden');
+      if (rhythmPanel) rhythmPanel.classList.remove('hidden');
+      updateRhythmMeta();
+      if (!state.started || state.rhythmTrainer.phase === 'idle') renderRhythmIdleUI();
     } else {
       if (earPanel) earPanel.classList.add('hidden');
       if (chordPanel) chordPanel.classList.add('hidden');
+      if (rhythmPanel) rhythmPanel.classList.add('hidden');
       if (keyboardWrapper) keyboardWrapper.classList.remove('hidden');
       if (state.game === GAMES.memory) {
         buildKeyboard(state.scaleRoot, state.mode);
@@ -3150,19 +3555,20 @@
 
   function applyGameUiConstraints() {
     // Mode controls only apply to Memory
-    const isMemory = state.game === GAMES.memory;
+    const isModeGame = state.game === GAMES.memory || state.game === GAMES.rhythmTrainer;
     if (memoryModeHalf) {
-      if (isMemory) memoryModeHalf.classList.remove('is-disabled');
+      if (isModeGame) memoryModeHalf.classList.remove('is-disabled');
       else memoryModeHalf.classList.add('is-disabled');
     }
     modeInputs.forEach((el) => {
-      try { el.disabled = !isMemory; } catch (e) {}
+      try { el.disabled = !isModeGame; } catch (e) {}
     });
+    syncModeOptionLabels();
 
     // Scale selector stays enabled; Know the key ignores it, Know the scale uses it.
     // Ear trainer doesn't use it either.
     if (scaleSelect) {
-      try { scaleSelect.disabled = (state.game === GAMES.earTrainer || state.game === GAMES.guessChord); } catch (e) {}
+      try { scaleSelect.disabled = (state.game === GAMES.earTrainer || state.game === GAMES.guessChord || state.game === GAMES.rhythmTrainer); } catch (e) {}
     }
 
     // Show note names must be disabled in new games (without overwriting user preference)
@@ -3227,24 +3633,34 @@
 
     // New games
     setElHidden(selectedScaleEl, true);
-    setElHidden(selectedModeEl, true);
     setElHidden(levelDisplay && levelDisplay.parentElement ? levelDisplay.parentElement : null, true);
 
     if (state.game === GAMES.knowKey) {
+      setElHidden(selectedModeEl, true);
       // centerBox is managed by the game loop
       return;
     }
     if (state.game === GAMES.knowScale) {
+      setElHidden(selectedModeEl, true);
       setCenterBox(scaleDisplayName(state.scaleRoot));
       return;
     }
     if (state.game === GAMES.earTrainer) {
+      setElHidden(selectedModeEl, true);
       setCenterBox(translate('et.level', { n: state.earTrainer.level }));
       return;
     }
     if (state.game === GAMES.guessChord) {
+      setElHidden(selectedModeEl, true);
       setCenterBox(translate('gc.level', { n: state.guessChord.level }));
       return;
+    }
+    if (state.game === GAMES.rhythmTrainer) {
+      setElHidden(selectedModeEl, false);
+      if (selectedModeEl) selectedModeEl.textContent = translate('rt.targetPrefix', { t: formatTimeMs(getRhythmTargetMs(state.mode)) });
+      if (!state.started || state.rhythmTrainer.phase === 'idle') {
+        setCenterBox(translate('rt.centerReady'));
+      }
     }
   }
 
