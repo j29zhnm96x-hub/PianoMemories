@@ -132,6 +132,17 @@
 
       'home.flip': 'FLIP THE PHONE TO PLAY',
       'home.play': 'Play',
+      'home.chooseGame': 'Choose your game',
+      'nav.home': 'Home',
+      'nav.settings': 'Settings',
+      'nav.stats': 'Stats',
+      'nav.help': 'Help',
+      'game.memoryDesc': 'Repeat growing sequences',
+      'game.knowKeyDesc': 'Find notes fast',
+      'game.knowScaleDesc': 'Play scales in order',
+      'game.earTrainerDesc': 'Higher or lower?',
+      'game.guessChordDesc': 'Identify chords by ear',
+      'game.rhythmTrainerDesc': 'Train your internal clock',
 
       'lang.title': 'Language',
       'lang.close': 'Close',
@@ -361,6 +372,17 @@
 
       'home.flip': 'OKRENI TELEFON ZA IGRU',
       'home.play': 'Igraj',
+      'home.chooseGame': 'Odaberi igru',
+      'nav.home': 'Početna',
+      'nav.settings': 'Postavke',
+      'nav.stats': 'Rezultati',
+      'nav.help': 'Pomoć',
+      'game.memoryDesc': 'Ponavljaj rastuće nizove',
+      'game.knowKeyDesc': 'Brzo pronađi note',
+      'game.knowScaleDesc': 'Sviraj ljestvice redom',
+      'game.earTrainerDesc': 'Viši ili niži?',
+      'game.guessChordDesc': 'Prepoznaj akorde sluhom',
+      'game.rhythmTrainerDesc': 'Treniraj osjećaj za tempo',
 
       'lang.title': 'Jezik',
       'lang.close': 'Zatvori',
@@ -566,6 +588,17 @@
 
       'home.flip': 'OBRÓĆ TELEFON, ABY GRAĆ',
       'home.play': 'Graj',
+      'home.chooseGame': 'Wybierz grę',
+      'nav.home': 'Start',
+      'nav.settings': 'Ustawienia',
+      'nav.stats': 'Wyniki',
+      'nav.help': 'Pomoc',
+      'game.memoryDesc': 'Powtarzaj rosnące sekwencje',
+      'game.knowKeyDesc': 'Szybko znajdź nuty',
+      'game.knowScaleDesc': 'Graj skale po kolei',
+      'game.earTrainerDesc': 'Wyższy czy niższy?',
+      'game.guessChordDesc': 'Rozpoznaj akordy ze słuchu',
+      'game.rhythmTrainerDesc': 'Trenuj wewnętrzny zegar',
 
       'lang.title': 'Język',
       'lang.close': 'Zamknij',
@@ -771,6 +804,17 @@
 
       'home.flip': 'GIRA IL TELEFONO PER GIOCARE',
       'home.play': 'Gioca',
+      'home.chooseGame': 'Scegli il gioco',
+      'nav.home': 'Home',
+      'nav.settings': 'Impostazioni',
+      'nav.stats': 'Risultati',
+      'nav.help': 'Aiuto',
+      'game.memoryDesc': 'Ripeti sequenze crescenti',
+      'game.knowKeyDesc': 'Trova note velocemente',
+      'game.knowScaleDesc': 'Suona scale in ordine',
+      'game.earTrainerDesc': 'Più alto o più basso?',
+      'game.guessChordDesc': 'Riconosci accordi a orecchio',
+      'game.rhythmTrainerDesc': 'Allena il tuo orologio interno',
 
       'lang.title': 'Lingua',
       'lang.close': 'Chiudi',
@@ -976,6 +1020,17 @@
 
       'home.flip': 'GIRA EL TELÉFONO PARA JUGAR',
       'home.play': 'Jugar',
+      'home.chooseGame': 'Elige tu juego',
+      'nav.home': 'Inicio',
+      'nav.settings': 'Ajustes',
+      'nav.stats': 'Logros',
+      'nav.help': 'Ayuda',
+      'game.memoryDesc': 'Repite secuencias crecientes',
+      'game.knowKeyDesc': 'Encuentra notas rápido',
+      'game.knowScaleDesc': 'Toca escalas en orden',
+      'game.earTrainerDesc': '¿Más alto o más bajo?',
+      'game.guessChordDesc': 'Identifica acordes de oído',
+      'game.rhythmTrainerDesc': 'Entrena tu reloj interno',
 
       'lang.title': 'Idioma',
       'lang.close': 'Cerrar',
@@ -3320,6 +3375,7 @@
     playBtn.textContent = translate('play.play');
     setCenterBox(null);
     if (state.game === GAMES.rhythmTrainer) renderRhythmIdleUI();
+    switchTab('home');
     showPortrait();
   }
 
@@ -3353,32 +3409,35 @@
     }
   }
 
+  function switchTab(tabName) {
+    document.querySelectorAll('.tab-page').forEach(p => {
+      p.classList.toggle('tab-active', p.dataset.tab === tabName);
+    });
+    document.querySelectorAll('.nav-item[data-nav]').forEach(n => {
+      n.classList.toggle('nav-active', n.dataset.nav === tabName);
+    });
+    const active = document.querySelector('.tab-page.tab-active .page-scroll');
+    if (active) active.scrollTop = 0;
+  }
+
   function showLandscape() {
     portraitScreen.classList.add('hidden');
-    if (helpScreen) helpScreen.classList.add('hidden');
     landscapeScreen.classList.remove('hidden');
   }
 
   function showPortrait() {
     portraitScreen.classList.remove('hidden');
-    if (helpScreen) helpScreen.classList.add('hidden');
     landscapeScreen.classList.add('hidden');
     orientationMsg.classList.add('hidden');
     updateAchievementsUI();
   }
 
   function showHelp() {
-    if (!helpScreen) return;
-    portraitScreen.classList.add('hidden');
-    landscapeScreen.classList.add('hidden');
-    helpScreen.classList.remove('hidden');
-    orientationMsg.classList.add('hidden');
+    switchTab('help');
   }
 
   function hideHelp() {
-    if (!helpScreen) return;
-    helpScreen.classList.add('hidden');
-    showPortrait();
+    switchTab('home');
   }
 
   function registerServiceWorker() {
@@ -3391,6 +3450,10 @@
 
   function bindUI() {
     bindLangModal();
+    // Bottom navigation
+    document.querySelectorAll('.nav-item[data-nav]').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.nav));
+    });
     // initialize assist toggle state
     if (assistToggle) {
       try {
